@@ -3,6 +3,8 @@ import Enterprise from "./Enterprise";
 import Customer from "./Customer";
 import {fetchCustomer} from "../actions";
 import {connect} from "react-redux";
+import KpiContainer from "./KpiContainer/KpiContainer";
+import Header from "./Header";
 
 
 class Layout extends Component {
@@ -13,13 +15,16 @@ class Layout extends Component {
     };
     
     render() {
-        console.log(this.props);
+       
         return (
             <div className="container-flued">
+                <Header/>
                 {this.props.children}
                 
                 <Enterprise data={this.props.enterprise} onChangeCurrentEnterprise={this.changeCurrentEnterprise}/>
                 <Customer data={this.props.customers}/>
+                <KpiContainer/>
+                
                 
             </div>
         );

@@ -1,0 +1,9 @@
+:root {
+    box-sizing: border-box;
+    font-size: 0.85em;
+}
+*,
+::before,
+::after {
+    box-sizing: inherit;
+}
