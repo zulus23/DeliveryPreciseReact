@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
+import Enterprise from "./Enterprise";
 
 class Layout extends Component {
+    
     render() {
+        console.log(this.props);
         return (
             <div className="container-flued">
                 {this.props.children}
                 
-                <h1>Hello react</h1>
+                <Enterprise data={this.props.enterprise}/>
             </div>
         );
     }

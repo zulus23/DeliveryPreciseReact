@@ -64,3 +64,4 @@ node_modules/
 *.sln.iml
 
 /DeliveryPreciseReact/wwwroot/dist/
+*.pdf
