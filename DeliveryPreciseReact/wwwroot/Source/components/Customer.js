@@ -1,11 +1,13 @@
 import React from 'react';
 import {AutoComplete} from '@progress/kendo-react-dropdowns'
+import Auxiliary from "../hoc/Auxiliary";
 
 const Customer = (props) => {
     return (
-        <div>
-            <AutoComplete data={props.data} textField="Name" placeholder="Клиент"/>
-        </div>
+        <Auxiliary>
+            <p>Клиент</p>
+            <AutoComplete data={props.data} textField="Name" placeholder="Клиент" style={{width:"100%"}}/>
+        </Auxiliary>
     );
 };
 

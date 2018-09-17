@@ -37,7 +37,10 @@
     "webpack-dev-middleware": "^3.3.0"
   },
   "dependencies": {
+    "@progress/kendo-react-buttons": "^2.0.0",
+    "@progress/kendo-react-dateinputs": "^2.0.0",
     "@progress/kendo-react-dropdowns": "^2.0.0",
+    "@progress/kendo-react-inputs": "^2.0.0",
     "@progress/kendo-react-intl": "^2.0.0",
     "@progress/kendo-theme-bootstrap": "^2.14.0"
   }

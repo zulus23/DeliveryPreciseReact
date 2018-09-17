@@ -9,10 +9,7 @@ import Header from "./Header";
 
 class Layout extends Component {
 
-    changeCurrentEnterprise = (event) => {
-        console.log(event.target.value);
-        this.props.dispatch(fetchCustomer())
-    };
+    
     
     render() {
        
@@ -22,7 +19,7 @@ class Layout extends Component {
                 {this.props.children}
                 
                 <Enterprise data={this.props.enterprise} onChangeCurrentEnterprise={this.changeCurrentEnterprise}/>
-                <Customer data={this.props.customers}/>
+               
                 <KpiContainer/>
                 
                 

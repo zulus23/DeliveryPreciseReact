@@ -1,9 +1,19 @@
 :root {
     box-sizing: border-box;
     font-size: 0.85em;
+    padding-top: 25px;
 }
 *,
 ::before,
 ::after {
     box-sizing: inherit;
+}
+
+.spacer5 {
+    height: 5px;
+    width: 100%;
+}
+
+.k-input.k-textbox, .k-textbox {
+    height: 30px;
 }
