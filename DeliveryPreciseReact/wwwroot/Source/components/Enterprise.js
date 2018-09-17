@@ -5,7 +5,7 @@ const Enterprise = (props) => {
     return (
         <div>
             <DropDownList
-                data={props.data}
+                data={props.data} onChange={props.onChangeCurrentEnterprise}
             />
         </div>
     );

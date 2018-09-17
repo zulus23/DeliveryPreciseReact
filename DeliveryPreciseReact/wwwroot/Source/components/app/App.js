@@ -10,7 +10,7 @@ class App extends Component {
     }
     render() {
         return (
-            <Layout enterprise={this.props.enterprise} customers/>
+            <Layout enterprise={this.props.enterprise} customers={this.props.customers}/>
             
         );
     }

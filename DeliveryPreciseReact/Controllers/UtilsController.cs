@@ -16,11 +16,13 @@ namespace DeliveryPreciseReact
             return Ok(temp);
         }
 
+        [HttpGet("customers")]
         public ActionResult GetCustomer()
         {
             List<Customer> customers = new List<Customer>();
             customers.Add(new Customer("Test"));
             customers.Add(new Customer("Test2"));
+           
             return Ok(customers);
         }
         

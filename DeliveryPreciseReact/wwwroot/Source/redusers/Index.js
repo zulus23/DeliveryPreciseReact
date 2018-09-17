@@ -1,7 +1,8 @@
 
 const initState = {
     enterprise:[],
-    customers:[]
+    customers:[],
+    currentEnterprise:null,
     
 };
 

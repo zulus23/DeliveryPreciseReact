@@ -4,7 +4,7 @@ import {AutoComplete} from '@progress/kendo-react-dropdowns'
 const Customer = (props) => {
     return (
         <div>
-            <AutoComplete data={props.customers} placeholder="Клиент"/>
+            <AutoComplete data={props.data} textField="Name" placeholder="Клиент"/>
         </div>
     );
 };
