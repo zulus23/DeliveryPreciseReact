@@ -18,7 +18,8 @@ namespace DeliveryPreciseReact
         {
             services.AddMvc();
             services.AddMvc()
-                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver()); 
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            
 
         }
 
@@ -28,6 +29,7 @@ namespace DeliveryPreciseReact
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebpackDevMiddleware();
             }
 
             app.UseStaticFiles();
