@@ -21,14 +21,34 @@ namespace DeliveryPreciseReact.Domain
             _countOrder = countOrder;
         }
 
-        public string Name => _name;
+        public string Name
+        {
+            get => _name;
+            set => _name = value;
+        }
 
-        public int Target => _target;
+        public int Target
+        {
+            get => _target;
+            set => _target = value;
+        }
 
-        public int Fact => _fact;
+        public int Fact
+        {
+            get => _fact;
+            set => _fact = value;
+        }
 
-        public int Deviation => _deviation;
+        public int Deviation
+        {
+            get => _deviation;
+            set => _deviation = value;
+        }
 
-        public int CountOrder => _countOrder;
+        public int CountOrder
+        {
+            get => _countOrder;
+            set => _countOrder = value;
+        }
     }
 }

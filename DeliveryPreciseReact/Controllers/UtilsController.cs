@@ -50,10 +50,10 @@ namespace DeliveryPreciseReact
         }
 
         [HttpPost("calculatekpi")]
-        public ActionResult CalculateKpi(ParamsCalculateKpi data)
+        public JsonResult CalculateKpi([FromBody]ParamsCalculateKpi data)
         {
             Console.WriteLine(data);
-            return Ok(data);
+            return new JsonResult("");
         } 
         
         
@@ -97,11 +97,7 @@ namespace DeliveryPreciseReact
         {
         }
 
-        public DateRange(DateTime start, DateTime end)
-        {
-            _start = start;
-            _end = end;
-        }
+       
 
         public DateTime Start
         {

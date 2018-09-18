@@ -109,7 +109,7 @@ function calculateKpiSucceeded(data){
 export function calculateSelectKpi(data){
     return dispatch => {
         api.calculateKpi(data).then(resp => {
-            dispatch(calculateSelectKpi(resp.data))
+            dispatch(calculateKpiSucceeded(resp.data))
         })
     }
 }

@@ -47,6 +47,7 @@ class App extends Component {
     };
 
     handleCalculateKpi = (event) =>{
+        
         const data = {
            enterprise:this.props.currentEnterprise,
            rangeDate: this.props.dateRangeSelected,
