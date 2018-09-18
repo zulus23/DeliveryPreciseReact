@@ -4,7 +4,7 @@ import Customer from "./Customer";
 import {fetchCustomer} from "../actions";
 import {connect} from "react-redux";
 import KpiContainer from "./KpiContainer/KpiContainer";
-import Header from "./Header";
+
 
 
 class Layout extends Component {
@@ -15,7 +15,7 @@ class Layout extends Component {
        
         return (
             <div className="container-flued">
-                <Header/>
+                
                 {this.props.children}
                 
                 <Enterprise data={this.props.enterprise} onChangeCurrentEnterprise={this.changeCurrentEnterprise}/>

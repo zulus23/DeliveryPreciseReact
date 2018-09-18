@@ -12,7 +12,11 @@ namespace DeliveryPreciseReact
         {
             List<string> temp = new List<string>();
             temp.Add("ГОТЭК");
-            temp.Add("Print");
+            temp.Add("ЦЕНТР");
+            temp.Add("СЕВЕР");
+            temp.Add("ПРИНТ");
+            temp.Add("ПОЛИПАК");
+            temp.Add("ЛИТАР");
             return Ok(temp);
         }
 

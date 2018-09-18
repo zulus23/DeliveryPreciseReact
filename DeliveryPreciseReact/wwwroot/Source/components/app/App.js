@@ -6,15 +6,19 @@ import Enterprise from "../Enterprise";
 import Customer from "../Customer";
 import {DateRangePicker} from "@progress/kendo-react-dateinputs";
 import {Button} from '@progress/kendo-react-buttons';
+
+
+
 import KpiIndex from "../KpiIndex";
 import Consignee from "../Consignee";
 import KpiContainer from "../KpiContainer/KpiContainer";
+import KpiChart from "../KpiChart";
 
 class App extends Component {
     startDateInputSettings = {
         format: 'dd/MM/yyyy',
         label: ''
-    }
+    };
 
 
     componentDidMount() {
@@ -31,14 +35,14 @@ class App extends Component {
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-xl-12">
-                        <div className="card">
+                        
 
                             <div className="row">
-                                <div className="col-sm-4 align-content-center">
+                                <div className="col-sm-4 ">
                                     <Enterprise data={this.props.enterprise}
                                                 onChangeCurrentEnterprise={this.changeCurrentEnterprise}/>
                                 </div>
-                                <div className="col-sm-4 align-content-center">
+                                <div className="col-sm-4 ">
                                     <p>Период</p>
                                     <DateRangePicker startDateInputSettings={this.startDateInputSettings}
                                                      endDateInputSettings={this.startDateInputSettings}/>
@@ -52,13 +56,19 @@ class App extends Component {
                             <div className="row">
                                 <div className="col-sm-4">
                                     <Customer data={this.props.customers}/>
-                                    <div>
-                                        <input key="1" type="checkbox" value="СК"/>
-                                        <label>СК</label>
-                                        <input key="2" type="checkbox" value="СП"/>
-                                        <label>СП</label>
-                                        <input key="3" type="checkbox" value="ПР"/>
-                                        <label>ПР</label>
+                                    <div className="row">
+                                        <div className="col-sm-4 text-sm-center">
+                                            <input key="1" type="checkbox" value="СК"/>
+                                            <label>СК</label>
+                                        </div>
+                                        <div className="col-sm-4 text-sm-center">
+                                            <input key="2" type="checkbox" value="СП"/>
+                                            <label>СП</label>
+                                        </div>
+                                        <div className="col-sm-4 text-sm-center">
+                                            <input key="3" type="checkbox" value="ПР"/>
+                                            <label>ПР</label>
+                                        </div>    
                                     </div>
                                 </div>
                                 <div className="col-sm-4 w-100">
@@ -71,21 +81,21 @@ class App extends Component {
                                     <Button primary={true}>Загрузить</Button>
                                 </div>
                             </div>
-
-                        </div>
+                        
                     </div>
                 </div>
                 {/* ===========================================*/}
                 <div className="row justify-content-center">
                     <div className="col-xl-12">
-                        <div className="card">
                             <KpiContainer/>
-
-                        </div>
-
                     </div>
 
                 </div>
+                <div className="row justify-content-center">
+                    <div className="col-sm-12">
+                        <KpiChart/>
+                    </div>
+                </div>    
 
             </div>
 
