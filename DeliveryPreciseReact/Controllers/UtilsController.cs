@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using DeliveryPreciseReact.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace DeliveryPreciseReact
 {
@@ -21,8 +23,9 @@ namespace DeliveryPreciseReact
         }
 
         [HttpGet("customers")]
-        public ActionResult GetCustomer()
+        public ActionResult GetCustomer(string enterprise)
         {
+            System.Console.WriteLine(enterprise);
             List<Customer> customers = new List<Customer>();
             customers.Add(new Customer("Test"));
             customers.Add(new Customer("Test2"));
@@ -33,6 +36,7 @@ namespace DeliveryPreciseReact
         public ActionResult GetPki()
         {
             List<Kpi> kpis = new List<Kpi>();
+            kpis.Add(new Kpi("Все",0,0,0,0));
             kpis.Add(new Kpi("Точность поставки по времени %",0,0,0,0));
             kpis.Add(new Kpi("Точность выхода на склад %",0,0,0,0));
             kpis.Add(new Kpi("Точность поставки по количеству %",0,0,0,0));
@@ -44,7 +48,71 @@ namespace DeliveryPreciseReact
             return Ok(kpis);
 
         }
+
+        [HttpPost("calculatekpi")]
+        public ActionResult CalculateKpi(ParamsCalculateKpi data)
+        {
+            Console.WriteLine(data);
+            return Ok(data);
+        } 
         
         
+    }
+
+    public class ParamsCalculateKpi
+    {
+        private string _enterprise;
+        private DateRange _rangeDate;
+        private List<Kpi> _selectKpi;
+
+        public ParamsCalculateKpi()
+        {
+        }
+
+        public string Enterprise
+        {
+            get => _enterprise;
+            set => _enterprise = value;
+        }
+
+        public DateRange RangeDate
+        {
+            get => _rangeDate;
+            set => _rangeDate = value;
+        }
+
+        public List<Kpi> SelectKpi
+        {
+            get => _selectKpi;
+            set => _selectKpi = value;
+        }
+    }
+
+    public class DateRange
+    {
+        private DateTime _start;
+        private DateTime _end;
+
+        public DateRange()
+        {
+        }
+
+        public DateRange(DateTime start, DateTime end)
+        {
+            _start = start;
+            _end = end;
+        }
+
+        public DateTime Start
+        {
+            get => _start;
+            set => _start = value;
+        }
+
+        public DateTime End
+        {
+            get => _end;
+            set => _end = value;
+        }
     }
 }

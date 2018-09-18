@@ -1,7 +1,15 @@
 import React, {Component} from 'react';
 
 import {connect} from "react-redux";
-import {changeDateInterval, changeEnterprise, fetchCustomer, fetchEnterprise, fetchKpi} from "../../actions";
+import {
+    calculateSelectKpi,
+    changeDateInterval,
+    changeEnterprise,
+    changeSelectKpi,
+    fetchCustomer,
+    fetchEnterprise,
+    fetchKpi
+} from "../../actions";
 import Enterprise from "../Enterprise";
 import Customer from "../Customer";
 import {DateRangePicker} from "@progress/kendo-react-dateinputs";
@@ -31,12 +39,27 @@ class App extends Component {
         
         this.props.dispatch(changeEnterprise(selectedEnterprise));
         
-        /*this.props.dispatch(fetchCustomer())*/
+        this.props.dispatch(fetchCustomer(selectedEnterprise))
     };
+    
     handleChange = (event) => {
         this.props.dispatch(changeDateInterval(event.target.value))
     };
 
+    handleCalculateKpi = (event) =>{
+        const data = {
+           enterprise:this.props.currentEnterprise,
+           rangeDate: this.props.dateRangeSelected,
+           selectKpi: this.props.selectKpi 
+        }
+        this.props.dispatch(calculateSelectKpi(data))    
+    };
+    handlerSelectKpi = (event) => {
+        const kpi = event.target.value;
+        this.props.dispatch(changeSelectKpi(kpi))
+    }
+    
+    
     render() {
         return (
             <div className="container">
@@ -90,10 +113,11 @@ class App extends Component {
                             </div>
                             <div className="row">
                                 <div className="col-sm-10 w-100">
-                                    <KpiIndex data={this.props.kpi}/>
+                                    <KpiIndex data={this.props.kpi} changeSelectKpi={this.handlerSelectKpi}/>
                                 </div>
                                 <div className="col-sm-2 align-content-end">
-                                    <Button primary={true}>Загрузить</Button>
+                                    <Button primary={true} onClick={this.handleCalculateKpi} 
+                                            disabled={!this.props.selectKpi.length > 0}>Загрузить</Button>
                                 </div>
                             </div>
                         
@@ -102,7 +126,7 @@ class App extends Component {
                 {/* ===========================================*/}
                 <div className="row justify-content-center">
                     <div className="col-xl-12">
-                            <KpiResult data={this.props.kpi}/>
+                            <KpiResult data={this.props.selectKpi}/>
                     </div>
 
                 </div>
@@ -119,9 +143,9 @@ class App extends Component {
 }
 
 function mapStateProps(state) {
-    const {enterprise, customers,currentEnterprise,kpi,dateRangeSelected} = state;
+    const {enterprise, customers,currentEnterprise,kpi,dateRangeSelected,selectKpi} = state;
     console.log(state);
-    return {enterprise, customers,currentEnterprise,kpi,dateRangeSelected}
+    return {enterprise, customers,currentEnterprise,kpi,dateRangeSelected,selectKpi}
 
 }
 

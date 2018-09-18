@@ -8,6 +8,9 @@ namespace DeliveryPreciseReact.Domain
         private int _deviation;
         private int _countOrder;
 
+        public Kpi()
+        {
+        }
 
         public Kpi(string name, int target, int fact, int deviation, int countOrder)
         {

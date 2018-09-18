@@ -4,7 +4,9 @@ const initState = {
     customers:[],
     currentEnterprise:"ГОТЭК",
     kpi:[],
-    dateRangeSelected:{start:new Date(),end: new Date()}
+    dateRangeSelected:{start:new Date(),end: new Date()},
+    selectKpi:[]
+    
     
 };
 
@@ -41,7 +43,13 @@ export default function appReduce(state=initState,action){
                 ...state,
                 dateRangeSelected:action.payload.data
             }
-        }     
+        }
+        case 'SELECT_KPI_SUCCEEDED' : {
+            return {
+                ...state,
+                selectKpi: action.payload.data
+            }
+        }
         
         default: {
             return state;

@@ -7,7 +7,8 @@ const KpiIndex = (props) => {
         <Auxiliary>
             <p>Показатель</p>
             <MultiSelect
-                data={props.data} textField="Name"  style={{width:"100%"}}/>   
+                data={props.data} textField="Name"  style={{width:"100%"}}
+                onChange={props.changeSelectKpi}/>   
         </Auxiliary>
     );
 };

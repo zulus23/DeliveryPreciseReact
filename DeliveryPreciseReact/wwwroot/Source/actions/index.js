@@ -28,9 +28,10 @@ function customerFetchSucceeded(data){
     }
 }
 
-export function fetchCustomer(){
+export function fetchCustomer(enterprise){
     return dispatch => {
-        api.fetchCustomers().then(resp => {
+        console.log("==================")
+        api.fetchCustomers(enterprise).then(resp => {
             dispatch(customerFetchSucceeded(resp.data))
         })
     }
@@ -82,6 +83,37 @@ export function changeDateInterval(data){
     return dispatch => {
         dispatch(selectRangeDateSucceeded(data));
     }
-} 
+}
+function selectKpiSucceeded(data){
+    return{
+        type: 'SELECT_KPI_SUCCEEDED',
+        payload: {
+            data
+        }
+    }
+}
+export function changeSelectKpi(data){
+    return dispatch => {
+        dispatch(selectKpiSucceeded(data));
+    }
+}
+
+function calculateKpiSucceeded(data){
+    return{
+        type: 'CALCULATE_KPI_SUCCEEDED',
+        payload: {
+            data
+        }
+    }
+}
+export function calculateSelectKpi(data){
+    return dispatch => {
+        api.calculateKpi(data).then(resp => {
+            dispatch(calculateSelectKpi(resp.data))
+        })
+    }
+}
+
+
 
 

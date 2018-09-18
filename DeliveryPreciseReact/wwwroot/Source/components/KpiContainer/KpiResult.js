@@ -51,6 +51,7 @@ class KpiResult extends Component {
                 <Grid
                     data={this.props.kpi}
                     selectedField="selected"
+                    
                     /*onSelectionChange={this.selectionChange}
                     onHeaderSelectionChange={this.headerSelectionChange}
                     onRowClick={this.rowClick}*/
@@ -75,7 +76,7 @@ class KpiResult extends Component {
 
 function mapStateToProps(state){
     return {
-        kpi: state.kpi
+        kpi: state.selectKpi
     }
 }
 
