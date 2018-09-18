@@ -2,7 +2,9 @@
 const initState = {
     enterprise:[],
     customers:[],
-    currentEnterprise:null,
+    currentEnterprise:"ГОТЭК",
+    kpi:[],
+    dateRangeSelected:{start:new Date(),end: new Date()}
     
 };
 
@@ -22,6 +24,25 @@ export default function appReduce(state=initState,action){
                 customers:action.payload.data
             }
         }
+        case 'ENTERPRISE_CHANGE_SUCCEEDED':{
+            return {
+                ...state,
+                currentEnterprise:action.payload.data
+            }
+        }
+        case 'KPI_FETCH_SUCCEEDED': {
+            return {
+                ...state,
+                kpi: action.payload.data
+            }
+        }
+        case 'RANGE_DATE_SELECT_SUCCEEDED':{
+            return {
+                ...state,
+                dateRangeSelected:action.payload.data
+            }
+        }     
+        
         default: {
             return state;
         }

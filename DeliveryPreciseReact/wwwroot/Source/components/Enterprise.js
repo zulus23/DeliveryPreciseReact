@@ -7,7 +7,7 @@ const Enterprise = (props) => {
         <Auxiliary>
             <p>Предприятие</p>
             <DropDownList
-                data={props.data} onChange={props.onChangeCurrentEnterprise}  style={{width:"100%"}}/>
+                data={props.data} onChange={props.onChangeCurrentEnterprise}  style={{width:"100%"}} value={props.currentEnterprise}/>
         </Auxiliary>
     );
 };

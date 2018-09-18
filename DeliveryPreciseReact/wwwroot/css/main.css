@@ -1,6 +1,6 @@
 :root {
     box-sizing: border-box;
-    font-size: 0.85em;
+    font-size: 0.75em;
     padding-top: 25px;
 }
 *,
@@ -16,4 +16,29 @@
 
 .k-input.k-textbox, .k-textbox {
     height: 30px;
+}
+.k-grid tbody tr{
+    height: 15px;
+}
+
+/*.k-grid td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0.08em 0.08em
+}*/
+
+.k-dateinput-wrap{
+    width: 150px; 
+}
+.k-dateinput{
+    width: 150px;
+}
+
+
+/*.k-dateinput-wrap .k-input, .k-dropdown-wrap .k-input, .k-numeric-wrap .k-input, .k-picker-wrap .k-input*/
+.k-dateinput-wrap .k-input, .k-dropdown-wrap .k-input, .k-numeric-wrap .k-input, .k-picker-wrap .k-input {
+    width: 150px;
+    text-align: center;
+
 }

@@ -6,7 +6,7 @@ const Kpi = (props) => (
 
          <div className="row" >
              <div className="col-sm-1">
-                 <input type="checkbox" />
+                 <input type="radio" name="kpi" />
              </div>
              <div className="col-sm-7">
                  <Input readOnly value={props.name} style={{width:'100%'}}/>   

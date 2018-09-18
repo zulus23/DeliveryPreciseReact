@@ -35,5 +35,53 @@ export function fetchCustomer(){
         })
     }
 }
+function enterpriseChangeSucceeded(data) {
+    return {
+        type:'ENTERPRISE_CHANGE_SUCCEEDED',
+        payload: {
+            data
+        }
+
+    }
+
+}
+export function changeEnterprise(selectedEnterprise){
+    return dispatch => {
+      
+        dispatch(enterpriseChangeSucceeded(selectedEnterprise));
+    }
+}
+
+function kpiFetchSucceeded(data){
+    return{
+        type: 'KPI_FETCH_SUCCEEDED',
+        payload: {
+            data
+        }
+    }
+}
+
+export function fetchKpi(){
+    return dispatch => {
+        api.fetchKpis().then(resp => {
+            dispatch(kpiFetchSucceeded(resp.data))
+        })
+    }
+}
+
+
+function selectRangeDateSucceeded(data){
+    return{
+        type: 'RANGE_DATE_SELECT_SUCCEEDED',
+        payload: {
+            data
+        }
+    }
+}
+export function changeDateInterval(data){
+    return dispatch => {
+        dispatch(selectRangeDateSucceeded(data));
+    }
+} 
 
 

@@ -10,4 +10,7 @@ export function fetchEnterprise(){
 export function fetchCustomers(){
     return client.get('/api/utils/customers')
 }
+export function fetchKpis(){
+    return client.get('/api/utils/kpis')
+}
 

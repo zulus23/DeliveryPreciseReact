@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import Layout from "../Layout";
+
 import {connect} from "react-redux";
-import {fetchCustomer, fetchEnterprise} from "../../actions";
+import {changeDateInterval, changeEnterprise, fetchCustomer, fetchEnterprise, fetchKpi} from "../../actions";
 import Enterprise from "../Enterprise";
 import Customer from "../Customer";
 import {DateRangePicker} from "@progress/kendo-react-dateinputs";
@@ -11,8 +11,8 @@ import {Button} from '@progress/kendo-react-buttons';
 
 import KpiIndex from "../KpiIndex";
 import Consignee from "../Consignee";
-import KpiContainer from "../KpiContainer/KpiContainer";
 import KpiChart from "../KpiChart";
+import KpiResult from "../KpiContainer/KpiResult";
 
 class App extends Component {
     startDateInputSettings = {
@@ -22,12 +22,19 @@ class App extends Component {
 
 
     componentDidMount() {
-        this.props.dispatch(fetchEnterprise())
+        this.props.dispatch(fetchEnterprise());
+        this.props.dispatch(fetchKpi());
     }
 
     changeCurrentEnterprise = (event) => {
-        console.log(event.target.value);
-        this.props.dispatch(fetchCustomer())
+        const selectedEnterprise =event.target.value;
+        
+        this.props.dispatch(changeEnterprise(selectedEnterprise));
+        
+        /*this.props.dispatch(fetchCustomer())*/
+    };
+    handleChange = (event) => {
+        this.props.dispatch(changeDateInterval(event.target.value))
     };
 
     render() {
@@ -40,15 +47,17 @@ class App extends Component {
                             <div className="row">
                                 <div className="col-sm-4 ">
                                     <Enterprise data={this.props.enterprise}
-                                                onChangeCurrentEnterprise={this.changeCurrentEnterprise}/>
+                                                onChangeCurrentEnterprise={this.changeCurrentEnterprise} currentEnterprise={this.props.currentEnterprise}/>
                                 </div>
-                                <div className="col-sm-4 ">
+                                <div className="col-sm-5 ">
                                     <p>Период</p>
                                     <DateRangePicker startDateInputSettings={this.startDateInputSettings}
-                                                     endDateInputSettings={this.startDateInputSettings}/>
+                                                     endDateInputSettings={this.startDateInputSettings}
+                                       value={this.props.dateRangeSelected}
+                                       onChange={this.handleChange}/>
 
                                 </div>
-                                <div className="col-sm-3">
+                                <div className="col-sm-2">
                                 </div>
                                 <div className="col-sm-1">
                                 </div>
@@ -74,10 +83,16 @@ class App extends Component {
                                 <div className="col-sm-4 w-100">
                                     <Consignee data={this.props.enterprise}/>
                                 </div>
-                                <div className="col-sm-3">
-                                    <KpiIndex/>
+                                <div className="col-sm-4">
+                                    
                                 </div>
-                                <div className="col-sm-1 align-self-center">
+                              
+                            </div>
+                            <div className="row">
+                                <div className="col-sm-10 w-100">
+                                    <KpiIndex data={this.props.kpi}/>
+                                </div>
+                                <div className="col-sm-2 align-content-end">
                                     <Button primary={true}>Загрузить</Button>
                                 </div>
                             </div>
@@ -87,7 +102,7 @@ class App extends Component {
                 {/* ===========================================*/}
                 <div className="row justify-content-center">
                     <div className="col-xl-12">
-                            <KpiContainer/>
+                            <KpiResult data={this.props.kpi}/>
                     </div>
 
                 </div>
@@ -99,14 +114,14 @@ class App extends Component {
 
             </div>
 
-        )
-            ;
+        );
     }
 }
 
 function mapStateProps(state) {
-    const {enterprise, customers} = state;
-    return {enterprise, customers}
+    const {enterprise, customers,currentEnterprise,kpi,dateRangeSelected} = state;
+    console.log(state);
+    return {enterprise, customers,currentEnterprise,kpi,dateRangeSelected}
 
 }
 
