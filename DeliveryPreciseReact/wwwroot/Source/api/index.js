@@ -7,8 +7,8 @@ const  client = axios.create();
 export function fetchEnterprise(){
     return client.get('/api/utils/enterprise')
 }
-export function fetchCustomers(enterprise){
-    return client.get('/api/utils/customers',{params:{enterprise:enterprise}})
+export function fetchCustomers(data){
+    return client.post('/api/utils/customers',data)
 }
 export function fetchKpis(){
     return client.get('/api/utils/kpis')

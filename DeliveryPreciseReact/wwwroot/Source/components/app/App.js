@@ -8,7 +8,7 @@ import {
     changeSelectKpi,
     fetchCustomer,
     fetchEnterprise,
-    fetchKpi
+    fetchKpi, updateSelectTypeCustomer
 } from "../../actions";
 import Enterprise from "../Enterprise";
 import Customer from "../Customer";
@@ -38,8 +38,25 @@ class App extends Component {
         const selectedEnterprise =event.target.value;
         
         this.props.dispatch(changeEnterprise(selectedEnterprise));
+        const typeCustomer = [];
+        if(this.props.isPRChecked === true){
+            typeCustomer.push("ПР");
+        }
+        if(this.props.isSKChecked === true){
+            typeCustomer.push("СК");
+        }
+        if(this.props.isSPChecked === true){
+            typeCustomer.push("СП");
+        }
         
-        this.props.dispatch(fetchCustomer(selectedEnterprise))
+        const dataSelect = {
+              enterprise:selectedEnterprise,
+              typeCustomer: typeCustomer
+              
+            
+        };
+        console.log(dataSelect);
+        this.props.dispatch(fetchCustomer(dataSelect))
     };
     
     handleChange = (event) => {
@@ -58,8 +75,16 @@ class App extends Component {
     handlerSelectKpi = (event) => {
         const kpi = event.target.value;
         this.props.dispatch(changeSelectKpi(kpi))
-    }
-    
+    };
+    handlerCheckBox = (event) => {
+        const typeBox = event.target.value;
+        this.props.dispatch(updateSelectTypeCustomer(typeBox))
+    };
+
+    changeCustomerHandler = (event) => {
+        console.log(event.target.value)
+        
+    };
     
     render() {
         return (
@@ -88,18 +113,18 @@ class App extends Component {
                             </div>
                             <div className="row">
                                 <div className="col-sm-4">
-                                    <Customer data={this.props.customers}/>
+                                    <Customer data={this.props.customers} onChangeCustomerHandler={this.changeCustomerHandler}/>
                                     <div className="row">
                                         <div className="col-sm-4 text-sm-center">
-                                            <input key="1" type="checkbox" value="СК"/>
+                                            <input key="1" type="checkbox" value="СК" checked={this.props.isSKChecked} onChange={this.handlerCheckBox}/>
                                             <label>СК</label>
                                         </div>
                                         <div className="col-sm-4 text-sm-center">
-                                            <input key="2" type="checkbox" value="СП"/>
+                                            <input key="2" type="checkbox" value="СП" checked={this.props.isSPChecked} onChange={this.handlerCheckBox}/>
                                             <label>СП</label>
                                         </div>
                                         <div className="col-sm-4 text-sm-center">
-                                            <input key="3" type="checkbox" value="ПР"/>
+                                            <input key="3" type="checkbox" value="ПР" checked={this.props.isPRChecked} onChange={this.handlerCheckBox}/>
                                             <label>ПР</label>
                                         </div>    
                                     </div>
@@ -141,12 +166,16 @@ class App extends Component {
 
         );
     }
+
+    
 }
 
 function mapStateProps(state) {
-    const {enterprise, customers,currentEnterprise,kpi,dateRangeSelected,selectKpi} = state;
+    const {enterprise, customers,currentEnterprise,kpi,dateRangeSelected
+          ,selectKpi,isSKChecked,isSPChecked,isPRChecked} = state;
     console.log(state);
-    return {enterprise, customers,currentEnterprise,kpi,dateRangeSelected,selectKpi}
+    return {enterprise, customers,currentEnterprise,kpi,
+            dateRangeSelected,selectKpi,isSKChecked,isSPChecked,isPRChecked}
 
 }
 

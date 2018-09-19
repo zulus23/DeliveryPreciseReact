@@ -5,7 +5,10 @@ const initState = {
     currentEnterprise:"ГОТЭК",
     kpi:[],
     dateRangeSelected:{start:new Date(),end: new Date()},
-    selectKpi:[]
+    selectKpi:[],
+    isSKChecked:false,
+    isSPChecked:false,
+    isPRChecked:false
     
     
 };
@@ -50,6 +53,30 @@ export default function appReduce(state=initState,action){
                 selectKpi: action.payload.data
             }
         }
+        case 'UPDATE_TYPE_CUSTOMER_SUCCEEDED': {
+            
+            switch (action.payload.data) {
+                case 'СК' :{
+                    return {
+                        ... state,
+                        isSKChecked: !state.isSKChecked
+                    }
+                }
+                case 'СП' :{
+                    return {
+                        ... state,
+                        isSPChecked: !state.isSPChecked
+                    }
+                }
+                case 'ПР' :{
+                    return {
+                        ... state,
+                        isPRChecked: !state.isPRChecked
+                    }
+                }
+            }
+        }
+        
         
         default: {
             return state;

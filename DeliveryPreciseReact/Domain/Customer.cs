@@ -9,10 +9,7 @@ namespace DeliveryPreciseReact.Domain
         {
         }
 
-        public Customer(string name)
-        {
-            this._name = name;
-        }
+        
 
         public string Code
         {

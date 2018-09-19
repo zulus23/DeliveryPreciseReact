@@ -1,14 +1,26 @@
 using System;
 using System.Collections.Generic;
 using DeliveryPreciseReact.Domain;
+using DeliveryPreciseReact.Service;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 
 namespace DeliveryPreciseReact
 {
+    
+    
+    
     [Route("api/[controller]")]
     public class UtilsController : Controller
     {
+        
+        private IDataService _dataService;
+
+        public UtilsController(IDataService dataService)
+        {
+            _dataService = dataService;
+        }
+
         [HttpGet("enterprise")]
         public ActionResult GetEnterprise()
         {
@@ -22,16 +34,27 @@ namespace DeliveryPreciseReact
             return Ok(temp);
         }
 
-        [HttpGet("customers")]
-        public ActionResult GetCustomer(string enterprise)
+        [HttpPost("customers")]
+        public JsonResult GetCustomer([FromBody]ParamsForSelectCustomer selectParams)
         {
-            System.Console.WriteLine(enterprise);
             List<Customer> customers = new List<Customer>();
-            customers.Add(new Customer("Test"));
-            customers.Add(new Customer("Test2"));
+            
+            Console.WriteLine(selectParams);
+            if (selectParams.TypeCustomer.Count == 0)
+            {
+              customers =   _dataService.ListCustomerByEnterprise(selectParams.Enterprise);    
+            }
+            else
+            {
+                
+            }
+            
+            
            
-            return Ok(customers);
+            return new JsonResult(customers);
         }
+
+    
         [HttpGet("kpis")]
         public ActionResult GetPki()
         {
@@ -111,4 +134,29 @@ namespace DeliveryPreciseReact
             set => _end = value;
         }
     }
+    
+    public class ParamsForSelectCustomer
+    {
+        private string _enterprise;
+        private List<string> _typeCustomer;
+
+        public ParamsForSelectCustomer()
+        {
+        }
+
+        public string Enterprise
+        {
+            get => _enterprise;
+            set => _enterprise = value;
+        }
+
+        public List<string> TypeCustomer
+        {
+            get => _typeCustomer;
+            set => _typeCustomer = value;
+        }
+
+       
+    }
+
 }

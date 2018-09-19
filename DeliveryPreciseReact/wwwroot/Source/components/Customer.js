@@ -6,7 +6,10 @@ const Customer = (props) => {
     return (
         <Auxiliary>
             <p>Клиент</p>
-            <AutoComplete data={props.data} textField="Name" placeholder="Клиент" style={{width:"100%"}}/>
+            <AutoComplete data={props.data} 
+                          textField="Name"
+                          suggest={true}
+                          placeholder="Клиент" style={{width:"100%"}} onChange={props.onChangeCustomerHandler}/>
         </Auxiliary>
     );
 };

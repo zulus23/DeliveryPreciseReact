@@ -28,10 +28,10 @@ function customerFetchSucceeded(data){
     }
 }
 
-export function fetchCustomer(enterprise){
+export function fetchCustomer(data){
     return dispatch => {
-        console.log("==================")
-        api.fetchCustomers(enterprise).then(resp => {
+        console.log(data);  
+        api.fetchCustomers(data).then(resp => {
             dispatch(customerFetchSucceeded(resp.data))
         })
     }
@@ -114,6 +114,19 @@ export function calculateSelectKpi(data){
     }
 }
 
+function updateSelectedTypeCustomerSucceeded(data){
+    return {
+        type:'UPDATE_TYPE_CUSTOMER_SUCCEEDED',
+        payload: {
+            data
+        }
+    }
+}
 
+export function updateSelectTypeCustomer(data){
+    return dispatch => {
+        dispatch(updateSelectedTypeCustomerSucceeded(data));
+    }
+}
 
 
