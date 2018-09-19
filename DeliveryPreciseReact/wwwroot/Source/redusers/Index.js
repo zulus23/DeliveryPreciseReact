@@ -8,7 +8,8 @@ const initState = {
     selectKpi:[],
     isSKChecked:false,
     isSPChecked:false,
-    isPRChecked:false
+    isPRChecked:false,
+    searchingCustomer:"",
     
     
 };

@@ -51,11 +51,11 @@ class App extends Component {
         
         const dataSelect = {
               enterprise:selectedEnterprise,
-              typeCustomer: typeCustomer
-              
+              typeCustomer: typeCustomer,
+              searchingCustomer:this.props.searchingCustomer  
             
         };
-        console.log(dataSelect);
+        
         this.props.dispatch(fetchCustomer(dataSelect))
     };
     
@@ -172,10 +172,10 @@ class App extends Component {
 
 function mapStateProps(state) {
     const {enterprise, customers,currentEnterprise,kpi,dateRangeSelected
-          ,selectKpi,isSKChecked,isSPChecked,isPRChecked} = state;
+          ,selectKpi,isSKChecked,isSPChecked,isPRChecked,searchingCustomer} = state;
     console.log(state);
     return {enterprise, customers,currentEnterprise,kpi,
-            dateRangeSelected,selectKpi,isSKChecked,isSPChecked,isPRChecked}
+            dateRangeSelected,selectKpi,isSKChecked,isSPChecked,isPRChecked,searchingCustomer}
 
 }
 
