@@ -8,7 +8,7 @@ import {
     changeSelectKpi,
     fetchCustomer,
     fetchEnterprise,
-    fetchKpi, updateSelectTypeCustomer
+    fetchKpi, updateSearchValueCustomer, updateSelectTypeCustomer
 } from "../../actions";
 import Enterprise from "../Enterprise";
 import Customer from "../Customer";
@@ -21,6 +21,7 @@ import KpiIndex from "../KpiIndex";
 import Consignee from "../Consignee";
 import KpiChart from "../KpiChart";
 import KpiResult from "../KpiContainer/KpiResult";
+import FlashMessage from "../FlashMessage";
 
 class App extends Component {
     startDateInputSettings = {
@@ -36,29 +37,34 @@ class App extends Component {
 
     changeCurrentEnterprise = (event) => {
         const selectedEnterprise =event.target.value;
-        
         this.props.dispatch(changeEnterprise(selectedEnterprise));
+        const dataSelect = this.extractedParameterSearch(selectedEnterprise);
+
+       // this.props.dispatch(fetchCustomer(dataSelect))
+    };
+
+    extractedParameterSearch= (selectedEnterprise) =>{
+        
         const typeCustomer = [];
-        if(this.props.isPRChecked === true){
+        if (this.props.isPRChecked === true) {
             typeCustomer.push("ПР");
         }
-        if(this.props.isSKChecked === true){
+        if (this.props.isSKChecked === true) {
             typeCustomer.push("СК");
         }
-        if(this.props.isSPChecked === true){
+        if (this.props.isSPChecked === true) {
             typeCustomer.push("СП");
         }
-        
+
         const dataSelect = {
-              enterprise:selectedEnterprise,
-              typeCustomer: typeCustomer,
-              searchingCustomer:this.props.searchingCustomer  
-            
+            enterprise: selectedEnterprise,
+            typeCustomer: typeCustomer,
+            searchingCustomer: this.props.searchingCustomer
+
         };
-        
-        this.props.dispatch(fetchCustomer(dataSelect))
-    };
-    
+        return dataSelect;
+    }
+
     handleChange = (event) => {
         this.props.dispatch(changeDateInterval(event.target.value))
     };
@@ -82,13 +88,20 @@ class App extends Component {
     };
 
     changeCustomerHandler = (event) => {
+        const searchValue = event.target.value;
         console.log(event.target.value)
+        this.props.dispatch(updateSearchValueCustomer(searchValue));
+        
+        const dataSelect = this.extractedParameterSearch(this.props.currentEnterprise);
+        this.props.dispatch(fetchCustomer(dataSelect))
+        
         
     };
     
     render() {
         return (
             <div className="container">
+                {this.props.error && <FlashMessage message={this.props.error}/> }
                 <div className="row justify-content-center">
                     <div className="col-xl-12">
                         
@@ -113,7 +126,7 @@ class App extends Component {
                             </div>
                             <div className="row">
                                 <div className="col-sm-4">
-                                    <Customer data={this.props.customers} onChangeCustomerHandler={this.changeCustomerHandler}/>
+                                    <Customer data={this.props.customers} value = {this.props.searchingCustomer} onChangeCustomerHandler={this.changeCustomerHandler}/>
                                     <div className="row">
                                         <div className="col-sm-4 text-sm-center">
                                             <input key="1" type="checkbox" value="СК" checked={this.props.isSKChecked} onChange={this.handlerCheckBox}/>
@@ -138,12 +151,13 @@ class App extends Component {
                               
                             </div>
                             <div className="row">
-                                <div className="col-sm-10 w-100">
+                                <div className="col-sm-11 w-100">
                                     <KpiIndex data={this.props.kpi} changeSelectKpi={this.handlerSelectKpi}/>
                                 </div>
-                                <div className="col-sm-2 align-content-end">
+                                <div className="col-sm-1 d-flex align-items-end justify-content-start p-0">
                                     <Button primary={true} onClick={this.handleCalculateKpi} 
-                                            disabled={!this.props.selectKpi.length > 0}>Загрузить</Button>
+                                            disabled={!this.props.selectKpi.length > 0} >Загрузить</Button>
+  
                                 </div>
                             </div>
                         
@@ -172,10 +186,11 @@ class App extends Component {
 
 function mapStateProps(state) {
     const {enterprise, customers,currentEnterprise,kpi,dateRangeSelected
-          ,selectKpi,isSKChecked,isSPChecked,isPRChecked,searchingCustomer} = state;
+          ,selectKpi,isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error} = state;
     console.log(state);
     return {enterprise, customers,currentEnterprise,kpi,
-            dateRangeSelected,selectKpi,isSKChecked,isSPChecked,isPRChecked,searchingCustomer}
+            dateRangeSelected,selectKpi,
+            isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error}
 
 }
 

@@ -11,7 +11,7 @@ export function fetchCustomers(data){
     return client.post('/api/utils/customers',data)
 }
 export function fetchKpis(){
-    return client.get('/api/utils/kpis')
+    return client.get('/api/utils/kpis1')
 }
 
 export function calculateKpi(data){

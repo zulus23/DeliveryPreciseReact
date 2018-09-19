@@ -10,6 +10,7 @@ namespace DeliveryPreciseReact.Common
         private const string POLYPACK = "Server=SRV-SLDB;Database=SL_POLYPACK; User Id=report;Password=report;";
         private const string CENTER = "Server=SRV-SLDB;Database=SL_CENTER; User Id=report;Password=report;";
         private const string SPB = "Server=SRV-SLDB;Database=SL_SPB; User Id=report;Password=report;";
+        
 
 
         public static string GetConnectionString(string enterprise)
@@ -35,6 +36,7 @@ namespace DeliveryPreciseReact.Common
                 {
                     return PRINT;
                     
+
                 }
                 case "ЦЕНТР":
                 {

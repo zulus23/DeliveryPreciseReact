@@ -11,7 +11,7 @@ module.exports = {
         publicPath:'/'
         
     },
-    
+    devtool:'cheap-module-source-map',
     
     module: {
         rules: [

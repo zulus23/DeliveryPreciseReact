@@ -42,7 +42,7 @@ namespace DeliveryPreciseReact
             Console.WriteLine(selectParams);
             if (selectParams.TypeCustomer.Count == 0)
             {
-              customers =   _dataService.ListCustomerByEnterprise(selectParams.Enterprise);    
+              customers =   _dataService.ListCustomerByEnterprise(selectParams.Enterprise,selectParams.SearchingCustomer);    
             }
             else
             {

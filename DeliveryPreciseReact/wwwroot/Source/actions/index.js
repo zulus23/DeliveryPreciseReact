@@ -1,4 +1,16 @@
 import * as api from "../api";
+import React from "react";
+
+
+function loadDataFailed(error) {
+    return {
+        type:'FETCH_LOAD_DATE_FAILED',
+        payload: {
+            error
+        }
+        
+    }
+}
 
 function enterpriseFetchSucceeded(data) {
     return {
@@ -15,6 +27,8 @@ export function fetchEnterprise(){
     return dispatch => {
         api.fetchEnterprise().then(resp =>{
             dispatch(enterpriseFetchSucceeded(resp.data))
+        }).catch(error => {
+            dispatch(loadDataFailed(error.message))
         })
     }
 } 
@@ -33,6 +47,8 @@ export function fetchCustomer(data){
         console.log(data);  
         api.fetchCustomers(data).then(resp => {
             dispatch(customerFetchSucceeded(resp.data))
+        }).catch(error => {
+            dispatch(loadDataFailed(error.message))
         })
     }
 }
@@ -66,6 +82,8 @@ export function fetchKpi(){
     return dispatch => {
         api.fetchKpis().then(resp => {
             dispatch(kpiFetchSucceeded(resp.data))
+        }).catch(error => {
+            dispatch(loadDataFailed("Ошибка при загрузки KPI:  "+ error.message))
         })
     }
 }
@@ -110,6 +128,8 @@ export function calculateSelectKpi(data){
     return dispatch => {
         api.calculateKpi(data).then(resp => {
             dispatch(calculateKpiSucceeded(resp.data))
+        }).catch(error => {
+            dispatch(loadDataFailed(error.message))
         })
     }
 }
@@ -128,5 +148,22 @@ export function updateSelectTypeCustomer(data){
         dispatch(updateSelectedTypeCustomerSucceeded(data));
     }
 }
+function updateSearchValueCustomerSucceeded(data){
+    return {
+        type:'UPDATE_SEARCH_VALUE_CUSTOMER',
+        payload: {
+            data
+        }
+    }
+}
+export function updateSearchValueCustomer(data) {
+    return dispatch => {
+        dispatch(updateSearchValueCustomerSucceeded(data))
+    }
+    
+}
+
+
+
 
 

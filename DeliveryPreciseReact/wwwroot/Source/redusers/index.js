@@ -10,6 +10,7 @@ const initState = {
     isSPChecked:false,
     isPRChecked:false,
     searchingCustomer:"",
+    error:"",
     
     
 };
@@ -75,6 +76,18 @@ export default function appReduce(state=initState,action){
                         isPRChecked: !state.isPRChecked
                     }
                 }
+            }
+        }
+        case 'UPDATE_SEARCH_VALUE_CUSTOMER' : {
+            return {
+                ...state,
+                searchingCustomer: action.payload.data
+            }
+        }
+        case 'FETCH_LOAD_DATE_FAILED' :{
+            return {
+                ...state,
+                error:action.payload.error
             }
         }
         

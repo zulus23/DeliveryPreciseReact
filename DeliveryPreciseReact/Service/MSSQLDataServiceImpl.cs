@@ -11,18 +11,18 @@ namespace DeliveryPreciseReact.Service
     {
         
         
-        public List<Customer> ListCustomerByEnterprise(string nameEnterprise)
+        public List<Customer> ListCustomerByEnterprise(string nameEnterprise, string searchValue)
         {
             List<Customer> result = null;
             using (var connection = new SqlConnection(DataConnection.GetConnectionString(nameEnterprise)))
             {
-                result = connection.Query<Customer>("SELECT  c.cust_num AS code," +
+                result = connection.Query<Customer>(string.Format("SELECT  c.cust_num AS code," +
                                                           " RTRIM(COALESCE(ca.name,ca.RUSExtName)) as name FROM dbo.customer c " +
                                                           " JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = c.cust_seq" +
                                                           " WHERE ca.cust_seq = 0 AND c.Uf_OrganizLegalForm IS NOT NULL "+
                                                           " AND c.Uf_OrganizLegalForm <> 15 AND c.cust_type IS NOT null"+
-                                                          " AND RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL  "+ 
-                                                          " ORDER BY name").AsList();
+                                                          " AND RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL  and ca.name like '%{0}%' "+ 
+                                                          " ORDER BY name",searchValue)).AsList();
                 
             }
 
