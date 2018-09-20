@@ -12,7 +12,7 @@ namespace DeliveryPreciseReact.Service
     {
         
         
-        public List<Customer> ListCustomerByEnterprise(string nameEnterprise, string searchValue)
+        public List<Customer> ListCustomerByEnterprise(string nameEnterprise)
         {
             List<Customer> result = null;
             using (var connection = new SqlConnection(DataConnection.GetConnectionString(nameEnterprise)))
@@ -23,7 +23,7 @@ namespace DeliveryPreciseReact.Service
                                                           " join dbo.gtk_cust_kpi_hdr h on ca.cust_num = h.cust_num " +        
                                                           " WHERE ca.cust_seq = 0 AND c.Uf_OrganizLegalForm IS NOT NULL "+
                                                           " AND c.cust_type IS NOT null"+
-                                                          " AND RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL  and ca.name like '%{0}%' "+ 
+                                                          " AND RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL"  + 
                                                           " ORDER BY name",searchValue)).AsList();
                 
             }
