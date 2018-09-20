@@ -33,13 +33,15 @@ class App extends Component {
     componentDidMount() {
         this.props.dispatch(fetchEnterprise());
         this.props.dispatch(fetchKpi());
+        const dataSelect = this.extractedParameterSearch(this.props.currentEnterprise);
+        this.props.dispatch(fetchCustomer(dataSelect))
     }
 
     changeCurrentEnterprise = (event) => {
         const selectedEnterprise =event.target.value;
         this.props.dispatch(changeEnterprise(selectedEnterprise));
         const dataSelect = this.extractedParameterSearch(selectedEnterprise);
-
+        this.props.dispatch(fetchCustomer(dataSelect))
        // this.props.dispatch(fetchCustomer(dataSelect))
     };
 
@@ -59,11 +61,9 @@ class App extends Component {
         const dataSelect = {
             enterprise: selectedEnterprise,
             typeCustomer: typeCustomer,
-            searchingCustomer: this.props.searchingCustomer
-
         };
         return dataSelect;
-    }
+    };
 
     handleChange = (event) => {
         this.props.dispatch(changeDateInterval(event.target.value))
@@ -93,8 +93,7 @@ class App extends Component {
         console.log(event.target.value);
         this.props.dispatch(updateSearchValueCustomer(searchValue));
         
-        const dataSelect = this.extractedParameterSearch(this.props.currentEnterprise);
-        this.props.dispatch(fetchCustomer(dataSelect))
+        
         
         
     };
