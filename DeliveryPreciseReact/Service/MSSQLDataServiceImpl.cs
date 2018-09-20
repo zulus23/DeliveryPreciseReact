@@ -10,6 +10,12 @@ namespace DeliveryPreciseReact.Service
 {
     public class MssqlDataServiceImpl :IDataService
     {
+        /* TODO второй показатель
+         * select MONTH(s.DateWHSFact), avg(KPI_whse),count(*) from gtk_group_report.dbo. gtk_kpi_ship s where cust_num = 'K009154' and DateWHSFact is not null
+           group by MONTH(DateWHSFact)
+
+         */
+        
         
         
         public List<Customer> ListCustomerByEnterprise(string nameEnterprise)
