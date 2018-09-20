@@ -143,9 +143,32 @@ function updateSelectedTypeCustomerSucceeded(data){
     }
 }
 
+function createTypeCustomer(isPRChecked, isSKChecked, isSPChecked) {
+    const typeCustomer = [];
+    if (isPRChecked === true) {
+        typeCustomer.push("ПР");
+    }
+    if (isSKChecked === true) {
+        typeCustomer.push("СК");
+    }
+    if (isSPChecked === true) {
+        typeCustomer.push("СП");
+    }
+    return typeCustomer;
+    
+}
+
+
 export function updateSelectTypeCustomer(data){
-    return dispatch => {
+    return (dispatch,getState) => {
         dispatch(updateSelectedTypeCustomerSucceeded(data));
+        const {isPRChecked, isSKChecked, isSPChecked,currentEnterprise} = getState()
+        const dataSelect = {
+            enterprise: currentEnterprise,
+            typeCustomer: createTypeCustomer(isPRChecked, isSKChecked, isSPChecked),
+            
+         }
+        dispatch(fetchCustomer(dataSelect))
     }
 }
 function updateSearchValueCustomerSucceeded(data){

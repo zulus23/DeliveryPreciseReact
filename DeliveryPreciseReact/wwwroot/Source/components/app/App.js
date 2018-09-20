@@ -40,8 +40,8 @@ class App extends Component {
     changeCurrentEnterprise = (event) => {
         const selectedEnterprise =event.target.value;
         this.props.dispatch(changeEnterprise(selectedEnterprise));
-        const dataSelect = this.extractedParameterSearch(selectedEnterprise);
-        this.props.dispatch(fetchCustomer(dataSelect))
+       /* const dataSelect = this.extractedParameterSearch(selectedEnterprise);
+        this.props.dispatch(fetchCustomer(dataSelect))*/
        // this.props.dispatch(fetchCustomer(dataSelect))
     };
 
@@ -87,8 +87,8 @@ class App extends Component {
     handlerCheckBox = (event) => {
         const typeBox = event.target.value;
         this.props.dispatch(updateSelectTypeCustomer(typeBox));
-        const dataSelect = this.extractedParameterSearch(this.props.currentEnterprise);
-        this.props.dispatch(fetchCustomer(dataSelect))
+       /* const dataSelect = this.extractedParameterSearch(this.props.currentEnterprise);
+        this.props.dispatch(fetchCustomer(dataSelect))*/
     };
 
     changeCustomerHandler = (event) => {
