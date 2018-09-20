@@ -11,7 +11,8 @@ const initState = {
     isPRChecked:false,
     searchingCustomer:{},
     error:"",
-    calculateKpi:[]
+    calculateKpi:[],
+    selectCalculateKpi:null
     
     
 };
@@ -95,6 +96,12 @@ export default function appReduce(state=initState,action){
             return {
                 ...state,
                 calculateKpi: action.payload.data
+            }
+        }
+        case 'CHANGE_SELECT_CALCULATE_KPI' : {
+            return {
+                ...state,
+                selectCalculateKpi: action.payload.data
             }
         }
         

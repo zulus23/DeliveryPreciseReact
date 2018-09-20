@@ -186,7 +186,19 @@ export function updateSearchValueCustomer(data) {
     
 }
 
-
+function changeSelectCalculateKpiSucceeded(data) {
+    return {
+        type : 'CHANGE_SELECT_CALCULATE_KPI',
+        payload : {
+            data
+        }
+    }
+}
+export  function updateSelectCalculateKpi(data) {
+    return dispatch => {
+        dispatch(changeSelectCalculateKpiSucceeded(data))
+    }
+} 
 
 
 

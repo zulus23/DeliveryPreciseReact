@@ -18,8 +18,7 @@ import {connect} from "react-redux";
 class KpiChart extends Component {
     render(){ 
          let localData;
-         if(this.props.calculateKpi.length >0  ){ localData =  this.props.calculateKpi[0].Detail}
-         else {localData = this.props.calculateKpi.Detail}
+         if(this.props.selectCalculateKpi !== null  ){ localData =  this.props.selectCalculateKpi.Detail}
          console.log(localData);
         return (
             <Chart>
@@ -28,11 +27,11 @@ class KpiChart extends Component {
                 <ChartSeries>
                     <ChartSeriesItem data={ localData} type="column" 
                                      field="Fact" categoryField="Month"/>
-                    <ChartSeriesItem data={ localData} type="line"
+                    <ChartSeriesItem data={localData} type="line"
                                      field="Deviation" categoryField="Month"/>
-                    <ChartSeriesItem data={ localData} type="line"
+                    <ChartSeriesItem data={localData} type="line"
                                      field="Target" categoryField="Month"/>
-                    <ChartSeriesItem data={ localData} type="line"
+                    <ChartSeriesItem data={localData} type="line"
                                      field="CountOrder" categoryField="Month"/>
                 </ChartSeries>
             </Chart>
@@ -41,8 +40,8 @@ class KpiChart extends Component {
 }
 
 function mapStateToProps(state){
-    const {calculateKpi} = state;
-    return {calculateKpi}
+    const {selectCalculateKpi} = state;
+    return {selectCalculateKpi}
     
 }
 

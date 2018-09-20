@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Grid, GridColumn as Column } from '@progress/kendo-react-grid';
 import {connect} from "react-redux";
+import {updateSelectCalculateKpi} from "../../actions";
 
 class KpiResult extends Component {
 
@@ -8,61 +9,19 @@ class KpiResult extends Component {
     constructor(props) {
         super(props)
     }
-
-/*
-    lastSelectedIndex = 0;
-    state = {
-        data: products.map(dataItem => Object.assign({ selected: false }, dataItem))
+    
+    handleSelectCalculateKpi = (event) => {
+      this.props.dispatch(updateSelectCalculateKpi(event.dataItem))          
     }
-
-    selectionChange = (event) => {
-        event.dataItem.selected = !event.dataItem.selected;
-        this.forceUpdate();
-    }
-
-    rowClick = (event) => {
-        let last = this.lastSelectedIndex;
-        const current = this.state.data.findIndex(dataItem => dataItem === event.dataItem);
-
-        if (!event.nativeEvent.shiftKey) {
-            this.lastSelectedIndex = last = current;
-        }
-
-        if (!event.nativeEvent.ctrlKey) {
-            this.state.data.forEach(item => item.selected = false);
-        }
-        const select = !event.dataItem.selected;
-        for (let i = Math.min(last, current); i <= Math.max(last, current); i++) {
-            this.state.data[i].selected = select;
-        }
-        this.forceUpdate();
-    }
-
-*/
-
-
-
-
-
-
+    
+    
     render() {
         return (
             <div  onMouseDown={e => e.preventDefault() /* prevents browser text selection */}>
                 <Grid
                     data={this.props.calckpi}
                     selectedField="selected"
-                    
-                    /*onSelectionChange={this.selectionChange}
-                    onHeaderSelectionChange={this.headerSelectionChange}
-                    onRowClick={this.rowClick}*/
-                >
-                    <Column
-                        field="selected"
-                        width="50px"
-                        title= "Д" 
-                        /*headerSelectionValue={
-                            this.state.data.findIndex(dataItem => dataItem.selected === false) === -1
-                        }*/ />
+                    onRowClick={this.handleSelectCalculateKpi}>
                     <Column field="Description" title="Наименование KPI" width="500px" />
                     <Column field="Target" title="Цель" />
                     <Column field="Fact" title="Факт" />
@@ -75,9 +34,8 @@ class KpiResult extends Component {
 }
 
 function mapStateToProps(state){
-    return {
-        calckpi: state.calculateKpi
-    }
+    const {calckpi,selectCalculateKpi} = state;
+    return {calckpi,selectCalculateKpi}
 }
 
 export default connect(mapStateToProps)(KpiResult);
