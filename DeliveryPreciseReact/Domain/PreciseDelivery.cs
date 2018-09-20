@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace DeliveryPreciseReact.Domain
 {
     public class PreciseDelivery
@@ -8,7 +10,8 @@ namespace DeliveryPreciseReact.Domain
         private double _fact;
         private double _deviation;
         private double _countOrder;
-
+        private List<PreciseDelivery> _detail = new List<PreciseDelivery>();
+        
         public PreciseDelivery()
         {
         }
@@ -47,6 +50,12 @@ namespace DeliveryPreciseReact.Domain
         {
             get => _countOrder;
             set => _countOrder = value;
+        }
+
+        public List<PreciseDelivery> Detail
+        {
+            get => _detail;
+            set => _detail = value;
         }
     }
 }

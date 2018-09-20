@@ -129,7 +129,7 @@ export function calculateSelectKpi(data){
         api.calculateKpi(data).then(resp => {
             dispatch(calculateKpiSucceeded(resp.data))
         }).catch(error => {
-            dispatch(loadDataFailed(error.message))
+            dispatch(loadDataFailed("При выполнении расчета произошла ошибка: "+error.message))
         })
     }
 }

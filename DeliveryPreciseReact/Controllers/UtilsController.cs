@@ -71,10 +71,14 @@ namespace DeliveryPreciseReact
         }
 
         [HttpPost("calculatekpi")]
-        public JsonResult CalculateKpi([FromBody]ParamsCalculateKpi data)
+        public ActionResult CalculateKpi([FromBody]ParamsCalculateKpi data)
         {
+            List<PreciseDelivery> preciseDeliveries = new List<PreciseDelivery>();
             Console.WriteLine(data);
-            return new JsonResult("");
+            PreciseDelivery preciseDelivery =  _dataService.GetPreciseDeliveryByEnterprise(data.Enterprise, data.Customer);
+            preciseDeliveries.Add(preciseDelivery);
+            
+            return Ok(preciseDeliveries);
         } 
         
         

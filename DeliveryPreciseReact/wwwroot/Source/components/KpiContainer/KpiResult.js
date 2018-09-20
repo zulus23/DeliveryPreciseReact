@@ -49,7 +49,7 @@ class KpiResult extends Component {
         return (
             <div  onMouseDown={e => e.preventDefault() /* prevents browser text selection */}>
                 <Grid
-                    data={this.props.kpi}
+                    data={this.props.calckpi}
                     selectedField="selected"
                     
                     /*onSelectionChange={this.selectionChange}
@@ -63,7 +63,7 @@ class KpiResult extends Component {
                         /*headerSelectionValue={
                             this.state.data.findIndex(dataItem => dataItem.selected === false) === -1
                         }*/ />
-                    <Column field="Name" title="Наименование KPI" width="500px" />
+                    <Column field="Description" title="Наименование KPI" width="500px" />
                     <Column field="Target" title="Цель" />
                     <Column field="Fact" title="Факт" />
                     <Column field="Deviation" title="Откл." />
@@ -76,7 +76,7 @@ class KpiResult extends Component {
 
 function mapStateToProps(state){
     return {
-        kpi: state.selectKpi
+        calckpi: state.calculateKpi
     }
 }
 

@@ -60,19 +60,22 @@ namespace DeliveryPreciseReact.Service
                                           " from gtk_group_report.dbo.gtk_kpi_ship s " +
                                           " join (select * from dbo.gtk_cust_kpi_lns where " +
                                           " kpi_description = 'Точность поставки по времени, %') as t on t.cust_num = s.cust_num " +
-                                          " where s.cust_num = {0} and s.DateDostFact between {1} and {2} " +
+                                          " where s.cust_num = '{0}' and s.DateDostFact between '{1}' and '{2}' " +
                                           " and s.cust_seq = {3} group by MONTH(s.DateDostFact) " +
                                           " union all " +
                                           " select max(kpi_description) as description,'-1' as month, max(t.Kpi_target) as target," +
                                           " avg(s.KPI_stat) as fact,(avg(s.KPI_stat)  - max(t.Kpi_target)) as deviation, count(*) as countorder" +
                                           " from gtk_group_report.dbo.gtk_kpi_ship s join (select * from dbo.gtk_cust_kpi_lns " +
                                           " where kpi_description = 'Точность поставки по времени, %') as t on t.cust_num = s.cust_num" +
-                                          " where s.cust_num = {0} and s.DateDostFact between {1} and {2} and s.cust_seq = {3}) as t" +
-                                          " order by month",1,2,3,4);
+                                          " where s.cust_num = '{0}' and s.DateDostFact between '{1}' and '{2}' and s.cust_seq = {3}) as t" +
+                                          " order by month",customer.Code,"20180101","20180901",0);
             
             using (var connection = new SqlConnection(DataConnection.GetConnectionString(nameEnterprise)))
             {
-                
+                List<PreciseDelivery> _all = connection.Query<PreciseDelivery>(query).AsList();
+                result = _all?.Find(item => item.Month == -1);
+                result?.Detail?.AddRange(_all.FindAll(e => e.Month != -1));
+                //result = connection.QueryFirst<PreciseDelivery>(query);
             }
 
             return result;

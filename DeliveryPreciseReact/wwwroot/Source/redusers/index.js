@@ -11,6 +11,7 @@ const initState = {
     isPRChecked:false,
     searchingCustomer:{},
     error:"",
+    calculateKpi:[]
     
     
 };
@@ -90,7 +91,12 @@ export default function appReduce(state=initState,action){
                 error:action.payload.error
             }
         }
-        
+        case 'CALCULATE_KPI_SUCCEEDED' :{
+            return {
+                ...state,
+                calculateKpi: action.payload.data
+            }
+        }
         
         default: {
             return state;

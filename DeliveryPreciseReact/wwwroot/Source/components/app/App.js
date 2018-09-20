@@ -75,8 +75,8 @@ class App extends Component {
            enterprise:this.props.currentEnterprise,
            rangeDate: this.props.dateRangeSelected,
            selectKpi: this.props.selectKpi,
-           customer: null 
-        }
+           customer: this.props.searchingCustomer, 
+        };
         this.props.dispatch(calculateSelectKpi(data))    
     };
     handlerSelectKpi = (event) => {
@@ -166,13 +166,13 @@ class App extends Component {
                 {/* ===========================================*/}
                 <div className="row justify-content-center">
                     <div className="col-xl-12">
-                            <KpiResult data={this.props.selectKpi}/>
+                            <KpiResult data={this.props.calculateKpi}/>
                     </div>
 
                 </div>
                 <div className="row justify-content-center">
                     <div className="col-sm-12">
-                        <KpiChart/>
+                        <KpiChart typeChart="Точность поставки по времени, %"/>
                     </div>
                 </div>    
 
@@ -186,11 +186,11 @@ class App extends Component {
 
 function mapStateProps(state) {
     const {enterprise, customers,currentEnterprise,kpi,dateRangeSelected
-          ,selectKpi,isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error} = state;
+          ,selectKpi,isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error,calculateKpi} = state;
     console.log(state);
     return {enterprise, customers,currentEnterprise,kpi,
             dateRangeSelected,selectKpi,
-            isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error}
+            isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error,calculateKpi}
 
 }
 
