@@ -44,7 +44,7 @@ function customerFetchSucceeded(data){
 
 export function fetchCustomer(data){
     return dispatch => {
-        console.log(data);  
+          
         api.fetchCustomers(data).then(resp => {
             dispatch(customerFetchSucceeded(resp.data))
         }).catch(error => {

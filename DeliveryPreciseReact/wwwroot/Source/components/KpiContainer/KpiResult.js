@@ -47,7 +47,7 @@ class KpiResult extends Component {
 
     render() {
         return (
-            <div onMouseDown={e => e.preventDefault() /* prevents browser text selection */}>
+            <div  onMouseDown={e => e.preventDefault() /* prevents browser text selection */}>
                 <Grid
                     data={this.props.kpi}
                     selectedField="selected"

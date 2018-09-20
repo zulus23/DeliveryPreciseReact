@@ -35,7 +35,7 @@ namespace DeliveryPreciseReact
         }
 
         [HttpPost("customers")]
-        public JsonResult GetCustomer([FromBody]ParamsForSelectCustomer selectParams)
+        public ActionResult GetCustomer([FromBody]ParamsForSelectCustomer selectParams)
         {
             List<Customer> customers = new List<Customer>();
             
@@ -49,9 +49,7 @@ namespace DeliveryPreciseReact
                 
             }
             
-            
-           
-            return new JsonResult(customers);
+            return Ok(customers);
         }
 
     
@@ -87,6 +85,7 @@ namespace DeliveryPreciseReact
         private string _enterprise;
         private DateRange _rangeDate;
         private List<Kpi> _selectKpi;
+        private Customer _customer;
 
         public ParamsCalculateKpi()
         {
@@ -108,6 +107,12 @@ namespace DeliveryPreciseReact
         {
             get => _selectKpi;
             set => _selectKpi = value;
+        }
+
+        public Customer Customer
+        {
+            get => _customer;
+            set => _customer = value;
         }
     }
 

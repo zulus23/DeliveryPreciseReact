@@ -20,7 +20,12 @@ namespace DataTest
             Assert.Contains("СП",join);
             list.Clear();
             string join1 = string.Join(",", list.ToArray());
-            
+
+            string p = string.Format("===== {0} ----- {1} ========= {0} --------------- {1}", 23, 78);
+            System.Console.WriteLine(string.Format("===== {0} ----- {1} ========= {0} --------------- {1}", 23, 78));
+
         }
+        
+        
     }
 }

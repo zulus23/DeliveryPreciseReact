@@ -74,7 +74,8 @@ class App extends Component {
         const data = {
            enterprise:this.props.currentEnterprise,
            rangeDate: this.props.dateRangeSelected,
-           selectKpi: this.props.selectKpi 
+           selectKpi: this.props.selectKpi,
+           customer: null 
         }
         this.props.dispatch(calculateSelectKpi(data))    
     };
@@ -89,7 +90,7 @@ class App extends Component {
 
     changeCustomerHandler = (event) => {
         const searchValue = event.target.value;
-        console.log(event.target.value)
+        console.log(event.target.value);
         this.props.dispatch(updateSearchValueCustomer(searchValue));
         
         const dataSelect = this.extractedParameterSearch(this.props.currentEnterprise);

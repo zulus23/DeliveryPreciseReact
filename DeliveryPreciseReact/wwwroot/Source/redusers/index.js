@@ -9,7 +9,7 @@ const initState = {
     isSKChecked:false,
     isSPChecked:false,
     isPRChecked:false,
-    searchingCustomer:"",
+    searchingCustomer:{},
     error:"",
     
     
