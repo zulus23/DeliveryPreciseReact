@@ -24,7 +24,7 @@ namespace DeliveryPreciseReact.Service
                                                           " WHERE ca.cust_seq = 0 AND c.Uf_OrganizLegalForm IS NOT NULL "+
                                                           " AND c.cust_type IS NOT null"+
                                                           " AND RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL"  + 
-                                                          " ORDER BY name",searchValue)).AsList();
+                                                          " ORDER BY name")).AsList();
                 
             }
 

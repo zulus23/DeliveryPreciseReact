@@ -46,8 +46,11 @@
 
 
 /*.k-dateinput-wrap .k-input, .k-dropdown-wrap .k-input, .k-numeric-wrap .k-input, .k-picker-wrap .k-input*/
-.k-dateinput-wrap .k-input, .k-dropdown-wrap .k-input, .k-numeric-wrap .k-input, .k-picker-wrap .k-input {
+.k-dateinput-wrap  {
     width: 150px;
     text-align: center;
 
+}
+.k-input {
+    width: 100%;
 }

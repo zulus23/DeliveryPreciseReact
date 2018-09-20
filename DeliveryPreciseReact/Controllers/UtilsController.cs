@@ -42,7 +42,7 @@ namespace DeliveryPreciseReact
             Console.WriteLine(selectParams);
             if (selectParams.TypeCustomer.Count == 0)
             {
-              customers =   _dataService.ListCustomerByEnterprise(selectParams.Enterprise,selectParams.SearchingCustomer);    
+              customers =   _dataService.ListCustomerByEnterprise(selectParams.Enterprise);    
             }
             else
             {
@@ -144,8 +144,7 @@ namespace DeliveryPreciseReact
     {
         private string _enterprise;
         private List<string> _typeCustomer;
-        private string _searchingCustomer;
-
+      
         public ParamsForSelectCustomer()
         {
         }
@@ -162,11 +161,7 @@ namespace DeliveryPreciseReact
             set => _typeCustomer = value;
         }
 
-        public string SearchingCustomer
-        {
-            get => _searchingCustomer;
-            set => _searchingCustomer = value;
-        }
+      
     }
 
 }
