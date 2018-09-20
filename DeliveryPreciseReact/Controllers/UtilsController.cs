@@ -46,7 +46,7 @@ namespace DeliveryPreciseReact
             }
             else
             {
-                
+                customers =   _dataService.ListCustomerByEnterprise(selectParams.Enterprise,selectParams.TypeCustomer);
             }
             
             return Ok(customers);

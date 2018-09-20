@@ -41,15 +41,24 @@ namespace DeliveryPreciseReact.Service
 
         public List<Customer> ListCustomerByEnterprise(string nameEnterprise,List<string> typeCustomer )
         {
+            
+              /*
+               TODO Выбор типа клиента
+               uf_strategcust
+                uf_strategprospect*/
             List<Customer> result = null;
-            string typeIn =  string.Join(",", typeCustomer.ToArray());
+            string typeIn = typeCustomer.Aggregate(" AND  c.cust_type  IN (", (i, a) => i = i + "'" + a + "'"+",",e => e + "'' )").Replace(",''","");
             
             using (var connection = new SqlConnection(DataConnection.GetConnectionString(nameEnterprise)))
             {
-                result = connection.Query<Customer>("SELECT  c.cust_num AS code," +
-                                                    " COALESCE(ca.RUSExtName,ca.name) as  name FROM dbo.customer c " +
+                result = connection.Query<Customer>(string.Format("SELECT  c.cust_num AS code," +
+                                                    " RTRIM(COALESCE(ca.name,ca.RUSExtName)) as name FROM dbo.customer c " +
                                                     " JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = c.cust_seq" +
-                                                    " WHERE ca.cust_seq = 0 ").AsList();
+                                                    " join dbo.gtk_cust_kpi_hdr h on ca.cust_num = h.cust_num " +        
+                                                    " WHERE ca.cust_seq = 0 AND c.Uf_OrganizLegalForm IS NOT NULL "+
+                                                    " AND c.cust_type IS NOT null"+
+                                                    " AND RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL  {0}"  + 
+                                                    " ORDER BY name",typeIn)).AsList();
             }
 
             return result;

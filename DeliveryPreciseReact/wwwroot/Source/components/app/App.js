@@ -47,6 +47,7 @@ class App extends Component {
 
     extractedParameterSearch= (selectedEnterprise) =>{
         
+        console.log(this.props.isPRChecked,this.props.isSKChecked,this.props.isSPChecked);
         const typeCustomer = [];
         if (this.props.isPRChecked === true) {
             typeCustomer.push("ПР");
@@ -85,7 +86,9 @@ class App extends Component {
     };
     handlerCheckBox = (event) => {
         const typeBox = event.target.value;
-        this.props.dispatch(updateSelectTypeCustomer(typeBox))
+        this.props.dispatch(updateSelectTypeCustomer(typeBox));
+        const dataSelect = this.extractedParameterSearch(this.props.currentEnterprise);
+        this.props.dispatch(fetchCustomer(dataSelect))
     };
 
     changeCustomerHandler = (event) => {
