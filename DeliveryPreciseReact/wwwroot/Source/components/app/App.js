@@ -199,7 +199,7 @@ class App extends Component {
 function mapStateProps(state) {
     const {enterprise, customers,currentEnterprise,kpi,dateRangeSelected
           ,selectKpi,isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error,calculateKpi} = state;
-    
+    console.log(state);
     return {enterprise, customers,currentEnterprise,kpi,
             dateRangeSelected,selectKpi,
             isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error,calculateKpi}

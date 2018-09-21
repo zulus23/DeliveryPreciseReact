@@ -4,22 +4,25 @@ import {connect} from "react-redux";
 import {updateSelectCalculateKpi} from "../../actions";
 
 class KpiResult extends Component {
-
+   
 
     /*constructor(props) {
         super(props)
     }*/
     
     handleSelectCalculateKpi = (event) => {
-      this.props.dispatch(updateSelectCalculateKpi(event.dataItem))          
+      this.props.dispatch(updateSelectCalculateKpi(event.dataItem))    
+        
     };
     
     
     render() {
         return (
-            <div  onMouseDown={e => e.preventDefault() /* prevents browser text selection */}>
+          
                 <Grid
-                    data={this.props.calculateKpi}
+                    data={this.props.calculateKpi.map(
+                        (kpi) => ({...kpi,selected: kpi.Description === this.props.selectedKpiDescription})
+                    )}
                     selectedField="selected"
                     onRowClick={this.handleSelectCalculateKpi}>
                     <Column field="Description" title="Наименование KPI" width="500px" />
@@ -28,7 +31,7 @@ class KpiResult extends Component {
                     <Column field="Deviation" title="Откл." />
                     <Column field="CountOrder" title="Заказы" />
                 </Grid>
-            </div>
+          
         );
     }
 }

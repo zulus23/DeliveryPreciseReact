@@ -12,7 +12,8 @@ const initState = {
     searchingCustomer:{},
     error:"",
     calculateKpi:[],
-    selectCalculateKpi:null
+    selectCalculateKpi:null,
+    selectedKpiDescription:null
     
     
 };
@@ -101,7 +102,8 @@ export default function appReduce(state=initState,action){
         case 'CHANGE_SELECT_CALCULATE_KPI' : {
             return {
                 ...state,
-                selectCalculateKpi: action.payload.data
+                selectCalculateKpi: action.payload.data,
+                selectedKpiDescription: action.payload.data.Description
             }
         }
         
