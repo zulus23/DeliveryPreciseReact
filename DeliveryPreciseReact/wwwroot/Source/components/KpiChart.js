@@ -10,6 +10,8 @@ import {
     ChartLegend
 } from '@progress/kendo-react-charts';
 import {connect} from "react-redux";
+import 'hammerjs'
+
 
 
 
@@ -18,11 +20,15 @@ import {connect} from "react-redux";
 class KpiChart extends Component {
     render(){ 
          let localData;
-         if(this.props.selectCalculateKpi !== null  ){ localData =  this.props.selectCalculateKpi.Detail}
-         console.log(localData);
+         let chartDescription; 
+         if(this.props.selectCalculateKpi !== null  ){ 
+             localData =  this.props.selectCalculateKpi.Detail;
+             chartDescription = this.props.selectCalculateKpi.Description;
+         }
+        
         return (
             <Chart>
-                <ChartTitle text={this.props.typeChart} />
+                <ChartTitle text={chartDescription} />
                 <ChartSeriesDefaults type="column" labels={{ visible: true, format: 'N02' }}/>
                 <ChartSeries>
                     <ChartSeriesItem data={ localData} type="column" 

@@ -8,6 +8,8 @@ namespace DeliveryPreciseReact.Service
     {
         List<Customer> ListCustomerByEnterprise(string nameEnterprise);
         List<Customer> ListCustomerByEnterprise(string nameEnterprise,List<string> typeCustomer);
-        PreciseDelivery GetPreciseDeliveryByEnterprise(ParamsCalculateKpi paramsCalculateKpi);
+       //  PreciseDelivery GetPreciseDeliveryByEnterprise(ParamsCalculateKpi paramsCalculateKpi);
+        List<PreciseDelivery> CalculateKpi(ParamsCalculateKpi paramsCalculateKpi);
+
     }
 }

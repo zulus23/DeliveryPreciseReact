@@ -49,7 +49,7 @@ namespace DeliveryPreciseReact
         {
             List<Kpi> kpis = new List<Kpi>();
             kpis.Add(new Kpi("Все",0,0,0,0));
-            kpis.Add(new Kpi("Точность поставки по времени %",0,0,0,0));
+            kpis.Add(new Kpi("Точность поставки по времени, %",0,0,0,0));
             kpis.Add(new Kpi("Точность выхода на склад %",0,0,0,0));
             kpis.Add(new Kpi("Точность поставки по количеству %",0,0,0,0));
             kpis.Add(new Kpi("Уровень качества продукции %",0,0,0,0));
@@ -66,8 +66,8 @@ namespace DeliveryPreciseReact
         {
             List<PreciseDelivery> preciseDeliveries = new List<PreciseDelivery>();
             Console.WriteLine(data);
-            PreciseDelivery preciseDelivery =  _dataService.GetPreciseDeliveryByEnterprise(data);
-            preciseDeliveries.Add(preciseDelivery);
+            List<PreciseDelivery> preciseDelivery =  _dataService.CalculateKpi(data);
+            preciseDeliveries.AddRange(preciseDelivery);
             
             return Ok(preciseDeliveries);
         } 

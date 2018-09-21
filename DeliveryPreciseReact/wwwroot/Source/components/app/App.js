@@ -15,6 +15,8 @@ import Customer from "../Customer";
 import {DateRangePicker} from "@progress/kendo-react-dateinputs";
 import {Button} from '@progress/kendo-react-buttons';
 
+import moment from 'moment';
+
 
 
 import KpiIndex from "../KpiIndex";
@@ -47,7 +49,7 @@ class App extends Component {
 
     extractedParameterSearch= (selectedEnterprise) =>{
         
-        console.log(this.props.isPRChecked,this.props.isSKChecked,this.props.isSPChecked);
+        
         const typeCustomer = this.collectTypeCustomer();
 
         const dataSelect = {
@@ -72,6 +74,7 @@ class App extends Component {
     };
 
     handleChange = (event) => {
+        
         this.props.dispatch(changeDateInterval(event.target.value))
     };
 
@@ -79,11 +82,15 @@ class App extends Component {
          const _typeCustomer = this.collectTypeCustomer();
         const data = {
            enterprise:this.props.currentEnterprise,
-           rangeDate: this.props.dateRangeSelected,
+           rangeDate: { start:moment(this.props.dateRangeSelected.start).format("YYYY-MM-DD"),
+                        end : moment(this.props.dateRangeSelected.end).format("YYYY-MM-DD")
+                       },
            selectKpi: this.props.selectKpi,
            customer: this.props.searchingCustomer, 
            typeCustomer: _typeCustomer  
         };
+        const date =  moment(this.props.dateRangeSelected.start).format("YYYY-MM-DD");
+        
         this.props.dispatch(calculateSelectKpi(data))    
     };
     handlerSelectKpi = (event) => {
@@ -99,12 +106,8 @@ class App extends Component {
 
     changeCustomerHandler = (event) => {
         const searchValue = event.target.value;
-        console.log(event.target.value);
+        
         this.props.dispatch(updateSearchValueCustomer(searchValue));
-        
-        
-        
-        
     };
     
     render() {
@@ -181,7 +184,7 @@ class App extends Component {
                 </div>
                 <div className="row justify-content-center">
                     <div className="col-sm-12">
-                        <KpiChart typeChart="Точность поставки по времени, %"/>
+                        <KpiChart />
                     </div>
                 </div>    
 
@@ -196,7 +199,7 @@ class App extends Component {
 function mapStateProps(state) {
     const {enterprise, customers,currentEnterprise,kpi,dateRangeSelected
           ,selectKpi,isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error,calculateKpi} = state;
-    console.log(state);
+    
     return {enterprise, customers,currentEnterprise,kpi,
             dateRangeSelected,selectKpi,
             isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error,calculateKpi}
