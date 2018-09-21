@@ -42,23 +42,29 @@ namespace DeliveryPreciseReact.Service
         public List<Customer> ListCustomerByEnterprise(string nameEnterprise,List<string> typeCustomer )
         {
             
-              /*
-               TODO Выбор типа клиента
-               uf_strategcust
-                uf_strategprospect*/
+              
             List<Customer> result = null;
-            string typeIn = typeCustomer.Aggregate(" AND  c.cust_type  IN (", (i, a) => i = i + "'" + a + "'"+",",e => e + "'' )").Replace(",''","");
+            string typeIn = typeCustomer.Aggregate(" and  customer.type  IN (", (i, a) => i = i + "'" + a + "'"+",",e => e + ",'--','' )").Replace(",''","");
             
             using (var connection = new SqlConnection(DataConnection.GetConnectionString(nameEnterprise)))
             {
-                result = connection.Query<Customer>(string.Format("SELECT  c.cust_num AS code," +
-                                                    " RTRIM(COALESCE(ca.name,ca.RUSExtName)) as name FROM dbo.customer c " +
-                                                    " JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = c.cust_seq" +
-                                                    " join dbo.gtk_cust_kpi_hdr h on ca.cust_num = h.cust_num " +        
-                                                    " WHERE ca.cust_seq = 0 AND c.Uf_OrganizLegalForm IS NOT NULL "+
-                                                    " AND c.cust_type IS NOT null"+
-                                                    " AND RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL  {0}"  + 
-                                                    " ORDER BY name",typeIn)).AsList();
+                result = connection.Query<Customer>(string.Format(" SELECT code, name,type,sortcode  FROM ("+
+                                                                  " SELECT 'К000001' AS code,'Все' AS name, '--' AS type ,0 AS sortcode"+
+                                                                  " UNION all " +
+                                                                  "SELECT  c.cust_num AS code," +
+                                                                  " RTRIM(COALESCE(ca.name,ca.RUSExtName)) as name " +
+                                                                  " CASE WHEN uf_strategcust = '1'  THEN 'СК' " +
+                                                                  "      WHEN uf_strategprospect = '1' THEN 'СП'" +
+                                                                  "      WHEN (uf_strategcust IS NULL AND uf_strategprospect IS NULL)  THEN 'ПР'" +
+                                                                  "      ELSE 'ПР' END AS type,1 AS sortcode "+
+                                                                  " FROM dbo.customer c " +
+                                                                  " JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = c.cust_seq" +
+                                                                  " join dbo.gtk_cust_kpi_hdr h on ca.cust_num = h.cust_num " +        
+                                                                  " WHERE ca.cust_seq = 0 AND c.Uf_OrganizLegalForm IS NOT NULL "+
+                                                                  " AND c.cust_type IS NOT null"+
+                                                                  " AND RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL ) as customer  "  + 
+                                                                  "  where 1 = 1  {0}" +
+                                                                  "ORDER BY customer.sortcode,customer.name",typeIn)).AsList();
             }
 
             return result;
