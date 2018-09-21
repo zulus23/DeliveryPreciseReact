@@ -12,9 +12,11 @@ namespace DataTest
         public void ListCustomersMustBeFill()
         {
             MssqlDataServiceImpl impl = new MssqlDataServiceImpl();
-            List<Customer> customers = impl.ListCustomerByEnterprise("ГОТЭК");
+            List<string> list = new List<string>();
+            list.Add("СК");
+            List<Customer> customers = impl.ListCustomerByEnterprise("ГОТЭК",list);
             
-            Assert.True(customers.Count > 0);
+            Assert.True(customers.Count == 35 + 1);
         }
         
         [Fact]

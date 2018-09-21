@@ -38,17 +38,7 @@ namespace DeliveryPreciseReact
         public ActionResult GetCustomer([FromBody]ParamsForSelectCustomer selectParams)
         {
             List<Customer> customers = new List<Customer>();
-            
-            Console.WriteLine(selectParams);
-            if (selectParams.TypeCustomer.Count == 0)
-            {
-              customers =   _dataService.ListCustomerByEnterprise(selectParams.Enterprise);    
-            }
-            else
-            {
-                customers =   _dataService.ListCustomerByEnterprise(selectParams.Enterprise,selectParams.TypeCustomer);
-            }
-            
+            customers =   _dataService.ListCustomerByEnterprise(selectParams.Enterprise,selectParams.TypeCustomer);
             return Ok(customers);
         }
 
