@@ -48,7 +48,7 @@ export function fetchCustomer(data){
         api.fetchCustomers(data).then(resp => {
             dispatch(customerFetchSucceeded(resp.data))
         }).catch(error => {
-            dispatch(loadDataFailed(error.message))
+            dispatch(loadDataFailed("Ошибки при загруки клиентов : "+error.message))
         })
     }
 }

@@ -25,6 +25,12 @@ import KpiChart from "../KpiChart";
 import KpiResult from "../KpiContainer/KpiResult";
 import FlashMessage from "../FlashMessage";
 
+
+
+/*
+TODO Показать график после выбора кпи
+TODO Кнопка расчета должна быть активна только после выбора клиентп, предприятия и вида кпи
+*/
 class App extends Component {
     startDateInputSettings = {
         format: 'dd/MM/yyyy',

@@ -21,7 +21,9 @@ class KpiResult extends Component {
           
                 <Grid
                     data={this.props.calculateKpi.map(
-                        (kpi) => ({...kpi,selected: kpi.Description === this.props.selectedKpiDescription})
+                        (kpi) => (
+                            
+                            {...kpi,selected: kpi.Description === this.props.selectedKpiDescription})
                     )}
                     selectedField="selected"
                     onRowClick={this.handleSelectCalculateKpi}>
@@ -37,8 +39,8 @@ class KpiResult extends Component {
 }
 
 function mapStateToProps(state){
-    const {calculateKpi,selectCalculateKpi} = state;
-    return {calculateKpi,selectCalculateKpi}
+    const {calculateKpi,selectCalculateKpi,selectedKpiDescription} = state;
+    return {calculateKpi,selectCalculateKpi,selectedKpiDescription}
 }
 
 export default connect(mapStateToProps)(KpiResult);
