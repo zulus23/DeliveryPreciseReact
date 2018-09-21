@@ -6,20 +6,20 @@ import {updateSelectCalculateKpi} from "../../actions";
 class KpiResult extends Component {
 
 
-    constructor(props) {
+    /*constructor(props) {
         super(props)
-    }
+    }*/
     
     handleSelectCalculateKpi = (event) => {
       this.props.dispatch(updateSelectCalculateKpi(event.dataItem))          
-    }
+    };
     
     
     render() {
         return (
             <div  onMouseDown={e => e.preventDefault() /* prevents browser text selection */}>
                 <Grid
-                    data={this.props.calckpi}
+                    data={this.props.calculateKpi}
                     selectedField="selected"
                     onRowClick={this.handleSelectCalculateKpi}>
                     <Column field="Description" title="Наименование KPI" width="500px" />
@@ -34,8 +34,8 @@ class KpiResult extends Component {
 }
 
 function mapStateToProps(state){
-    const {calckpi,selectCalculateKpi} = state;
-    return {calckpi,selectCalculateKpi}
+    const {calculateKpi,selectCalculateKpi} = state;
+    return {calculateKpi,selectCalculateKpi}
 }
 
 export default connect(mapStateToProps)(KpiResult);
