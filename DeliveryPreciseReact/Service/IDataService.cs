@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DeliveryPreciseReact.Common;
 using DeliveryPreciseReact.Domain;
 
 namespace DeliveryPreciseReact.Service
@@ -7,6 +8,6 @@ namespace DeliveryPreciseReact.Service
     {
         List<Customer> ListCustomerByEnterprise(string nameEnterprise);
         List<Customer> ListCustomerByEnterprise(string nameEnterprise,List<string> typeCustomer);
-        PreciseDelivery GetPreciseDeliveryByEnterprise(string nameEnterprise, Customer customer);
+        PreciseDelivery GetPreciseDeliveryByEnterprise(ParamsCalculateKpi paramsCalculateKpi);
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DeliveryPreciseReact.Common;
 using DeliveryPreciseReact.Domain;
 using DeliveryPreciseReact.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -65,7 +66,7 @@ namespace DeliveryPreciseReact
         {
             List<PreciseDelivery> preciseDeliveries = new List<PreciseDelivery>();
             Console.WriteLine(data);
-            PreciseDelivery preciseDelivery =  _dataService.GetPreciseDeliveryByEnterprise(data.Enterprise, data.Customer);
+            PreciseDelivery preciseDelivery =  _dataService.GetPreciseDeliveryByEnterprise(data);
             preciseDeliveries.Add(preciseDelivery);
             
             return Ok(preciseDeliveries);
@@ -74,65 +75,8 @@ namespace DeliveryPreciseReact
         
     }
 
-    public class ParamsCalculateKpi
-    {
-        private string _enterprise;
-        private DateRange _rangeDate;
-        private List<Kpi> _selectKpi;
-        private Customer _customer;
+    
 
-        public ParamsCalculateKpi()
-        {
-        }
-
-        public string Enterprise
-        {
-            get => _enterprise;
-            set => _enterprise = value;
-        }
-
-        public DateRange RangeDate
-        {
-            get => _rangeDate;
-            set => _rangeDate = value;
-        }
-
-        public List<Kpi> SelectKpi
-        {
-            get => _selectKpi;
-            set => _selectKpi = value;
-        }
-
-        public Customer Customer
-        {
-            get => _customer;
-            set => _customer = value;
-        }
-    }
-
-    public class DateRange
-    {
-        private DateTime _start;
-        private DateTime _end;
-
-        public DateRange()
-        {
-        }
-
-       
-
-        public DateTime Start
-        {
-            get => _start;
-            set => _start = value;
-        }
-
-        public DateTime End
-        {
-            get => _end;
-            set => _end = value;
-        }
-    }
     
     public class ParamsForSelectCustomer
     {

@@ -48,6 +48,16 @@ class App extends Component {
     extractedParameterSearch= (selectedEnterprise) =>{
         
         console.log(this.props.isPRChecked,this.props.isSKChecked,this.props.isSPChecked);
+        const typeCustomer = this.collectTypeCustomer();
+
+        const dataSelect = {
+            enterprise: selectedEnterprise,
+            typeCustomer: typeCustomer,
+        };
+        return dataSelect;
+    };
+
+    collectTypeCustomer = ()=> {
         const typeCustomer = [];
         if (this.props.isPRChecked === true) {
             typeCustomer.push("ПР");
@@ -58,12 +68,7 @@ class App extends Component {
         if (this.props.isSPChecked === true) {
             typeCustomer.push("СП");
         }
-
-        const dataSelect = {
-            enterprise: selectedEnterprise,
-            typeCustomer: typeCustomer,
-        };
-        return dataSelect;
+        return typeCustomer;
     };
 
     handleChange = (event) => {
@@ -71,12 +76,13 @@ class App extends Component {
     };
 
     handleCalculateKpi = (event) =>{
-        
+         const _typeCustomer = this.collectTypeCustomer();
         const data = {
            enterprise:this.props.currentEnterprise,
            rangeDate: this.props.dateRangeSelected,
            selectKpi: this.props.selectKpi,
            customer: this.props.searchingCustomer, 
+           typeCustomer: _typeCustomer  
         };
         this.props.dispatch(calculateSelectKpi(data))    
     };
