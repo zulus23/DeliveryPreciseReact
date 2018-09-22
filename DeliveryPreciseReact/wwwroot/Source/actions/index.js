@@ -52,6 +52,29 @@ export function fetchCustomer(data){
         })
     }
 }
+function customerDeliveryFetchSucceeded(data){
+    return{
+        type: 'CUSTOMER_DELIVERY_FETCH_SUCCEEDED',
+        payload: {
+            data
+        }
+    }
+}
+
+export function fetchCustomerDelivery(data){
+    return dispatch => {
+
+        api.fetchCustomerDelivery(data).then(resp => {
+            dispatch(customerDeliveryFetchSucceeded(resp.data))
+        }).catch(error => {
+            dispatch(loadDataFailed("Ошибки при загруки грузополучателей : "+error.message))
+        })
+    }
+}
+
+
+
+
 function enterpriseChangeSucceeded(data) {
     return {
         type:'ENTERPRISE_CHANGE_SUCCEEDED',
@@ -180,11 +203,35 @@ function updateSearchValueCustomerSucceeded(data){
     }
 }
 export function updateSearchValueCustomer(data) {
-    return dispatch => {
-        dispatch(updateSearchValueCustomerSucceeded(data))
+    return (dispatch,getState)  => {
+        dispatch(updateSearchValueCustomerSucceeded(data));
+        const {currentEnterprise,searchingCustomer} = getState();
+        const dataSelect = {
+            enterprise: currentEnterprise,
+            customer: searchingCustomer,
+
+        }
+        dispatch(fetchCustomerDelivery(dataSelect))
     }
     
 }
+function updateSearchValueCustomerDeliverySucceeded(data) {
+    return {
+        type: 'UPDATE_SEARCH_VALUE_CUSTOMER_DELIVERY',
+        payload: {
+            data
+        }
+    }
+}
+export function updateSearchValueCustomerDelivery(data) {
+    return (dispatch,getState)  => {
+        dispatch(updateSearchValueCustomerDeliverySucceeded(data));
+        
+    }
+
+}
+
+
 
 function changeSelectCalculateKpiSucceeded(data) {
     return {

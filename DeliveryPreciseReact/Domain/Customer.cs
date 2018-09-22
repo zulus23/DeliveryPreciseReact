@@ -4,7 +4,7 @@ namespace DeliveryPreciseReact.Domain
     {
         private string _code;
         private string _name;
-
+        private int _seq;
         public Customer()
         {
         }
@@ -21,6 +21,12 @@ namespace DeliveryPreciseReact.Domain
         {
             get => _name;
             set => _name = value;
+        }
+
+        public int Seq
+        {
+            get => _seq;
+            set => _seq = value;
         }
     }
 }

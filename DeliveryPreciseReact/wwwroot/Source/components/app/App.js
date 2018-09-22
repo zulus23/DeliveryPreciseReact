@@ -8,7 +8,7 @@ import {
     changeSelectKpi,
     fetchCustomer,
     fetchEnterprise,
-    fetchKpi, updateSearchValueCustomer, updateSelectTypeCustomer
+    fetchKpi, updateSearchValueCustomer, updateSearchValueCustomerDelivery, updateSelectTypeCustomer
 } from "../../actions";
 import Enterprise from "../Enterprise";
 import Customer from "../Customer";
@@ -115,6 +115,12 @@ class App extends Component {
         
         this.props.dispatch(updateSearchValueCustomer(searchValue));
     };
+    changeCustomerDeliveryHandler = (event) => {
+        const searchValue = event.target.value;
+
+        this.props.dispatch(updateSearchValueCustomerDelivery(searchValue)); 
+    }
+    
     
     render() {
         return (
@@ -161,7 +167,10 @@ class App extends Component {
                                     </div>
                                 </div>
                                 <div className="col-sm-4 w-100">
-                                    <Consignee data={this.props.enterprise}/>
+                                    <Consignee data={this.props.customerDelivery} 
+                                               value = {this.props.searchingCustomerDelivery}
+                                               onChangeCustomerDeliveryHandler={this.changeCustomerDeliveryHandler }
+                                    />
                                 </div>
                                 <div className="col-sm-4">
                                     
@@ -204,11 +213,12 @@ class App extends Component {
 
 function mapStateProps(state) {
     const {enterprise, customers,currentEnterprise,kpi,dateRangeSelected
-          ,selectKpi,isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error,calculateKpi} = state;
+           ,selectKpi,isSKChecked,isSPChecked,isPRChecked,searchingCustomer
+           ,error,calculateKpi,customerDelivery,searchingCustomerDelivery} = state;
     console.log(state);
     return {enterprise, customers,currentEnterprise,kpi,
             dateRangeSelected,selectKpi,
-            isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error,calculateKpi}
+            isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error,calculateKpi,customerDelivery,searchingCustomerDelivery}
 
 }
 

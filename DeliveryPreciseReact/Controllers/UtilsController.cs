@@ -71,6 +71,13 @@ namespace DeliveryPreciseReact
             
             return Ok(preciseDeliveries);
         } 
+        [HttpPost("customerdelivery")]
+        public ActionResult GetCustomersDelivery([FromBody]ParamsForSelectCustomerDelivery selectParams)
+        {
+            List<Customer> customers = new List<Customer>();
+            customers =   _dataService.ListCustomerDeliveryByEnterprise(selectParams.Enterprise,selectParams.Customer);
+            return Ok(customers);
+        } 
         
         
     }
@@ -101,5 +108,29 @@ namespace DeliveryPreciseReact
 
       
     }
+    
+    public class ParamsForSelectCustomerDelivery
+    {
+        private string _enterprise;
+        private Customer _customer;
+        
+      
+        public ParamsForSelectCustomerDelivery()
+        {
+        }
+
+        public string Enterprise
+        {
+            get => _enterprise;
+            set => _enterprise = value;
+        }
+
+        public Customer Customer
+        {
+            get => _customer;
+            set => _customer = value;
+        }
+    }
+    
 
 }

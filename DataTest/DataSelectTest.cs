@@ -25,10 +25,20 @@ namespace DataTest
             MssqlDataServiceImpl impl = new MssqlDataServiceImpl();
             Customer customer = new Customer();
             customer.Code = "K009154";
-            PreciseDelivery delivery = impl.GetPreciseDeliveryByEnterprise("ГОТЭК",customer);
+           // PreciseDelivery delivery = impl.GetPreciseDeliveryByEnterprise("ГОТЭК",customer);
             
-            Assert.True(delivery != null);
+            //Assert.True(delivery != null);
         }
-        
+        [Fact]
+        public void ListCustomerDelivery()
+        {
+            MssqlDataServiceImpl impl = new MssqlDataServiceImpl();
+            Customer customer = new Customer();
+            customer.Code = "K012054";
+            // PreciseDelivery delivery = impl.GetPreciseDeliveryByEnterprise("ГОТЭК",customer);
+            List<Customer> customers = impl.ListCustomerDeliveryByEnterprise("ПРИНТ", customer);
+
+            Assert.True(customers.Count  == 2);
+        }
     }
 }

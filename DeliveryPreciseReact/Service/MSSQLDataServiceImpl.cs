@@ -24,11 +24,10 @@ namespace DeliveryPreciseReact.Service
             using (var connection = new SqlConnection(DataConnection.GetConnectionString(nameEnterprise)))
             {
                 result = connection.Query<Customer>(string.Format("SELECT  c.cust_num AS code," +
-                                                          " RTRIM(COALESCE(ca.name,ca.RUSExtName)) as name FROM dbo.customer c " +
+                                                          " RTRIM(COALESCE(ca.name,ca.RUSExtName)) as name , c.cust_seq as seq FROM dbo.customer c " +
                                                           " JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = c.cust_seq" +
                                                           " join dbo.gtk_cust_kpi_hdr h on ca.cust_num = h.cust_num " +        
-                                                          " WHERE ca.cust_seq = 0 AND c.Uf_OrganizLegalForm IS NOT NULL "+
-                                                          " AND c.cust_type IS NOT null"+
+                                                          " WHERE ca.cust_seq = 0 "+
                                                           " AND RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL"  + 
                                                           " ORDER BY name")).AsList();
                 
@@ -45,11 +44,11 @@ namespace DeliveryPreciseReact.Service
             string typeIn = CreateCustomerTypeInSection(typeCustomer);
            
 
-            string _query = string.Format(" SELECT code, name,type,sortcode  FROM (" +
-                                          " SELECT 'К000001' AS code,'Все' AS name, '--' AS type ,0 AS sortcode " +
+            string _query = string.Format(" SELECT code, name,seq, type,sortcode FROM (" +
+                                          " SELECT 'К000001' AS code,'Все' AS name,  0 as seq, '--' AS type ,0 AS sortcode " +
                                           " UNION all " +
                                           " SELECT  c.cust_num AS code," +
-                                          " RTRIM(COALESCE(ca.name,ca.RUSExtName)) as name, " +
+                                          " RTRIM(COALESCE(ca.name,ca.RUSExtName)) as name, c.cust_seq as seq, " +
                                           " CASE WHEN uf_strategcust = '1'  THEN 'СК' " +
                                           "      WHEN uf_strategprospect = '1' THEN 'СП' " +
                                           "      WHEN (uf_strategcust IS NULL AND uf_strategprospect IS NULL)  THEN 'ПР' " +
@@ -57,8 +56,7 @@ namespace DeliveryPreciseReact.Service
                                           " FROM dbo.customer c " +
                                           " JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = c.cust_seq" +
                                           " join dbo.gtk_cust_kpi_hdr h on ca.cust_num = h.cust_num " +
-                                          " WHERE ca.cust_seq = 0 AND c.Uf_OrganizLegalForm IS NOT NULL " +
-                                          " AND c.cust_type IS NOT null" +
+                                          " WHERE ca.cust_seq = 0 " +
                                           " AND RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL ) as customer  " +
                                           "  where 1 = 1  {0}" +
                                           "ORDER BY customer.sortcode,customer.name", typeIn); 
@@ -67,6 +65,29 @@ namespace DeliveryPreciseReact.Service
                 
             {
                 result = connection.Query<Customer>(_query).AsList();
+            }
+
+            return result;
+        }
+
+        public List<Customer> ListCustomerDeliveryByEnterprise(string nameEnterprise, Customer customer)
+        {
+            List<Customer> result = null;
+            using (var connection = new SqlConnection(DataConnection.GetConnectionString(nameEnterprise)))
+            {
+                result = connection.Query<Customer>(string.Format(" SELECT code, name,seq, type,sortcode FROM (" +
+                                                                  " SELECT 'К000001' AS code,'Все' AS name,  0 as seq, '--' AS type ,0 AS sortcode " +
+                                                                  " UNION all " +
+                                                                  " SELECT  c.cust_num AS code," +
+                                                                  " RTRIM(COALESCE(ca.name,ca.RUSExtName)) as name, c.cust_seq as seq, " +
+                                                                  " '==' as  type,1 AS sortcode " +
+                                                                  " FROM dbo.customer c " +
+                                                                  " JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = c.cust_seq" +
+                                                                  " WHERE ca.cust_seq <> 0 " +
+                                                                  " AND RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL and c.cust_num = '{0}' ) as customer  " +
+                                                                  "  where 1 = 1 " +
+                                                                  "ORDER BY customer.sortcode,customer.name", customer.Code)).AsList();
+                
             }
 
             return result;
@@ -105,8 +126,7 @@ namespace DeliveryPreciseReact.Service
                                           " FROM dbo.customer c " +
                                           " JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = c.cust_seq" +
                                           " join dbo.gtk_cust_kpi_hdr h on ca.cust_num = h.cust_num " +
-                                          " WHERE ca.cust_seq = 0 AND c.Uf_OrganizLegalForm IS NOT NULL " +
-                                          " AND c.cust_type IS NOT null" +
+                                          " WHERE ca.cust_seq = 0 " +
                                           " AND RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL ) as customer  " +
                                           "  where 1 = 1  {0} {1})" , typeIn,_insertCodeCustomer);
             return _query;

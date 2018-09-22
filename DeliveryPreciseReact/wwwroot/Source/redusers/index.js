@@ -13,8 +13,9 @@ const initState = {
     error:"",
     calculateKpi:[],
     selectCalculateKpi:null,
-    selectedKpiDescription:null
-    
+    selectedKpiDescription:null,
+    customerDelivery:[],
+    searchingCustomerDelivery:{},
     
 };
 
@@ -32,6 +33,12 @@ export default function appReduce(state=initState,action){
             return {
                 ...state,
                 customers:action.payload.data
+            }
+        }
+        case 'CUSTOMER_DELIVERY_FETCH_SUCCEEDED' :{
+            return {
+                ...state,
+                customerDelivery:action.payload.data
             }
         }
         case 'ENTERPRISE_CHANGE_SUCCEEDED':{
@@ -85,6 +92,12 @@ export default function appReduce(state=initState,action){
             return {
                 ...state,
                 searchingCustomer: action.payload.data
+            }
+        }
+        case 'UPDATE_SEARCH_VALUE_CUSTOMER_DELIVERY' :{
+            return {
+                ...state,
+                searchingCustomerDelivery: action.payload.data
             }
         }
         case 'FETCH_LOAD_DATE_FAILED' :{

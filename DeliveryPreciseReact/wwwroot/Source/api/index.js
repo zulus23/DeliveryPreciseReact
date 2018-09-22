@@ -10,6 +10,11 @@ export function fetchEnterprise(){
 export function fetchCustomers(data){
     return client.post('/api/utils/customers',data)
 }
+export function fetchCustomerDelivery(data){
+    return client.post('/api/utils/customerdelivery',data)
+}
+
+
 export function fetchKpis(){
     return client.get('/api/utils/kpis')
 }

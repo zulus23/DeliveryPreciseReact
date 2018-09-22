@@ -7,7 +7,11 @@ const Consignee = (props) => {
         <Auxiliary>
             <p>Грузополучатель</p>
             <DropDownList
-                data={props.data}   style={{width:"100%"}}/>
+                data={props.data}   style={{width:"100%"}}
+                textField="Name"
+                value={props.value}
+                onChange={props.onChangeCustomerDeliveryHandler}
+            />
         </Auxiliary>
     );
 };
