@@ -10,7 +10,7 @@ namespace DeliveryPreciseReact.Common
         private const string POLYPACK = "Server=SRV-SLDB;Database=SL_POLYPACK; User Id=report;Password=report;";
         private const string CENTER = "Server=SRV-SLDB;Database=SL_CENTER; User Id=report;Password=report;";
         private const string SPB = "Server=SRV-SLDB;Database=SL_SPB; User Id=report;Password=report;";
-        private const string PRINT_HOME = "Server=DESKTOP-GBBOAS1;Database=SL_Print; User Id=sa;Password=415631234;";        
+            
 
 
         public static string GetConnectionString(string enterprise)
@@ -34,8 +34,8 @@ namespace DeliveryPreciseReact.Common
                 }
                 case "ПРИНТ":
                 {
-                    //return PRINT;
-                    return PRINT_HOME;
+                    return PRINT;
+                    //return PRINT_HOME;
 
                 }
                 case "ЦЕНТР":
