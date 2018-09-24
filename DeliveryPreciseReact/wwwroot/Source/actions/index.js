@@ -164,7 +164,8 @@ export function calculateSelectKpi(data){
                 });
                return item;
             });
-            dispatch(calculateKpiSucceeded(d))
+            dispatch(calculateKpiSucceeded(d));
+            dispatch(updateSelectCalculateKpi({}));
         }).catch(error => {
             dispatch(loadDataFailed("При выполнении расчета произошла ошибка: "+error.message))
         })

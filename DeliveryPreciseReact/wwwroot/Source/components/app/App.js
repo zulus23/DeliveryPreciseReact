@@ -214,7 +214,7 @@ function mapStateProps(state) {
     const {enterprise, customers,currentEnterprise,kpi,dateRangeSelected
            ,selectKpi,isSKChecked,isSPChecked,isPRChecked,searchingCustomer
            ,error,calculateKpi,customerDelivery,searchingCustomerDelivery} = state;
-    console.log(state);
+    
     return {enterprise, customers,currentEnterprise,kpi,
             dateRangeSelected,selectKpi,
             isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error,calculateKpi,customerDelivery,searchingCustomerDelivery}
