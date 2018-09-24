@@ -157,7 +157,14 @@ function calculateKpiSucceeded(data){
 export function calculateSelectKpi(data){
     return dispatch => {
         api.calculateKpi(data).then(resp => {
-            dispatch(calculateKpiSucceeded(resp.data))
+            var d = resp.data.map(item => {
+               item.Detail.map(de => {
+                   de.Date = new Date(de.Date);
+                   return de;
+                });
+               return item;
+            });
+            dispatch(calculateKpiSucceeded(d))
         }).catch(error => {
             dispatch(loadDataFailed("При выполнении расчета произошла ошибка: "+error.message))
         })
