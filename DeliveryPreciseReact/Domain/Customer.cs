@@ -37,6 +37,6 @@ namespace DeliveryPreciseReact.Domain
             set => _address = value;
         }
 
-        public string FullName =>  _name +  (_address?.Length < 10 ? "" : " "+_address);
+        public string FullName => $"{(_name.Equals("Все")?"":_seq+" - ")}{_name}{(_address?.Length < 10 ? "" : " " + _address)}";
     }
 }

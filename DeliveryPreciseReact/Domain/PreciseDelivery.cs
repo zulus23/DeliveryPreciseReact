@@ -14,6 +14,7 @@ namespace DeliveryPreciseReact.Domain
         private List<PreciseDelivery> _detail = new List<PreciseDelivery>();
         private int _year;
         private DateTime _date;
+        private double _trend;
 
         
 
@@ -73,6 +74,12 @@ namespace DeliveryPreciseReact.Domain
         {
             get => _year;
             set => _year = value;
+        }
+
+        public double Trend
+        {
+            get => _trend;
+            set => _trend = value;
         }
     }
 }

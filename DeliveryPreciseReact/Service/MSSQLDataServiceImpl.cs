@@ -83,8 +83,8 @@ namespace DeliveryPreciseReact.Service
                                                                   " '==' as  type,1 AS sortcode, dbo.GTKFormatAddress(c.cust_num,c.cust_seq,'custaddr') as address " +
                                                                   " FROM dbo.customer c " +
                                                                   " JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = c.cust_seq" +
-                                                                  " WHERE ca.cust_seq <> 0 " +
-                                                                  " AND RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL and c.cust_num = '{0}' ) as customer  " +
+                                                                  " WHERE " +
+                                                                  "  RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL and c.cust_num = '{0}' ) as customer  " +
                                                                   "  where 1 = 1 " +
                                                                   "ORDER BY customer.sortcode,customer.name", customer.Code)).AsList();
                 
@@ -137,7 +137,8 @@ namespace DeliveryPreciseReact.Service
         private PreciseDelivery GetPreciseDeliveryByEnterprise(ParamsCalculateKpi paramsCalculateKpi)
         {
             string _selectCustomer =
-                CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer); 
+                CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
+            string _selectSeqCustomer = CreateInSectionForCust_Seq(paramsCalculateKpi);
             
             PreciseDelivery result = null;
 
@@ -149,22 +150,36 @@ namespace DeliveryPreciseReact.Service
                                           " join (select * from dbo.gtk_cust_kpi_lns where " +
                                           " kpi_description = '{4}') as t on t.cust_num = s.cust_num " +
                                           " where s.cust_num  {0} and s.DateDostFact between '{1}' and '{2}' " +
-                                          " and s.cust_seq = {3} group by MONTH(s.DateDostFact), YEAR(s.DateDostFact) " +
+                                          /*" and s.cust_seq = {3} " +*/
+                                          " {3} " +
+                                          " group by MONTH(s.DateDostFact), YEAR(s.DateDostFact) " +
                                           " union all " +
                                           " select max(kpi_description) as description,'-1' as month, MAX(YEAR(s.DateDostFact)) as year, max(t.Kpi_target) as target," +
                                           " avg(s.KPI_stat) as fact,(avg(s.KPI_stat)  - max(t.Kpi_target)) as deviation, count(*) as countorder" +
                                           " from gtk_group_report.dbo.gtk_kpi_ship s join (select * from dbo.gtk_cust_kpi_lns " +
                                           " where kpi_description = '{4}') as t on t.cust_num = s.cust_num" +
-                                          " where s.cust_num  {0} and s.DateDostFact between '{1}' and '{2}' and s.cust_seq = {3}) as t" +
+                                          " where s.cust_num  {0} and s.DateDostFact between '{1}' and '{2}' " +
+                                          /*" and s.cust_seq = {3}) as t" +*/
+                                          " {3}) as t" +
                                           " order by month",_selectCustomer,
                                             paramsCalculateKpi.RangeDate.Start.ToString("yyyyMMdd"),
-                                            paramsCalculateKpi.RangeDate.End.ToString("yyyyMMdd"),0,"Точность поставки по времени, %");
+                                            paramsCalculateKpi.RangeDate.End.ToString("yyyyMMdd"),_selectSeqCustomer,"Точность поставки по времени, %");
             
             using (var connection = new SqlConnection(DataConnection.GetConnectionString(paramsCalculateKpi.Enterprise)))
             {
                 List<PreciseDelivery> _all = connection.Query<PreciseDelivery>(query).AsList();
+                
                 result = _all?.Find(item => item.Month == -1);
+
+                
+
                 result?.Detail?.AddRange(_all.FindAll(e => e.Month != -1));
+                if (result?.Detail?.Count > 0)
+                {
+                    Tuple<double, double> trend = CalculateTrend(result?.Detail);
+
+                    result.Detail.ForEach(e => e.Trend = trend.Item2 + e.Month*trend.Item1);
+                }
                 //result = connection.QueryFirst<PreciseDelivery>(query);
             }
 
@@ -200,7 +215,8 @@ namespace DeliveryPreciseReact.Service
         private PreciseDelivery GetPreciseEnterToWhseByEnterprise(ParamsCalculateKpi paramsCalculateKpi)
         {
             string _selectCustomer =
-                CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer); 
+                CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
+            string _selectSeqCustomer = CreateInSectionForCust_Seq(paramsCalculateKpi);
             
             PreciseDelivery result = null;
 
@@ -212,16 +228,20 @@ namespace DeliveryPreciseReact.Service
                                           " join (select * from dbo.gtk_cust_kpi_lns where " +
                                           " kpi_description = '{4}') as t on t.cust_num = s.cust_num " +
                                           " where s.cust_num  {0} and s.DateWHSFact between '{1}' and '{2}' " +
-                                          " and s.cust_seq = {3} group by MONTH(s.DateWHSFact),YEAR(s.DateWHSFact) " +
+                                          /*" and s.cust_seq = {3} " +*/
+                                          " {3} " +
+                                          " group by MONTH(s.DateWHSFact),YEAR(s.DateWHSFact) " +
                                           " union all " +
                                           " select max(kpi_description) as description,'-1' as month,MAX(YEAR(s.DateWHSFact)) as year, max(t.Kpi_target) as target," +
                                           " avg(s.KPI_whse) as fact,(avg(s.KPI_whse)  - max(t.Kpi_target)) as deviation, count(*) as countorder" +
                                           " from gtk_group_report.dbo.gtk_kpi_ship s join (select * from dbo.gtk_cust_kpi_lns " +
                                           " where kpi_description = '{4}') as t on t.cust_num = s.cust_num" +
-                                          " where s.cust_num  {0} and s.DateWHSFact between '{1}' and '{2}' and s.cust_seq = {3}) as t" +
+                                          " where s.cust_num  {0} and s.DateWHSFact between '{1}' and '{2}' " +
+                                          /*" and s.cust_seq = {3}) as t" +*/
+                                          " {3}) as t" +
                                           " order by month",_selectCustomer,
                                             paramsCalculateKpi.RangeDate.Start.ToString("yyyyMMdd"),
-                                            paramsCalculateKpi.RangeDate.End.ToString("yyyyMMdd"),0,"Точность выхода на склад %");
+                                            paramsCalculateKpi.RangeDate.End.ToString("yyyyMMdd"),_selectSeqCustomer,"Точность выхода на склад %");
             
             using (var connection = new SqlConnection(DataConnection.GetConnectionString(paramsCalculateKpi.Enterprise)))
             {
@@ -234,16 +254,62 @@ namespace DeliveryPreciseReact.Service
             return result;
         }
 
-        private string CreateInSectionForCust_Seq(ParamsCalculateKpi paramsCalculateKpi)
+        private static  string CreateInSectionForCust_Seq(ParamsCalculateKpi paramsCalculateKpi)
         {
             string result = "";
             if (!paramsCalculateKpi.CustomerDelivery.Name.Equals("Все"))
             {
-                
+                result = string.Format(" and s.cust_seq = {0} ", paramsCalculateKpi.CustomerDelivery.Seq);
             }
 
             return result;
         }
+
+        private Tuple<double,double> CalculateTrend(List<PreciseDelivery> preciseDeliveries)
+        {
+
+
+            return LinearLeastSquares(preciseDeliveries.ToArray());
+        }
+        
+        private  Tuple<double,double> LinearLeastSquares(PreciseDelivery[] deliveries ) 
+        {   
+            
+            double a11 = 0.0, a12 = 0.0, a22 = deliveries.Length, b1 = 0.0, b2 = 0.0;
+            for (int i = 0; i < deliveries.Length; i++) {
+                a11 += deliveries[i].Month  * deliveries[i].Month;
+                a12 += deliveries[i].Month;
+                b1 += deliveries[i].Month * deliveries[i].Fact;
+                b2 += deliveries[i].Fact;
+            }
+            double det = a11 * a22 - a12 * a12;
+            if (Math.Abs (det) < 1e-17)
+                throw new ArgumentException ("Данные не верны");
+            double a = (b1 * a22 - a12 * b2) / det;
+            double b = (a11 * b2 - b1 * a12) / det;
+            return  new Tuple<double, double>(a,b);
+        }
+        
+        /*public  void LinearLeastSquares(double[] x, double[] y, out double a, out double b) 
+        {   
+            if (x.Length != y.Length || x.Length <= 1)
+                throw new ArgumentException ("Неверные размеры данных");
+            double a11 = 0.0, a12 = 0.0, a22 = x.Length, b1 = 0.0, b2 = 0.0;
+            for (int i = 0; i < x.Length; i++) {
+                a11 += x [i] * x [i];
+                a12 += x [i];
+                b1 += x [i] * y [i];
+                b2 += y [i];
+            }
+            double det = a11 * a22 - a12 * a12;
+            if (Math.Abs (det) < 1e-17)
+                throw new ArgumentException ("Данные не верны");
+            a = (b1 * a22 - a12 * b2) / det;
+            b = (a11 * b2 - b1 * a12) / det;
+        }
+        */
+
+        
         
     }
 }
