@@ -8,7 +8,7 @@ const Consignee = (props) => {
             <p>Грузополучатель</p>
             <DropDownList
                 data={props.data}   style={{width:"100%"}}
-                textField="Name"
+                textField="FullName"
                 value={props.value}
                 onChange={props.onChangeCustomerDeliveryHandler}
             />

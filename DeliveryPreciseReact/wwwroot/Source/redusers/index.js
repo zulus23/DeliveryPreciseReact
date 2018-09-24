@@ -2,7 +2,7 @@
 const initState = {
     enterprise:[],
     customers:[],
-    currentEnterprise:"ПРИНТ",
+    currentEnterprise:"ГОТЭК",
     kpi:[],
     dateRangeSelected:{start:new Date(),end: new Date()},
     selectKpi:[],

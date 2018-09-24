@@ -62,10 +62,17 @@ function customerDeliveryFetchSucceeded(data){
 }
 
 export function fetchCustomerDelivery(data){
-    return dispatch => {
+    return (dispatch, getState) => {
 
         api.fetchCustomerDelivery(data).then(resp => {
-            dispatch(customerDeliveryFetchSucceeded(resp.data))
+            dispatch(customerDeliveryFetchSucceeded(resp.data));
+            dispatch(updateSearchValueCustomerDelivery({
+                Code:'К000001',
+                Name:'Все',
+                Seq:'0',
+                Address:'',
+                FullName:'Все'
+            }))
         }).catch(error => {
             dispatch(loadDataFailed("Ошибки при загруки грузополучателей : "+error.message))
         })
@@ -210,8 +217,11 @@ export function updateSearchValueCustomer(data) {
             enterprise: currentEnterprise,
             customer: searchingCustomer,
 
-        }
-        dispatch(fetchCustomerDelivery(dataSelect))
+        };
+        dispatch(fetchCustomerDelivery(dataSelect));
+        
+        
+        
     }
     
 }

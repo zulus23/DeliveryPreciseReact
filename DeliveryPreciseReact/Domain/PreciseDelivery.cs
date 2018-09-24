@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace DeliveryPreciseReact.Domain
@@ -11,7 +12,11 @@ namespace DeliveryPreciseReact.Domain
         private double _deviation;
         private double _countOrder;
         private List<PreciseDelivery> _detail = new List<PreciseDelivery>();
+        private int _year;
+        private DateTime _date;
+
         
+
         public PreciseDelivery()
         {
         }
@@ -56,6 +61,18 @@ namespace DeliveryPreciseReact.Domain
         {
             get => _detail;
             set => _detail = value;
+        }
+        public DateTime Date
+        {
+            get { return _month != -1 ? new DateTime(_year, _month, 1) : DateTime.Now; }
+
+
+    }
+
+        public int Year
+        {
+            get => _year;
+            set => _year = value;
         }
     }
 }

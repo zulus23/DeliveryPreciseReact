@@ -10,7 +10,8 @@ namespace DeliveryPreciseReact.Common
         private List<Kpi> _selectKpi;
         private Customer _customer;
         private List<string> _typeCustomer;
-
+        private Customer _customerDelivery;
+        
         public ParamsCalculateKpi()
         {
         }
@@ -43,6 +44,12 @@ namespace DeliveryPreciseReact.Common
         {
             get => _typeCustomer;
             set => _typeCustomer = value;
+        }
+
+        public Customer CustomerDelivery
+        {
+            get => _customerDelivery;
+            set => _customerDelivery = value;
         }
     }
 }

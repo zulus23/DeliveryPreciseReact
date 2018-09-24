@@ -93,7 +93,8 @@ class App extends Component {
                        },
            selectKpi: this.props.selectKpi,
            customer: this.props.searchingCustomer, 
-           typeCustomer: _typeCustomer  
+           typeCustomer: _typeCustomer,
+           customerDelivery: this.props.searchingCustomerDelivery 
         };
         const date =  moment(this.props.dateRangeSelected.start).format("YYYY-MM-DD");
         
@@ -166,15 +167,13 @@ class App extends Component {
                                         </div>    
                                     </div>
                                 </div>
-                                <div className="col-sm-4 w-100">
+                                <div className="col-sm-8">
                                     <Consignee data={this.props.customerDelivery} 
                                                value = {this.props.searchingCustomerDelivery}
                                                onChangeCustomerDeliveryHandler={this.changeCustomerDeliveryHandler }
                                     />
                                 </div>
-                                <div className="col-sm-4">
-                                    
-                                </div>
+                                
                               
                             </div>
                             <div className="row">

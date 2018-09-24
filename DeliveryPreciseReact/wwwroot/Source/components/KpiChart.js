@@ -31,15 +31,18 @@ class KpiChart extends Component {
                 <ChartTitle text={chartDescription} />
                 <ChartLegend />
                 <ChartSeriesDefaults type="column" labels={{ visible: true, format: 'N02' }}/>
+                <ChartCategoryAxis>
+                    <ChartCategoryAxisItem baseUnit='months'/>
+                </ChartCategoryAxis>    
                 <ChartSeries>
                     <ChartSeriesItem data={ localData} type="column" name="Факт" 
-                                     field="Fact" categoryField="Month"/>
+                                     field="Fact" categoryField="Date"/>
                     <ChartSeriesItem data={localData} type="line" name="Откл."
-                                     field="Deviation" categoryField="Month"/>
+                                     field="Deviation" categoryField="Date"/>
                     <ChartSeriesItem data={localData} type="line" name="Цель"
-                                     field="Target" categoryField="Month"/>
+                                     field="Target" categoryField="Date"/>
                     <ChartSeriesItem data={localData} type="line" name="Кол-во заказов"
-                                     field="CountOrder" categoryField="Month"/>
+                                     field="CountOrder" categoryField="Date"/>
                 </ChartSeries>
             </Chart>
         );

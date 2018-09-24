@@ -5,6 +5,8 @@ namespace DeliveryPreciseReact.Domain
         private string _code;
         private string _name;
         private int _seq;
+        private string _address;
+        private string _fullName;
         public Customer()
         {
         }
@@ -28,5 +30,13 @@ namespace DeliveryPreciseReact.Domain
             get => _seq;
             set => _seq = value;
         }
+
+        public string Address
+        {
+            get => _address;
+            set => _address = value;
+        }
+
+        public string FullName =>  _name +  (_address?.Length < 10 ? "" : " "+_address);
     }
 }

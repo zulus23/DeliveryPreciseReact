@@ -75,12 +75,12 @@ namespace DeliveryPreciseReact.Service
             List<Customer> result = null;
             using (var connection = new SqlConnection(DataConnection.GetConnectionString(nameEnterprise)))
             {
-                result = connection.Query<Customer>(string.Format(" SELECT code, name,seq, type,sortcode FROM (" +
-                                                                  " SELECT 'К000001' AS code,'Все' AS name,  0 as seq, '--' AS type ,0 AS sortcode " +
+                result = connection.Query<Customer>(string.Format(" SELECT code, name,seq, type,sortcode,address FROM (" +
+                                                                  " SELECT 'К000001' AS code,'Все' AS name,  0 as seq, '--' AS type ,0 AS sortcode, '' as address" +
                                                                   " UNION all " +
                                                                   " SELECT  c.cust_num AS code," +
                                                                   " RTRIM(COALESCE(ca.name,ca.RUSExtName)) as name, c.cust_seq as seq, " +
-                                                                  " '==' as  type,1 AS sortcode " +
+                                                                  " '==' as  type,1 AS sortcode, dbo.GTKFormatAddress(c.cust_num,c.cust_seq,'custaddr') as address " +
                                                                   " FROM dbo.customer c " +
                                                                   " JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = c.cust_seq" +
                                                                   " WHERE ca.cust_seq <> 0 " +
@@ -141,17 +141,17 @@ namespace DeliveryPreciseReact.Service
             
             PreciseDelivery result = null;
 
-            String query = string.Format($"select description,month,target,fact,deviation,countorder from ("+
-                                          " select max(kpi_description) as description, MONTH(s.DateDostFact) as month,"+ 
+            String query = string.Format($"select description,month,year,target,fact,deviation,countorder from ("+
+                                          " select max(kpi_description) as description, MONTH(s.DateDostFact) as month, YEAR(s.DateDostFact) as year,"+ 
                                           " max(t.Kpi_target) as target, avg(s.KPI_stat) as fact," +
                                           " (avg(s.KPI_stat)  - max(t.Kpi_target)) as deviation,count(*) as countorder " +
                                           " from gtk_group_report.dbo.gtk_kpi_ship s " +
                                           " join (select * from dbo.gtk_cust_kpi_lns where " +
                                           " kpi_description = '{4}') as t on t.cust_num = s.cust_num " +
                                           " where s.cust_num  {0} and s.DateDostFact between '{1}' and '{2}' " +
-                                          " and s.cust_seq = {3} group by MONTH(s.DateDostFact) " +
+                                          " and s.cust_seq = {3} group by MONTH(s.DateDostFact), YEAR(s.DateDostFact) " +
                                           " union all " +
-                                          " select max(kpi_description) as description,'-1' as month, max(t.Kpi_target) as target," +
+                                          " select max(kpi_description) as description,'-1' as month, MAX(YEAR(s.DateDostFact)) as year, max(t.Kpi_target) as target," +
                                           " avg(s.KPI_stat) as fact,(avg(s.KPI_stat)  - max(t.Kpi_target)) as deviation, count(*) as countorder" +
                                           " from gtk_group_report.dbo.gtk_kpi_ship s join (select * from dbo.gtk_cust_kpi_lns " +
                                           " where kpi_description = '{4}') as t on t.cust_num = s.cust_num" +
@@ -233,7 +233,17 @@ namespace DeliveryPreciseReact.Service
 
             return result;
         }
-        
+
+        private string CreateInSectionForCust_Seq(ParamsCalculateKpi paramsCalculateKpi)
+        {
+            string result = "";
+            if (!paramsCalculateKpi.CustomerDelivery.Name.Equals("Все"))
+            {
+                
+            }
+
+            return result;
+        }
         
     }
 }
