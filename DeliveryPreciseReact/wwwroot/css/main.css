@@ -3,15 +3,26 @@
     font-size: 0.75em;
     padding-top: 25px;
     
-    
-
 }
 *,
 ::before,
 ::after {
     box-sizing: inherit;
 }
-/*body {background-color: #FEE388;}*/
+p {
+    color: black;
+    font-weight: bold;
+    font-size: 1.15em;
+}
+label span {
+    color: black;
+    font-weight: normal;
+    font-size: 1.15em; 
+} 
+
+/*body {
+    background-color: #6c757d;
+}*/
 
 .spacer5 {
     height: 5px;
@@ -33,11 +44,17 @@
     border-radius: 0;
     box-shadow: 0 0.2em 0.2em rgba(0,0,0,0.15);
 }
-
+.p-caption-params {
+    margin-top: -20px;
+    font-weight: bold;
+    font-size: 1.15em;
+}
 
 
 .container {
-    border: 1px solid #eab31f;
+    border: 1px solid #000;
+    background-color: #ECF2F7;
+    box-shadow: 0 0.2em 0.2em rgba(0,0,0,0.15);
 }
 
 .container input[type="checkbox"] {
@@ -62,10 +79,10 @@
 }*/
 
 .k-dateinput-wrap{
-    width: 150px; 
+    width: 125px; 
 }
 .k-dateinput{
-    width: 150px;
+    width: 125px;
 }
 
 
@@ -75,9 +92,17 @@
     text-align: center;
     border-radius: 0;
     box-shadow: 0 0.2em 0.2em rgba(0,0,0,0.15);
+    
 }
+.k-dateinput .k-dateinput-wrap {
+    background-color: #fff;
+    color:#993300;
+    font-weight: bold; 
+}
+
 .k-input {
     width: 100%;
+    color: #993300;
 }
 th.k-header {
     text-align: center;
@@ -89,12 +114,25 @@ tr.k-master-row {
 .k-dropdown .k-dropdown-wrap{
     border-radius: 0;
     box-shadow: 0 0.2em 0.2em rgba(0,0,0,0.15);
-    background-color: transparent;
+    background-color: #fff;
+    color:#993300;
+    font-weight: bold;
 }
 
 .k-dropdown-wrap {
     border-radius: 0;
     box-shadow: 0 0.2em 0.2em rgba(0,0,0,0.15);
-    background-color: transparent;
+    background-color: #fff;
 }
- 
+.k-dropdown-wrap .k-input {
+  color: #993300;
+   font-weight: bold; 
+}
+.k-button {
+    color: #993300;
+    font-weight: bold; 
+}
+.k-button:active {
+    color: #993300;
+    font-weight: normal; 
+}

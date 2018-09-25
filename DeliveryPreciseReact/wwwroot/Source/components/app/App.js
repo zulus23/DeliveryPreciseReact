@@ -129,6 +129,7 @@ class App extends Component {
         return (
             <Auxiliary>
             <div className="container">
+                <div className="p-caption-params">Параметры расчета</div>
                 {/*{this.props.error && <FlashMessage message={this.props.error}/> }*/}
                 <ToastContainer autoClose={4000}/>
                 <div className="mt-1 mb-2">
@@ -141,15 +142,15 @@ class App extends Component {
                                     <Enterprise data={this.props.enterprise}
                                                 onChangeCurrentEnterprise={this.changeCurrentEnterprise} currentEnterprise={this.props.currentEnterprise}/>
                                 </div>
-                                <div className="col-sm-5 ">
-                                    <p className="mb-1">Период</p>
+                                <div className="col-sm-3">
+                                    <p className="mb-1 text-center">Период</p>
                                     <DateRangePicker startDateInputSettings={this.startDateInputSettings}
                                                      endDateInputSettings={this.startDateInputSettings}
                                        value={this.props.dateRangeSelected}
                                        onChange={this.handleChange}/>
 
                                 </div>
-                                <div className="col-sm-3 d-flex">
+                                <div className="col-sm-5 d-flex">
                                   {/*  <div className="flex-fill align-items-end justify-content-end">
                                       
                                          <Button>Отчет</Button>
@@ -165,7 +166,7 @@ class App extends Component {
                                         <div className="col-sm-4 text-sm-center">
                                             <label htmlFor="isSKChecked" >
                                                 <input className="align-middle" key="1"  id="isSKChecked" type="checkbox" value="СК" checked={this.props.isSKChecked} onChange={this.handlerCheckBox}/>
-                                                <span className="align-text-top pl-2">СК</span>
+                                                <span className="align-text-middle pl-2">СК</span>
                                             </label>
                                             
                                         </div>
@@ -174,13 +175,13 @@ class App extends Component {
                                               <input className="align-middle" key="2" id="isSPChecked" 
                                                      type="checkbox" value="СП" checked={this.props.isSPChecked} 
                                                      onChange={this.handlerCheckBox}/>
-                                                <span className="align-text-top pl-2">СП</span>
+                                                <span className="align-text-middle pl-2">СП</span>
                                             </label>    
                                         </div>
                                         <div className="col-sm-4 text-sm-center">
                                             <label htmlFor="isPRChecked" >
                                                 <input className="align-middle" key="3" id="isPRChecked" type="checkbox" value="ПР" checked={this.props.isPRChecked} onChange={this.handlerCheckBox}/>
-                                                <span className="align-text-top pl-2">ПР</span>
+                                                <span className="align-text-middle pl-2">ПР</span>
                                             </label>    
                                         </div>    
                                     </div>
@@ -215,20 +216,24 @@ class App extends Component {
                                 </div>
 */}
                             </div>
+                            <div className="row mt-1">
+                                <span className="spacer5"></span>
+                            </div>
                         
                     </div>
                 </div>
                 </div>    
             </div>
-            <div className="container mt-4" >
+            <div className="container mt-5" >
+                <div className="p-caption-params">Результаты расчета</div>
                 {/* ===========================================*/}
-                <div className="row justify-content-center">
+                <div className="row justify-content-center mt-2">
                     <div className="col-xl-12 mt-1">
                             <KpiResult data={this.props.calculateKpi}/>
                     </div>
 
                 </div>
-                <div className="row justify-content-center">
+                <div className="row justify-content-center mt-2">
                     <div className="col-sm-12">
                         <KpiChart />
                     </div>

@@ -5,7 +5,7 @@ import Auxiliary from "../hoc/Auxiliary";
 const Customer = (props) => {
     return (
         <Auxiliary>
-            <p className="mb-1">Клиент</p>
+            <p className="mb-1 text-center">Клиент</p>
             <ComboBox data={props.data} 
                           textField="Name"
                           placeholder="Клиент" style={{width:"100%"}}
