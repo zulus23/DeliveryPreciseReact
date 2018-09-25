@@ -1,5 +1,6 @@
 import * as api from "../api";
 import React from "react";
+import {toast} from "react-toastify";
 
 
 function loadDataFailed(error) {
@@ -24,11 +25,12 @@ function enterpriseFetchSucceeded(data) {
 }
 
 export function fetchEnterprise(){
-    return dispatch => {
+    return (dispatch,getState) => {
         api.fetchEnterprise().then(resp =>{
             dispatch(enterpriseFetchSucceeded(resp.data))
         }).catch(error => {
-            dispatch(loadDataFailed(error.message))
+            dispatch(loadDataFailed("Ошибка при загрузки списка предприятий: "+error.message));
+            toast.error(getState().error, {position: toast.POSITION.TOP_RIGHT});
         })
     }
 } 
@@ -43,12 +45,13 @@ function customerFetchSucceeded(data){
 }
 
 export function fetchCustomer(data){
-    return dispatch => {
+    return (dispatch,getState) => {
           
         api.fetchCustomers(data).then(resp => {
             dispatch(customerFetchSucceeded(resp.data))
         }).catch(error => {
-            dispatch(loadDataFailed("Ошибки при загруки клиентов : "+error.message))
+            dispatch(loadDataFailed("Ошибки при загруки клиентов : "+error.message));
+            toast.error(getState().error, {position: toast.POSITION.TOP_RIGHT});
         })
     }
 }
@@ -75,6 +78,7 @@ export function fetchCustomerDelivery(data){
             }))
         }).catch(error => {
             dispatch(loadDataFailed("Ошибки при загруки грузополучателей : "+error.message))
+            toast.error(getState().error, {position: toast.POSITION.TOP_RIGHT});
         })
     }
 }
@@ -109,11 +113,12 @@ function kpiFetchSucceeded(data){
 }
 
 export function fetchKpi(){
-    return dispatch => {
+    return (dispatch,getState) => {
         api.fetchKpis().then(resp => {
             dispatch(kpiFetchSucceeded(resp.data))
         }).catch(error => {
-            dispatch(loadDataFailed("Ошибка при загрузки KPI:  "+ error.message))
+            dispatch(loadDataFailed("Ошибка при загрузки KPI:  "+ error.message));
+            toast.error(getState().error, {position: toast.POSITION.TOP_RIGHT});
         })
     }
 }
@@ -167,7 +172,8 @@ export function calculateSelectKpi(data){
             dispatch(calculateKpiSucceeded(d));
             dispatch(updateSelectCalculateKpi({}));
         }).catch(error => {
-            dispatch(loadDataFailed("При выполнении расчета произошла ошибка: "+error.message))
+            dispatch(loadDataFailed("При выполнении расчета произошла ошибка: "+error.message));
+            toast.error(getState().error, {position: toast.POSITION.TOP_RIGHT});
         })
     }
 }
@@ -205,7 +211,7 @@ export function updateSelectTypeCustomer(data){
             enterprise: currentEnterprise,
             typeCustomer: createTypeCustomer(isPRChecked, isSKChecked, isSPChecked),
             
-         }
+         };
         dispatch(fetchCustomer(dataSelect))
     }
 }

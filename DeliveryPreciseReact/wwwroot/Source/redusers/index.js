@@ -1,4 +1,5 @@
 
+
 const initState = {
     enterprise:[],
     customers:[],
@@ -101,6 +102,7 @@ export default function appReduce(state=initState,action){
             }
         }
         case 'FETCH_LOAD_DATE_FAILED' :{
+            
             return {
                 ...state,
                 error:action.payload.error

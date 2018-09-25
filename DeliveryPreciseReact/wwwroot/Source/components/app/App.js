@@ -24,7 +24,9 @@ import Consignee from "../Consignee";
 import KpiChart from "../KpiChart";
 import KpiResult from "../KpiContainer/KpiResult";
 import FlashMessage from "../FlashMessage";
-
+import Auxiliary from "../../hoc/Auxiliary";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 /*
@@ -125,8 +127,10 @@ class App extends Component {
     
     render() {
         return (
+            <Auxiliary>
             <div className="container">
-                {this.props.error && <FlashMessage message={this.props.error}/> }
+                {/*{this.props.error && <FlashMessage message={this.props.error}/> }*/}
+                <ToastContainer autoClose={4000}/>
                 <div className="row justify-content-center">
                     <div className="col-xl-12">
                         
@@ -189,6 +193,8 @@ class App extends Component {
                         
                     </div>
                 </div>
+            </div>
+            <div className="container mt-1" >
                 {/* ===========================================*/}
                 <div className="row justify-content-center">
                     <div className="col-xl-12">
@@ -203,6 +209,7 @@ class App extends Component {
                 </div>    
 
             </div>
+            </Auxiliary>     
 
         );
     }
