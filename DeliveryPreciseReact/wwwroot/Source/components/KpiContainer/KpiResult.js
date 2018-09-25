@@ -27,11 +27,11 @@ class KpiResult extends Component {
                     )}
                     selectedField="selected"
                     onRowClick={this.handleSelectCalculateKpi}>
-                    <Column field="Description" title="Наименование KPI" width="500px" />
-                    <Column field="Target" title="Цель" />
-                    <Column field="Fact" title="Факт" />
-                    <Column field="Deviation" title="Откл." />
-                    <Column field="CountOrder" title="Заказы" />
+                    <Column field="Description" title="Наименование KPI" width="500px"  className="text-left  "/>
+                    <Column field="Target" title="Цель" format="{0:0.00}" />
+                    <Column field="Fact" title="Факт" format="{0:0.00}" />
+                    <Column field="Deviation" title="Откл." format="{0:0.00}" />
+                    <Column field="CountOrder" title="Заказы"  format="{0:0}"/>
                 </Grid>
           
         );

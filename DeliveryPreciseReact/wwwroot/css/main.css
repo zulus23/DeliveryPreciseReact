@@ -2,12 +2,16 @@
     box-sizing: border-box;
     font-size: 0.75em;
     padding-top: 25px;
+    
+    
+
 }
 *,
 ::before,
 ::after {
     box-sizing: inherit;
 }
+/*body {background-color: #FEE388;}*/
 
 .spacer5 {
     height: 5px;
@@ -20,11 +24,26 @@
     border-color: #ebcccc;
     color: #a94442;
 }
-.container {
-    border: 1px solid #0c5460;
+
+.p-shadow {
+    border-radius: 0;
+    box-shadow: 0 0.2em 0.2em rgba(0,0,0,0.15);
+}
+.p-shadow {
+    border-radius: 0;
+    box-shadow: 0 0.2em 0.2em rgba(0,0,0,0.15);
 }
 
 
+
+.container {
+    border: 1px solid #eab31f;
+}
+
+.container input[type="checkbox"] {
+    border-radius: 0;
+    box-shadow: 0 0.09em 0.09em rgba(0,0,0,0.15);
+}
 
 .k-input.k-textbox, .k-textbox {
     height: 30px;
@@ -32,6 +51,8 @@
 .k-grid tbody tr{
     height: 15px;
 }
+
+
 
 /*.k-grid td {
     overflow: hidden;
@@ -52,8 +73,28 @@
 .k-dateinput-wrap  {
     width: 150px;
     text-align: center;
-
+    border-radius: 0;
+    box-shadow: 0 0.2em 0.2em rgba(0,0,0,0.15);
 }
 .k-input {
     width: 100%;
 }
+th.k-header {
+    text-align: center;
+}
+tr.k-master-row {
+    text-align: center;
+    vertical-align: center;
+}
+.k-dropdown .k-dropdown-wrap{
+    border-radius: 0;
+    box-shadow: 0 0.2em 0.2em rgba(0,0,0,0.15);
+    background-color: transparent;
+}
+
+.k-dropdown-wrap {
+    border-radius: 0;
+    box-shadow: 0 0.2em 0.2em rgba(0,0,0,0.15);
+    background-color: transparent;
+}
+ 

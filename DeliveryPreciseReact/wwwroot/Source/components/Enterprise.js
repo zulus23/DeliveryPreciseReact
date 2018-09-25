@@ -5,9 +5,11 @@ import Auxiliary from "../hoc/Auxiliary";
 const Enterprise = (props) => {
     return (
         <Auxiliary>
-            <p>Предприятие</p>
-            <DropDownList
-                data={props.data} onChange={props.onChangeCurrentEnterprise}  style={{width:"100%"}} value={props.currentEnterprise}/>
+            <p className="mb-1">Предприятие</p>
+            <DropDownList 
+                data={props.data} onChange={props.onChangeCurrentEnterprise}   value={props.currentEnterprise}
+                className="w-100 p-shadow"
+            />
         </Auxiliary>
     );
 };

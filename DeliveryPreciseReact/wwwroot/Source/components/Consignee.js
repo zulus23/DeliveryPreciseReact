@@ -5,7 +5,7 @@ import Auxiliary from "../hoc/Auxiliary";
 const Consignee = (props) => {
     return (
         <Auxiliary>
-            <p>Грузополучатель</p>
+            <p className="mb-1">Грузополучатель</p>
             <DropDownList
                 data={props.data}   style={{width:"100%"}}
                 textField="FullName"

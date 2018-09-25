@@ -248,7 +248,12 @@ namespace DeliveryPreciseReact.Service
                 List<PreciseDelivery> _all = connection.Query<PreciseDelivery>(query).AsList();
                 result = _all?.Find(item => item.Month == -1);
                 result?.Detail?.AddRange(_all.FindAll(e => e.Month != -1));
-                //result = connection.QueryFirst<PreciseDelivery>(query);
+                if (result?.Detail?.Count > 0)
+                {
+                    Tuple<double, double> trend = CalculateTrend(result?.Detail);
+
+                    result.Detail.ForEach(e => e.Trend = trend.Item2 + e.Month*trend.Item1);
+                }
             }
 
             return result;
