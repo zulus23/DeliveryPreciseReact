@@ -29,7 +29,7 @@ class KpiChart extends Component {
         return (
             <Chart>
                 <ChartTitle text={chartDescription} />
-                <ChartLegend />
+                <ChartLegend position="bottom" orientation="horizontal" />
                 <ChartSeriesDefaults type="column" labels={{ visible: true, format: 'N02' }}/>
                 <ChartCategoryAxis>
                     <ChartCategoryAxisItem baseUnit='months'/>

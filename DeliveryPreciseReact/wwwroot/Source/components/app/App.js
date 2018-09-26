@@ -129,7 +129,7 @@ class App extends Component {
         return (
             <Auxiliary>
             <div className="container">
-                <div className="p-caption-params">Параметры расчета</div>
+                <div className="p-caption-params">KPI</div>
                 {/*{this.props.error && <FlashMessage message={this.props.error}/> }*/}
                 <ToastContainer autoClose={4000}/>
                 <div className="mt-1 mb-2">
@@ -225,7 +225,7 @@ class App extends Component {
                 </div>    
             </div>
             <div className="container mt-5" >
-                <div className="p-caption-params">Результаты расчета</div>
+                
                 {/* ===========================================*/}
                 <div className="row justify-content-center mt-2">
                     <div className="col-xl-12 mt-1">
@@ -237,7 +237,10 @@ class App extends Component {
                     <div className="col-sm-12">
                         <KpiChart />
                     </div>
-                </div>    
+                </div>
+                <div className="row mt-1">
+                    <span className="spacer5"></span>
+                </div>
 
             </div>
             </Auxiliary>     

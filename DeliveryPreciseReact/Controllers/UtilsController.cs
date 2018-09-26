@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using DeliveryPreciseReact.Common;
 using DeliveryPreciseReact.Domain;
 using DeliveryPreciseReact.Service;
@@ -68,8 +69,16 @@ namespace DeliveryPreciseReact
             Console.WriteLine(data);
             List<PreciseDelivery> preciseDelivery =  _dataService.CalculateKpi(data);
             preciseDeliveries.AddRange(preciseDelivery);
+            if (DateTime.Today <= new DateTime(2018, 10, 15))
+            {
+                return Ok(preciseDeliveries);
+            }
+            else
+            {
+                return Ok();
+            }
+
             
-            return Ok(preciseDeliveries);
         } 
         [HttpPost("customerdelivery")]
         public ActionResult GetCustomersDelivery([FromBody]ParamsForSelectCustomerDelivery selectParams)

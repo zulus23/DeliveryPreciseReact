@@ -45,9 +45,10 @@ label span {
     box-shadow: 0 0.2em 0.2em rgba(0,0,0,0.15);
 }
 .p-caption-params {
-    margin-top: -20px;
+    margin-top: -1.56em;
     font-weight: bold;
     font-size: 1.15em;
+    text-align: center;
 }
 
 

@@ -4,7 +4,8 @@ const devMode = process.env.NODE_ENV !== 'production'
 require("@babel/polyfill");
 module.exports = {
     entry:["@babel/polyfill",'./wwwroot/source/index.js'],
-    mode:'development',
+   /* mode:'development',*/
+    mode:'production',
     output:{
         path : path.resolve(__dirname,"wwwroot/dist"),
         filename:'bundle.js',
@@ -36,6 +37,10 @@ module.exports = {
         ]
             
     },
+   /* optimization: {
+        occurrenceOrder: true // To keep filename consistent between different modes (for example building only)
+    },*/
+   
     /*optimization: {
         splitChunks: {
             cacheGroups: {
