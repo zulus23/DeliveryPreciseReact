@@ -8,11 +8,11 @@ module.exports = {
     mode:'production',
     output:{
         path : path.resolve(__dirname,"wwwroot/dist"),
-        filename:'bundle.js',
+        filename:'[name].bundle.js',
         publicPath:'/'
         
     },
-    devtool:'cheap-module-source-map',
+    /*devtool:'cheap-module-source-map',*/
     
     module: {
         rules: [
@@ -20,7 +20,7 @@ module.exports = {
                 test: /\.css$/,
                 use: [
                     MiniCssExtractPlugin.loader,
-                    { loader: 'css-loader', options: { url: false, sourceMap: true } },
+                    { loader: 'css-loader', options: { url: false, sourceMap: false } },
                   
                 ],
             },
@@ -54,13 +54,30 @@ module.exports = {
         }
     },*/
     
-    
+		optimization: {
+			splitChunks: {
+			  cacheGroups: {
+				commons: {
+				  test: /[\\/]node_modules[\\/]/,
+				  name: 'vendors',
+				  chunks: 'all'
+				},
+				/*styles: {
+                    
+                    test: /\.css$/,
+					name: 'styles',
+                    chunks: 'all',
+                    enforce: true
+                }*/
+			  }
+			}
+		  },    
     
     plugins:[
         new MiniCssExtractPlugin({
             // Options similar to the same options in webpackOptions.output
             // both options are optional
-            filename: 'style_vendor.css',
+            filename: '[name].style.css',
             
         })        
 
