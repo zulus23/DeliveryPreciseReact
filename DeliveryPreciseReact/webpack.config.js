@@ -53,6 +53,9 @@ module.exports = {
             }
         }
     },*/
+    
+    
+    
     plugins:[
         new MiniCssExtractPlugin({
             // Options similar to the same options in webpackOptions.output
