@@ -48,17 +48,7 @@ namespace DeliveryPreciseReact
         [HttpGet("kpis")]
         public ActionResult GetPki()
         {
-            List<Kpi> kpis = new List<Kpi>();
-            kpis.Add(new Kpi("Все",0,0,0,0));
-            kpis.Add(new Kpi("Точность поставки по времени, %",0,0,0,0));
-            kpis.Add(new Kpi("Точность выхода на склад %",0,0,0,0));
-            kpis.Add(new Kpi("Точность поставки по количеству %",0,0,0,0));
-            kpis.Add(new Kpi("Уровень качества продукции %",0,0,0,0));
-            kpis.Add(new Kpi("Скорость урегулирования претензий дни",0,0,0,0));
-            kpis.Add(new Kpi("Производство тестов дни",0,0,0,0));
-            kpis.Add(new Kpi("Производство макетов дни",0,0,0,0));
-
-            return Ok(kpis);
+           return Ok(_dataService.ListKpis());
 
         }
 

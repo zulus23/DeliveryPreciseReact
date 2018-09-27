@@ -50,9 +50,7 @@ class App extends Component {
     changeCurrentEnterprise = (event) => {
         const selectedEnterprise =event.target.value;
         this.props.dispatch(changeEnterprise(selectedEnterprise));
-       /* const dataSelect = this.extractedParameterSearch(selectedEnterprise);
-        this.props.dispatch(fetchCustomer(dataSelect))*/
-       // this.props.dispatch(fetchCustomer(dataSelect))
+       
     };
 
     extractedParameterSearch= (selectedEnterprise) =>{

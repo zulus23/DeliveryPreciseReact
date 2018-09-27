@@ -13,5 +13,7 @@ namespace DeliveryPreciseReact.Service
        //  PreciseDelivery GetPreciseDeliveryByEnterprise(ParamsCalculateKpi paramsCalculateKpi);
         List<PreciseDelivery> CalculateKpi(ParamsCalculateKpi paramsCalculateKpi);
 
+        List<Kpi> ListKpis();
+
     }
 }

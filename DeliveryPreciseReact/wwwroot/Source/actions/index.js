@@ -48,7 +48,12 @@ export function fetchCustomer(data){
     return (dispatch,getState) => {
           
         api.fetchCustomers(data).then(resp => {
-            dispatch(customerFetchSucceeded(resp.data))
+            dispatch(customerFetchSucceeded(resp.data));
+            dispatch(updateSearchValueCustomer({Code:'К000001',
+                Name:'Все',
+                Seq:'0',
+                Address:'',
+                FullName:'Все'}));
         }).catch(error => {
             dispatch(loadDataFailed("Ошибки при загруки клиентов : "+error.message));
             toast.error(getState().error, {position: toast.POSITION.TOP_RIGHT});
