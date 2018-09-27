@@ -97,9 +97,17 @@ function enterpriseChangeSucceeded(data) {
 
 }
 export function changeEnterprise(selectedEnterprise){
-    return dispatch => {
+    return (dispatch,getState) => {
       
         dispatch(enterpriseChangeSucceeded(selectedEnterprise));
+        const {isPRChecked, isSKChecked, isSPChecked,currentEnterprise} = getState();
+        const dataSelect = {
+            enterprise: currentEnterprise,
+            typeCustomer: createTypeCustomer(isPRChecked, isSKChecked, isSPChecked),
+
+        };
+        dispatch(fetchCustomer(dataSelect))
+        
     }
 }
 
@@ -160,7 +168,7 @@ function calculateKpiSucceeded(data){
     }
 }
 export function calculateSelectKpi(data){
-    return dispatch => {
+    return (dispatch,getState) => {
         api.calculateKpi(data).then(resp => {
             var d = resp.data.map(item => {
                item.Detail.map(de => {

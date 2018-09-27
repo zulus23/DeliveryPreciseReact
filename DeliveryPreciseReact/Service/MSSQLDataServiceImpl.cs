@@ -149,7 +149,7 @@ namespace DeliveryPreciseReact.Service
                                           " from gtk_group_report.dbo.gtk_kpi_ship s " +
                                           " join (select * from dbo.gtk_cust_kpi_lns where " +
                                           " kpi_description = '{4}') as t on t.cust_num = s.cust_num " +
-                                          " where s.cust_num  {0} and s.DateDostFact between '{1}' and '{2}' " +
+                                          " where s.cust_num  {0} and s.DateDostFact between '{1}' and '{2}' and s.site = '{5}' " +
                                           /*" and s.cust_seq = {3} " +*/
                                           " {3} " +
                                           " group by MONTH(s.DateDostFact), YEAR(s.DateDostFact) " +
@@ -158,12 +158,14 @@ namespace DeliveryPreciseReact.Service
                                           " avg(s.KPI_stat) as fact,(avg(s.KPI_stat)  - max(t.Kpi_target)) as deviation, count(*) as countorder" +
                                           " from gtk_group_report.dbo.gtk_kpi_ship s join (select * from dbo.gtk_cust_kpi_lns " +
                                           " where kpi_description = '{4}') as t on t.cust_num = s.cust_num" +
-                                          " where s.cust_num  {0} and s.DateDostFact between '{1}' and '{2}' " +
+                                          " where s.cust_num  {0} and s.DateDostFact between '{1}' and '{2}'   and s.site = '{5}'" +
                                           /*" and s.cust_seq = {3}) as t" +*/
                                           " {3}) as t" +
                                           " order by month",_selectCustomer,
                                             paramsCalculateKpi.RangeDate.Start.ToString("yyyyMMdd"),
-                                            paramsCalculateKpi.RangeDate.End.ToString("yyyyMMdd"),_selectSeqCustomer,"Точность поставки по времени, %");
+                                            paramsCalculateKpi.RangeDate.End.ToString("yyyyMMdd"),_selectSeqCustomer,"Точность поставки по времени, %",
+                                            DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise)  
+                                         );
             
             using (var connection = new SqlConnection(DataConnection.GetConnectionString(paramsCalculateKpi.Enterprise)))
             {
@@ -227,7 +229,7 @@ namespace DeliveryPreciseReact.Service
                                           " from gtk_group_report.dbo.gtk_kpi_ship s " +
                                           " join (select * from dbo.gtk_cust_kpi_lns where " +
                                           " kpi_description = '{4}') as t on t.cust_num = s.cust_num " +
-                                          " where s.cust_num  {0} and s.DateWHSFact between '{1}' and '{2}' " +
+                                          " where s.cust_num  {0} and s.DateWHSFact between '{1}' and '{2}'  and s.site = '{5}'  " +
                                           /*" and s.cust_seq = {3} " +*/
                                           " {3} " +
                                           " group by MONTH(s.DateWHSFact),YEAR(s.DateWHSFact) " +
@@ -236,12 +238,14 @@ namespace DeliveryPreciseReact.Service
                                           " avg(s.KPI_whse) as fact,(avg(s.KPI_whse)  - max(t.Kpi_target)) as deviation, count(*) as countorder" +
                                           " from gtk_group_report.dbo.gtk_kpi_ship s join (select * from dbo.gtk_cust_kpi_lns " +
                                           " where kpi_description = '{4}') as t on t.cust_num = s.cust_num" +
-                                          " where s.cust_num  {0} and s.DateWHSFact between '{1}' and '{2}' " +
+                                          " where s.cust_num  {0} and s.DateWHSFact between '{1}' and '{2}' and s.site = '{5}'  " +
                                           /*" and s.cust_seq = {3}) as t" +*/
                                           " {3}) as t" +
                                           " order by month",_selectCustomer,
                                             paramsCalculateKpi.RangeDate.Start.ToString("yyyyMMdd"),
-                                            paramsCalculateKpi.RangeDate.End.ToString("yyyyMMdd"),_selectSeqCustomer,"Точность выхода на склад %");
+                                            paramsCalculateKpi.RangeDate.End.ToString("yyyyMMdd"),_selectSeqCustomer,"Точность выхода на склад %",
+                                            DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise)
+                                          );
             
             using (var connection = new SqlConnection(DataConnection.GetConnectionString(paramsCalculateKpi.Enterprise)))
             {

@@ -43,6 +43,7 @@ export default function appReduce(state=initState,action){
             }
         }
         case 'ENTERPRISE_CHANGE_SUCCEEDED':{
+            
             return {
                 ...state,
                 currentEnterprise:action.payload.data

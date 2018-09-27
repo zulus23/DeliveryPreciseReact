@@ -1,4 +1,6 @@
+using System;
 using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 
 namespace DeliveryPreciseReact.Common
 {
@@ -54,6 +56,47 @@ namespace DeliveryPreciseReact.Common
                 }
             }
         }
+
+        public static string GetNameDbInGotekGroup(string myNameDb)
+        {
+            switch (myNameDb)
+            {
+                case "ГОТЭК":
+                {
+                    return "GOTEK";
+                    
+                }
+                case "ПОЛИПАК":
+                {
+                    return "Polypack";
+                    
+                }
+                case "ЛИТАР":
+                {
+                    return "Litar";
+                    
+                }
+                case "ПРИНТ":
+                {
+                    return "Print";
+                }
+                case "ЦЕНТР":
+                {
+                    return "Center";
+                    
+                }
+                case "СЕВЕР":
+                {
+                    return "SPB";
+                }
+
+                default:
+                {
+                    return "";
+                }
+            }
+        }
+        
         
     }
 }
