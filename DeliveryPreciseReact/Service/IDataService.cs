@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DeliveryPreciseReact.Common;
 using DeliveryPreciseReact.Domain;
 
@@ -14,6 +15,8 @@ namespace DeliveryPreciseReact.Service
         List<PreciseDelivery> CalculateKpi(ParamsCalculateKpi paramsCalculateKpi);
 
         List<Kpi> ListKpis();
+
+        Task<List<DeliveryRecord>> GetDeliveryRecordsAsync(ParamsCalculateKpi paramsCalculateKpi);
 
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using Dapper;
 using DeliveryPreciseReact.Common;
 using DeliveryPreciseReact.Domain;
@@ -248,6 +249,42 @@ namespace DeliveryPreciseReact.Service
             list.Add(new Kpi("Производство тестов, дни", 0, 0, 0, 0));
             list.Add(new Kpi("Производство макетов, дни", 0, 0, 0, 0));
             return list;
+        }
+
+        public async Task<List<DeliveryRecord>> GetDeliveryRecordsAsync(ParamsCalculateKpi paramsCalculateKpi)
+        {
+            List<DeliveryRecord> _listAll;
+            
+            string _selectCustomer =
+                CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
+            string _selectSeqCustomer = CreateInSectionForCust_Seq(paramsCalculateKpi);
+            string query = string.Format("SELECT site,cust_num as custNum,cust_seq as custSeq,co_num as coNum, "+ 
+                                         " co_line as coLine,CAST(DateZay AS DATE) AS datezay,MerchZayNum ,ShipZayNum,CAST(DateMFGPlan AS DATE) AS  DateMFGPlan," +
+                                         " CAST(DateMFGFact AS DATE)  AS DateMFGFact,CAST(DateWHSPlan AS DATE) AS DateWHSPlan, "+
+                                         " CAST(DateWHSFact AS DATE) as DateWHSFact , CAST(DateShipPlan AS DATE) AS DateShipPlan, " +
+                                         " CAST(DateShipZay AS DATE) AS DateShipZay , CAST(DateShipFact AS DATE) AS DateShipFact ," +
+                                         " CAST(DateDostPlan AS DATE) as DateDostPlan,CAST(DateDostPor AS DATE) as DateDostPor," +
+                                         " CAST(DateDostFact AS DATE) AS DateDostFact,Stat_Row,StatMFG ,DayMFG ,StatShip ,DayShip ," +
+                                         " StatDost,DayDost ,KPI_stat as kpiStat,CreatedBy,CreateDate,distance,KPI_whse as kpiWhse" +
+                                         " FROM gtk_group_report.dbo.gtk_kpi_ship s where site = '{0}'  and s.cust_num  {1} and s.DateDostFact between '{2}' and '{3} '" +
+                                         " {4}"
+                                         ,DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise)
+                                         ,_selectCustomer
+                                         ,paramsCalculateKpi.RangeDate.Start.ToString("yyyyMMdd")
+                                         ,paramsCalculateKpi.RangeDate.End.ToString("yyyyMMdd")
+                                         ,_selectSeqCustomer
+                                         ) ;
+            using (var connection =
+                new SqlConnection(DataConnection.GetConnectionString(paramsCalculateKpi.Enterprise)))
+            {
+
+                 
+                _listAll =    (await connection.QueryAsync<DeliveryRecord>(query)).ToList();
+                
+            }
+
+            return _listAll;
+
         }
 
         /*select MONTH(s.DateWHSFact), avg(KPI_whse),count(*) from gtk_group_report.dbo. gtk_kpi_ship s where cust_num = 'K009154' and DateWHSFact is not null

@@ -1,7 +1,7 @@
 import * as api from "../api";
 import React from "react";
 import {toast} from "react-toastify";
-
+import FileSaver from 'file-saver'
 
 function loadDataFailed(error) {
     return {
@@ -190,6 +190,19 @@ export function calculateSelectKpi(data){
         })
     }
 }
+
+export function createReportByKpi(data) {
+    return (dispatch, getState) => {
+        api.createReportByPki(data).then(resp => {
+              console.log(resp);
+
+            FileSaver.saveAs(new Blob([resp.data]), 'filename.xlsx');
+
+        });
+    }
+}
+
+
 
 function updateSelectedTypeCustomerSucceeded(data){
     return {

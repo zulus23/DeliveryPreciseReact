@@ -23,4 +23,13 @@ export function calculateKpi(data){
     return client.post('/api/utils/calculatekpi',data);
 }
 
-
+export function createReportByPki(data){
+    return client({
+        method: 'post',
+        headers: { 'Accept': 'application/vnd.ms-excel' },
+        data:data,
+        /*responseType: 'stream',*/
+        responseType: 'blob',
+        url:'/api/utils/report',
+    });
+}

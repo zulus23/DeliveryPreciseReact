@@ -5,7 +5,7 @@ import {
     calculateSelectKpi,
     changeDateInterval,
     changeEnterprise,
-    changeSelectKpi,
+    changeSelectKpi, createReportByKpi,
     fetchCustomer,
     fetchEnterprise,
     fetchKpi, updateSearchValueCustomer, updateSearchValueCustomerDelivery, updateSelectTypeCustomer
@@ -120,6 +120,23 @@ class App extends Component {
         const searchValue = event.target.value;
 
         this.props.dispatch(updateSearchValueCustomerDelivery(searchValue)); 
+    };
+
+    createReportHandler = (event) =>{
+        const _typeCustomer = this.collectTypeCustomer();
+        const data = {
+            enterprise:this.props.currentEnterprise,
+            rangeDate: { start:moment(this.props.dateRangeSelected.start).format("YYYY-MM-DD"),
+                end : moment(this.props.dateRangeSelected.end).format("YYYY-MM-DD")
+            },
+            selectKpi: this.props.selectKpi,
+            customer: this.props.searchingCustomer,
+            typeCustomer: _typeCustomer,
+            customerDelivery: this.props.searchingCustomerDelivery
+        };
+        console.log(data);
+        this.props.dispatch(createReportByKpi(data))
+        
     }
     
     
@@ -149,11 +166,11 @@ class App extends Component {
 
                                 </div>
                                 <div className="col-sm-5 d-flex">
-                                  {/*  <div className="flex-fill align-items-end justify-content-end">
+                                    <div className="flex-fill align-items-end justify-content-end">
                                       
-                                         <Button>Отчет</Button>
+                                         <Button onClick={this.createReportHandler}>Отчет</Button>
                                           
-                                    </div>   */} 
+                                    </div>    
                                 </div>
                                 
                             </div>

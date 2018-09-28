@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DeliveryPreciseReact.Common;
 using DeliveryPreciseReact.Filters;
 using DeliveryPreciseReact.Service;
 using Microsoft.AspNetCore.Builder;
@@ -25,6 +26,7 @@ namespace DeliveryPreciseReact
                 })
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
             services.AddSingleton<IDataService,MssqlDataServiceImpl>();
+            services.AddSingleton<Utils,Utils>();
 
         }
 
