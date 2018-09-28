@@ -134,7 +134,7 @@ class App extends Component {
             typeCustomer: _typeCustomer,
             customerDelivery: this.props.searchingCustomerDelivery
         };
-        console.log(data);
+      
         this.props.dispatch(createReportByKpi(data))
         
     }

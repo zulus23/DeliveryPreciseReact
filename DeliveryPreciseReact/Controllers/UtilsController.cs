@@ -129,6 +129,7 @@ namespace DeliveryPreciseReact
 
                 }
                 //First add the headers
+                worksheet.Cells["A1:A2"].Merge = true;
                 worksheet.Cells[1, 1].Value = @"Сайт";
                 worksheet.Cells[1, 2].Value = @"Код клиента";
                 worksheet.Cells[1, 3].Value = @"Код адреса дост.";
@@ -147,12 +148,18 @@ namespace DeliveryPreciseReact
                 worksheet.Cells[1, 16].Value = @"Дата доставки план";
                 worksheet.Cells[1, 17].Value = @"Дата доставки в ПЭ";
                 worksheet.Cells[1, 18].Value = @"Дата доставки факт";
-                worksheet.Cells[1, 19].Value = @"Stat_Row";
-                worksheet.Cells[1, 20].Value = @"Причина срыва в производстве";
-                worksheet.Cells[1, 21].Value = @"DayMFG";
-                worksheet.Cells[1, 22].Value = @"Причина срыва/переноса отгрузки";
-                worksheet.Cells[1, 23].Value = @"DayShip";
-                worksheet.Cells[1, 24].Value = @"Причина срыва доставки";
+                worksheet.Cells["S1:T1"].Merge = true;
+                worksheet.Cells["S1:T1"].Value = @"Производство";
+                worksheet.Cells[2, 19].Value = @"Stat_Row";
+                worksheet.Cells[2, 20].Value = @"Причина срыва в производстве";
+                worksheet.Cells["U1:V1"].Merge = true;
+                worksheet.Cells["U1:V1"].Value = "Отгрузка";
+                worksheet.Cells[2, 21].Value = @"DayMFG";
+                worksheet.Cells[2, 22].Value = @"Причина срыва/переноса отгрузки";
+                worksheet.Cells["W1:X1"].Merge = true;
+                worksheet.Cells["W1:X1"].Value = "Доставка";
+                worksheet.Cells[2, 23].Value = @"DayShip";
+                worksheet.Cells[2, 24].Value = @"Причина срыва доставки";
                 worksheet.Cells[1, 25].Value = @"Точность доставки %";
                 worksheet.Cells[1, 26].Value = @"KPI_stat";
                 worksheet.Cells[1, 27].Value = @"CreateDate";
@@ -170,50 +177,52 @@ namespace DeliveryPreciseReact
 
 
                 }
+
+                int _beginRow = 3;
                 
                 for (int i = 0; i < _delivery.Count; i++)
                 {
-                    worksheet.Cells[$"A{i+2}"].Value = _delivery[i].Site;
+                    worksheet.Cells[$"A{i+_beginRow}"].Value = _delivery[i].Site;
                     worksheet.Column(1).Width = 20;
                     worksheet.Column(2).Width = 20;
-                    worksheet.Cells[$"B{i+2}"].Value = _delivery[i].CustNum;
-                    worksheet.Cells[$"C{i+2}"].Value = _delivery[i].CustSeq;
-                    worksheet.Cells[$"D{i+2}"].Value = _delivery[i].CoNum;
-                    worksheet.Cells[$"E{i+2}"].Value = _delivery[i].CoLine;
-                    worksheet.Cells[$"F{i+2}"].Style.Numberformat.Format = "dd-mm-yyyy";
-                    worksheet.Cells[$"F{i+2}"].Value = _delivery[i].DateZay;
-                    worksheet.Cells[$"G{i+2}"].Value = _delivery[i].MerchZayNum;
-                    worksheet.Cells[$"H{i+2}"].Value = _delivery[i].ShipZayNum;
-                    worksheet.Cells[$"I{i+2}"].Style.Numberformat.Format = "dd-mm-yyyy";
-                    worksheet.Cells[$"I{i+2}"].Value = _delivery[i].DateMfgPlan;
-                    worksheet.Cells[$"J{i+2}"].Style.Numberformat.Format = "dd-mm-yyyy";
-                    worksheet.Cells[$"J{i+2}"].Value = _delivery[i].DateMfgFact;
-                    worksheet.Cells[$"K{i+2}"].Style.Numberformat.Format = "dd-mm-yyyy";
-                    worksheet.Cells[$"K{i+2}"].Value = _delivery[i].DateWhsPlan;
-                    worksheet.Cells[$"L{i+2}"].Style.Numberformat.Format = "dd-mm-yyyy";
-                    worksheet.Cells[$"L{i+2}"].Value = _delivery[i].DateWhsFact;
-                    worksheet.Cells[$"M{i+2}"].Style.Numberformat.Format = "dd-mm-yyyy";
-                    worksheet.Cells[$"M{i+2}"].Value = _delivery[i].DateShipPlan;
-                    worksheet.Cells[$"N{i+2}"].Style.Numberformat.Format = "dd-mm-yyyy";
-                    worksheet.Cells[$"N{i+2}"].Value = _delivery[i].DateShipFact;
-                    worksheet.Cells[$"O{i+2}"].Style.Numberformat.Format = "dd-mm-yyyy";
-                    worksheet.Cells[$"O{i+2}"].Value = _delivery[i].DateDostPlan;
-                    worksheet.Cells[$"P{i+2}"].Style.Numberformat.Format = "dd-mm-yyyy";
-                    worksheet.Cells[$"P{i+2}"].Value = _delivery[i].DateDostPor;
-                    worksheet.Cells[$"Q{i+2}"].Style.Numberformat.Format = "dd-mm-yyyy";
-                    worksheet.Cells[$"Q{i+2}"].Value = _delivery[i].DateDostFact;
-                    worksheet.Cells[$"S{i+2}"].Value = _delivery[i].StatRow;
-                    worksheet.Cells[$"T{i+2}"].Value = _delivery[i].StatMfg;
-                    worksheet.Cells[$"U{i+2}"].Value = _delivery[i].DayMfg;
-                    worksheet.Cells[$"V{i+2}"].Value = _delivery[i].StatShip;
-                    worksheet.Cells[$"W{i+2}"].Value = _delivery[i].DayShip;
-                    worksheet.Cells[$"X{i+2}"].Value = _delivery[i].StatDost;
-                    worksheet.Cells[$"Y{i+2}"].Value = _delivery[i].DayDost;
-                    worksheet.Cells[$"Z{i+2}"].Value = _delivery[i].KpiStat;
-                    worksheet.Cells[$"AA{i+2}"].Style.Numberformat.Format = "dd-mm-yyyy";
-                    worksheet.Cells[$"AA{i+2}"].Value = _delivery[i].CreateDate;
-                    worksheet.Cells[$"AB{i+2}"].Value = _delivery[i].Distance;
-                    worksheet.Cells[$"AC{i+2}"].Value = _delivery[i].KpiWhse;
+                    worksheet.Cells[$"B{i+_beginRow}"].Value = _delivery[i].CustNum;
+                    worksheet.Cells[$"C{i+_beginRow}"].Value = _delivery[i].CustSeq;
+                    worksheet.Cells[$"D{i+_beginRow}"].Value = _delivery[i].CoNum;
+                    worksheet.Cells[$"E{i+_beginRow}"].Value = _delivery[i].CoLine;
+                    worksheet.Cells[$"F{i+_beginRow}"].Style.Numberformat.Format = "dd-mm-yyyy";
+                    worksheet.Cells[$"F{i+_beginRow}"].Value = _delivery[i].DateZay;
+                    worksheet.Cells[$"G{i+_beginRow}"].Value = _delivery[i].MerchZayNum;
+                    worksheet.Cells[$"H{i+_beginRow}"].Value = _delivery[i].ShipZayNum;
+                    worksheet.Cells[$"I{i+_beginRow}"].Style.Numberformat.Format = "dd-mm-yyyy";
+                    worksheet.Cells[$"I{i+_beginRow}"].Value = _delivery[i].DateMfgPlan;
+                    worksheet.Cells[$"J{i+_beginRow}"].Style.Numberformat.Format = "dd-mm-yyyy";
+                    worksheet.Cells[$"J{i+_beginRow}"].Value = _delivery[i].DateMfgFact;
+                    worksheet.Cells[$"K{i+_beginRow}"].Style.Numberformat.Format = "dd-mm-yyyy";
+                    worksheet.Cells[$"K{i+_beginRow}"].Value = _delivery[i].DateWhsPlan;
+                    worksheet.Cells[$"L{i+_beginRow}"].Style.Numberformat.Format = "dd-mm-yyyy";
+                    worksheet.Cells[$"L{i+_beginRow}"].Value = _delivery[i].DateWhsFact;
+                    worksheet.Cells[$"M{i+_beginRow}"].Style.Numberformat.Format = "dd-mm-yyyy";
+                    worksheet.Cells[$"M{i+_beginRow}"].Value = _delivery[i].DateShipPlan;
+                    worksheet.Cells[$"N{i+_beginRow}"].Style.Numberformat.Format = "dd-mm-yyyy";
+                    worksheet.Cells[$"N{i+_beginRow}"].Value = _delivery[i].DateShipFact;
+                    worksheet.Cells[$"O{i+_beginRow}"].Style.Numberformat.Format = "dd-mm-yyyy";
+                    worksheet.Cells[$"O{i+_beginRow}"].Value = _delivery[i].DateDostPlan;
+                    worksheet.Cells[$"P{i+_beginRow}"].Style.Numberformat.Format = "dd-mm-yyyy";
+                    worksheet.Cells[$"P{i+_beginRow}"].Value = _delivery[i].DateDostPor;
+                    worksheet.Cells[$"Q{i+_beginRow}"].Style.Numberformat.Format = "dd-mm-yyyy";
+                    worksheet.Cells[$"Q{i+_beginRow}"].Value = _delivery[i].DateDostFact;
+                    worksheet.Cells[$"S{i+_beginRow}"].Value = _delivery[i].StatRow;
+                    worksheet.Cells[$"T{i+_beginRow}"].Value = _delivery[i].StatMfg;
+                    worksheet.Cells[$"U{i+_beginRow}"].Value = _delivery[i].DayMfg;
+                    worksheet.Cells[$"V{i+_beginRow}"].Value = _delivery[i].StatShip;
+                    worksheet.Cells[$"W{i+_beginRow}"].Value = _delivery[i].DayShip;
+                    worksheet.Cells[$"X{i+_beginRow}"].Value = _delivery[i].StatDost;
+                    worksheet.Cells[$"Y{i+_beginRow}"].Value = _delivery[i].DayDost;
+                    worksheet.Cells[$"Z{i+_beginRow}"].Value = _delivery[i].KpiStat;
+                    worksheet.Cells[$"AA{i+_beginRow}"].Style.Numberformat.Format = "dd-mm-yyyy";
+                    worksheet.Cells[$"AA{i+_beginRow}"].Value = _delivery[i].CreateDate;
+                    worksheet.Cells[$"AB{i+_beginRow}"].Value = _delivery[i].Distance;
+                    worksheet.Cells[$"AC{i+_beginRow}"].Value = _delivery[i].KpiWhse;
                     
                     
                 }

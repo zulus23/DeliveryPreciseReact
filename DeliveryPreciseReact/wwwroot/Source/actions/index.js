@@ -194,7 +194,6 @@ export function calculateSelectKpi(data){
 export function createReportByKpi(data) {
     return (dispatch, getState) => {
         api.createReportByPki(data).then(resp => {
-              console.log(resp);
 
             FileSaver.saveAs(new Blob([resp.data]), 'filename.xlsx');
 

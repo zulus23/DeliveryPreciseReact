@@ -266,7 +266,8 @@ namespace DeliveryPreciseReact.Service
                                          " CAST(DateDostPlan AS DATE) as DateDostPlan,CAST(DateDostPor AS DATE) as DateDostPor," +
                                          " CAST(DateDostFact AS DATE) AS DateDostFact,Stat_Row,StatMFG ,DayMFG ,StatShip ,DayShip ," +
                                          " StatDost,DayDost ,KPI_stat as kpiStat,CreatedBy,CreateDate,distance,KPI_whse as kpiWhse" +
-                                         " FROM gtk_group_report.dbo.gtk_kpi_ship s where site = '{0}'  and s.cust_num  {1} and s.DateDostFact between '{2}' and '{3} '" +
+                                         " FROM gtk_group_report.dbo.gtk_kpi_ship s " +
+                                         " where site = '{0}'  and s.cust_num  {1} and s.DateDostFact between '{2}' and '{3} '" +
                                          " {4}"
                                          ,DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise)
                                          ,_selectCustomer
