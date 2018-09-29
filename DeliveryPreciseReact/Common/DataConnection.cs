@@ -12,40 +12,40 @@ namespace DeliveryPreciseReact.Common
         private const string POLYPACK = "Server=SRV-SLDB;Database=SL_POLYPACK; User Id=report;Password=report;";
         private const string CENTER = "Server=SRV-SLDB;Database=SL_CENTER; User Id=report;Password=report;";
         private const string SPB = "Server=SRV-SLDB;Database=SL_SPB; User Id=report;Password=report;";
-            
+        private const string PRINT_HOME = "Server=DESKTOP-GBBOAS1;Database=SL_Print; User Id=sa;Password=415631234;";        
 
 
         public static string GetConnectionString(string enterprise)
         {
             switch (enterprise)
             {
-                case "ГОТЭК":
+                case EnterpriseConst.GOTEK:
                 {
                     return GOTEK;
                     
                 }
-                case "ПОЛИПАК":
+                case EnterpriseConst.POLYPACK:
                 {
                     return POLYPACK;
                     
                 }
-                case "ЛИТАР":
+                case EnterpriseConst.LITAR:
                 {
                     return LITAR;
                     
                 }
-                case "ПРИНТ":
+                case EnterpriseConst.PRINT:
                 {
-                    return PRINT;
-                    //return PRINT_HOME;
+                    //return PRINT;
+                    return PRINT_HOME;
 
                 }
-                case "ЦЕНТР":
+                case EnterpriseConst.CENTER:
                 {
                     return CENTER;
                     
                 }
-                case "СЕВЕР":
+                case EnterpriseConst.SPB:
                 {
                     return SPB;
                 }
@@ -61,31 +61,31 @@ namespace DeliveryPreciseReact.Common
         {
             switch (myNameDb)
             {
-                case "ГОТЭК":
+                case EnterpriseConst.GOTEK:
                 {
                     return "GOTEK";
                     
                 }
-                case "ПОЛИПАК":
+                case EnterpriseConst.POLYPACK:
                 {
                     return "Polypack";
                     
                 }
-                case "ЛИТАР":
+                case EnterpriseConst.LITAR:
                 {
                     return "Litar";
                     
                 }
-                case "ПРИНТ":
+                case EnterpriseConst.PRINT:
                 {
                     return "Print";
                 }
-                case "ЦЕНТР":
+                case EnterpriseConst.CENTER:
                 {
                     return "Center";
                     
                 }
-                case "СЕВЕР":
+                case EnterpriseConst.SPB:
                 {
                     return "SPB";
                 }

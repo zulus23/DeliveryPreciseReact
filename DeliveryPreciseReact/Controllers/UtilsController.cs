@@ -44,13 +44,7 @@ namespace DeliveryPreciseReact
         [HttpGet("enterprise")]
         public ActionResult GetEnterprise()
         {
-            List<string> temp = new List<string>();
-            temp.Add("ГОТЭК");
-            temp.Add("ЦЕНТР");
-            temp.Add("СЕВЕР");
-            temp.Add("ПРИНТ");
-            temp.Add("ПОЛИПАК");
-            temp.Add("ЛИТАР");
+            List<string> temp = _dataService.ListEnterprise();
             return Ok(temp);
         }
 
@@ -74,7 +68,7 @@ namespace DeliveryPreciseReact
         public ActionResult CalculateKpi([FromBody]ParamsCalculateKpi data)
         {
             List<PreciseDelivery> preciseDeliveries = new List<PreciseDelivery>();
-            Console.WriteLine(data);
+           
             List<PreciseDelivery> preciseDelivery =  _dataService.CalculateKpi(data);
             preciseDeliveries.AddRange(preciseDelivery);
             if (DateTime.Today <= new DateTime(2018, 10, 15))

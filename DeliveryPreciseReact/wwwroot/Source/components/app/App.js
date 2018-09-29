@@ -30,7 +30,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 /*
-TODO Показать график после выбора кпи
+
 TODO Кнопка расчета должна быть активна только после выбора клиентп, предприятия и вида кпи
 */
 class App extends Component {
@@ -113,9 +113,12 @@ class App extends Component {
 
     changeCustomerHandler = (event) => {
         const searchValue = event.target.value;
-        
+        console.log(event);
         this.props.dispatch(updateSearchValueCustomer(searchValue));
     };
+    
+    
+    
     changeCustomerDeliveryHandler = (event) => {
         const searchValue = event.target.value;
 
@@ -165,12 +168,8 @@ class App extends Component {
                                        onChange={this.handleChange}/>
 
                                 </div>
-                                <div className="col-sm-5 d-flex">
-                                    <div className="flex-fill align-items-end justify-content-end">
-                                      
-                                         <Button onClick={this.createReportHandler}>Отчет</Button>
-                                          
-                                    </div>    
+                                <div className="col-sm-5 d-flex justify-content-start ">
+                                         <Button className="d-flex align-items-end flex-column mt-auto p-shadow p-button" onClick={this.createReportHandler}>Отчет</Button>
                                 </div>
                                 
                             </div>
@@ -211,14 +210,15 @@ class App extends Component {
                               
                             </div>
                             <div className="row mt-1">
-                                <div className="col-sm-12 d-flex">
-                                    <div className="flex-column flex-grow-1">
+                                <div className="col-sm-11">
                                     <KpiIndex  data={this.props.kpi} changeSelectKpi={this.handlerSelectKpi}/>
-                                    </div>
-                                    <div className="flex-column-reverse pt-4 mt-1">
-                                    <Button  className="ml-1 p-shadow" style={{height:'100%'}} primary={true} onClick={this.handleCalculateKpi}
+
+                                </div>
+                                <div className="col-sm-1 d-flex justify-item-start"> 
+                                    
+                                    <Button  className="d-flex align-items-end flex-column mt-auto  pl-0 p-button"  primary={true} onClick={this.handleCalculateKpi}
                                              disabled={!this.props.selectKpi.length > 0} >Загрузить</Button>
-                                    </div>    
+                                     
 
                                 </div>
 {/*
@@ -270,7 +270,7 @@ function mapStateProps(state) {
     const {enterprise, customers,currentEnterprise,kpi,dateRangeSelected
            ,selectKpi,isSKChecked,isSPChecked,isPRChecked,searchingCustomer
            ,error,calculateKpi,customerDelivery,searchingCustomerDelivery} = state;
-    
+
     return {enterprise, customers,currentEnterprise,kpi,
             dateRangeSelected,selectKpi,
             isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error,calculateKpi,customerDelivery,searchingCustomerDelivery}

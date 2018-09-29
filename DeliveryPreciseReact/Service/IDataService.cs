@@ -7,6 +7,7 @@ namespace DeliveryPreciseReact.Service
 {
     public interface IDataService
     {
+        List<string> ListEnterprise();
         List<Customer> ListCustomerByEnterprise(string nameEnterprise);
         List<Customer> ListCustomerByEnterprise(string nameEnterprise,List<string> typeCustomer);
         List<Customer> ListCustomerDeliveryByEnterprise(string nameEnterprise,Customer customer);

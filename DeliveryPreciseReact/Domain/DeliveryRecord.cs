@@ -7,6 +7,8 @@ namespace DeliveryPreciseReact.Domain
         private string _site;
         private string _custNum;
         private string _custSeq;
+        private string _nameCustomer;
+        private string _addressCustomer;     
         private string _coNum;
         private string _coLine;
         private DateTime _dateZay;
@@ -53,6 +55,18 @@ namespace DeliveryPreciseReact.Domain
         {
             get => _custSeq;
             set => _custSeq = value;
+        }
+
+        public string NameCustomer
+        {
+            get => _nameCustomer;
+            set => _nameCustomer = value;
+        }
+
+        public string AddressCustomer
+        {
+            get => _addressCustomer;
+            set => _addressCustomer = value;
         }
 
         public string CoNum
