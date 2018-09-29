@@ -2,10 +2,11 @@ import * as api from "../api";
 import React from "react";
 import {toast} from "react-toastify";
 import FileSaver from 'file-saver'
+import {setup} from "../constants/types";
 
 function loadDataFailed(error) {
     return {
-        type:'FETCH_LOAD_DATE_FAILED',
+        type:setup.FETCH_LOAD_DATE_FAILED,
         payload: {
             error
         }
@@ -15,7 +16,7 @@ function loadDataFailed(error) {
 
 function enterpriseFetchSucceeded(data) {
     return {
-        type:'ENTERPRISE_FETCH_SUCCEEDED',
+        type:setup.ENTERPRISE_FETCH_SUCCEEDED,
         payload: {
             data
         }
@@ -37,7 +38,7 @@ export function fetchEnterprise(){
 
 function customerFetchSucceeded(data){
     return{
-        type: 'CUSTOMER_FETCH_SUCCEEDED',
+        type: setup.CUSTOMER_FETCH_SUCCEEDED,
         payload: {
             data
         }
@@ -62,7 +63,7 @@ export function fetchCustomer(data){
 }
 function customerDeliveryFetchSucceeded(data){
     return{
-        type: 'CUSTOMER_DELIVERY_FETCH_SUCCEEDED',
+        type: setup.CUSTOMER_DELIVERY_FETCH_SUCCEEDED,
         payload: {
             data
         }
@@ -93,7 +94,7 @@ export function fetchCustomerDelivery(data){
 
 function enterpriseChangeSucceeded(data) {
     return {
-        type:'ENTERPRISE_CHANGE_SUCCEEDED',
+        type:setup.ENTERPRISE_CHANGE_SUCCEEDED,
         payload: {
             data
         }
@@ -118,7 +119,7 @@ export function changeEnterprise(selectedEnterprise){
 
 function kpiFetchSucceeded(data){
     return{
-        type: 'KPI_FETCH_SUCCEEDED',
+        type: setup.KPI_FETCH_SUCCEEDED,
         payload: {
             data
         }
@@ -139,7 +140,7 @@ export function fetchKpi(){
 
 function selectRangeDateSucceeded(data){
     return{
-        type: 'RANGE_DATE_SELECT_SUCCEEDED',
+        type: setup.RANGE_DATE_SELECT_SUCCEEDED,
         payload: {
             data
         }
@@ -152,7 +153,7 @@ export function changeDateInterval(data){
 }
 function selectKpiSucceeded(data){
     return{
-        type: 'SELECT_KPI_SUCCEEDED',
+        type: setup.SELECT_KPI_SUCCEEDED,
         payload: {
             data
         }
@@ -166,7 +167,7 @@ export function changeSelectKpi(data){
 
 function calculateKpiSucceeded(data){
     return{
-        type: 'CALCULATE_KPI_SUCCEEDED',
+        type: setup.CALCULATE_KPI_SUCCEEDED,
         payload: {
             data
         }
@@ -205,7 +206,7 @@ export function createReportByKpi(data) {
 
 function updateSelectedTypeCustomerSucceeded(data){
     return {
-        type:'UPDATE_TYPE_CUSTOMER_SUCCEEDED',
+        type: setup.UPDATE_TYPE_CUSTOMER_SUCCEEDED,
         payload: {
             data
         }
@@ -242,7 +243,7 @@ export function updateSelectTypeCustomer(data){
 }
 function updateSearchValueCustomerSucceeded(data){
     return {
-        type:'UPDATE_SEARCH_VALUE_CUSTOMER',
+        type: setup.UPDATE_SEARCH_VALUE_CUSTOMER,
         payload: {
             data
         }
@@ -266,7 +267,7 @@ export function updateSearchValueCustomer(data) {
 }
 function updateSearchValueCustomerDeliverySucceeded(data) {
     return {
-        type: 'UPDATE_SEARCH_VALUE_CUSTOMER_DELIVERY',
+        type: setup.UPDATE_SEARCH_VALUE_CUSTOMER_DELIVERY,
         payload: {
             data
         }
@@ -284,7 +285,7 @@ export function updateSearchValueCustomerDelivery(data) {
 
 function changeSelectCalculateKpiSucceeded(data) {
     return {
-        type : 'CHANGE_SELECT_CALCULATE_KPI',
+        type : setup.CHANGE_SELECT_CALCULATE_KPI,
         payload : {
             data
         }

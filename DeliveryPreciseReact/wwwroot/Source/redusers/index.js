@@ -1,3 +1,4 @@
+import {setup} from "../constants/types";
 
 
 const initState = {
@@ -24,50 +25,50 @@ export default function appReduce(state=initState,action){
     
     switch (action.type) {
         
-        case 'ENTERPRISE_FETCH_SUCCEEDED':{
+        case setup.ENTERPRISE_FETCH_SUCCEEDED:{
             return {
                 ...state,
                 enterprise: action.payload.data
             }
         }
-        case 'CUSTOMER_FETCH_SUCCEEDED':{
+        case setup.CUSTOMER_FETCH_SUCCEEDED:{
             return {
                 ...state,
                 customers:action.payload.data
             }
         }
-        case 'CUSTOMER_DELIVERY_FETCH_SUCCEEDED' :{
+        case setup.CUSTOMER_DELIVERY_FETCH_SUCCEEDED :{
             return {
                 ...state,
                 customerDelivery:action.payload.data
             }
         }
-        case 'ENTERPRISE_CHANGE_SUCCEEDED':{
+        case setup.ENTERPRISE_CHANGE_SUCCEEDED:{
             
             return {
                 ...state,
                 currentEnterprise:action.payload.data
             }
         }
-        case 'KPI_FETCH_SUCCEEDED': {
+        case setup.KPI_FETCH_SUCCEEDED: {
             return {
                 ...state,
                 kpi: action.payload.data
             }
         }
-        case 'RANGE_DATE_SELECT_SUCCEEDED':{
+        case setup.RANGE_DATE_SELECT_SUCCEEDED:{
             return {
                 ...state,
                 dateRangeSelected:action.payload.data
             }
         }
-        case 'SELECT_KPI_SUCCEEDED' : {
+        case setup.SELECT_KPI_SUCCEEDED : {
             return {
                 ...state,
                 selectKpi: action.payload.data
             }
         }
-        case 'UPDATE_TYPE_CUSTOMER_SUCCEEDED': {
+        case setup.UPDATE_TYPE_CUSTOMER_SUCCEEDED: {
             
             switch (action.payload.data) {
                 case 'СК' :{
@@ -90,32 +91,32 @@ export default function appReduce(state=initState,action){
                 }
             }
         }
-        case 'UPDATE_SEARCH_VALUE_CUSTOMER' : {
+        case setup.UPDATE_SEARCH_VALUE_CUSTOMER : {
             return {
                 ...state,
                 searchingCustomer: action.payload.data
             }
         }
-        case 'UPDATE_SEARCH_VALUE_CUSTOMER_DELIVERY' :{
+        case setup.UPDATE_SEARCH_VALUE_CUSTOMER_DELIVERY :{
             return {
                 ...state,
                 searchingCustomerDelivery: action.payload.data
             }
         }
-        case 'FETCH_LOAD_DATE_FAILED' :{
+        case setup.FETCH_LOAD_DATE_FAILED :{
             
             return {
                 ...state,
                 error:action.payload.error
             }
         }
-        case 'CALCULATE_KPI_SUCCEEDED' :{
+        case setup.CALCULATE_KPI_SUCCEEDED :{
             return {
                 ...state,
                 calculateKpi: action.payload.data
             }
         }
-        case 'CHANGE_SELECT_CALCULATE_KPI' : {
+        case setup.CHANGE_SELECT_CALCULATE_KPI : {
             return {
                 ...state,
                 selectCalculateKpi: action.payload.data,
