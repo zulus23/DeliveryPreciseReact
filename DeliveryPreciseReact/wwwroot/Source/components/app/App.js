@@ -169,7 +169,8 @@ class App extends Component {
 
                                 </div>
                                 <div className="col-sm-5 d-flex justify-content-start ">
-                                         <Button className="d-flex align-items-end flex-column mt-auto p-shadow" onClick={this.createReportHandler}>Отчет</Button>
+                                         <Button className="d-flex align-items-end flex-column mt-auto p-shadow" 
+                                                 onClick={this.createReportHandler} look="outline">Отчет</Button>
                                 </div>
                                 
                             </div>
@@ -214,9 +215,10 @@ class App extends Component {
                                     <KpiIndex  data={this.props.kpi} changeSelectKpi={this.handlerSelectKpi}/>
 
                                 </div>
-                                <div className="col-sm-1 d-flex justify-item-start"> 
+                                <div className="col-sm-1 d-flex justify-item-start pl-lg-0"> 
                                     
-                                    <Button  className="d-flex align-items-end flex-column mt-auto  pl-0"  primary={true} onClick={this.handleCalculateKpi}
+                                    <Button  className="d-flex align-items-end flex-column mt-auto p-shadow "onClick={this.handleCalculateKpi}
+                                             look="outline"
                                              disabled={!this.props.selectKpi.length > 0} >Загрузить</Button>
                                      
 

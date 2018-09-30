@@ -151,3 +151,13 @@ tr.k-master-row {
     color: #993300;
     font-weight: normal; 
 }
+.k-combobox .k-select {
+    background-color: transparent;
+    color: #993300;
+}
+.k-combobox .k-dropdown-wrap {
+    color: #993300;
+}
+.k-dropdown-wrap .k-select {
+    border-style: none;
+}
