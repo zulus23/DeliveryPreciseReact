@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDom from 'react-dom'
-import {createStore, applyMiddleware} from 'redux'
+import {createStore, applyMiddleware,compose} from 'redux'
 import {Provider} from 'react-redux'
 import thunk from 'redux-thunk'
 import appReduce from './redusers'
@@ -57,8 +57,8 @@ import '../css/main.css'
 
 
 
-
-const store  = createStore(appReduce,applyMiddleware(thunk)/*,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()*/);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store  = createStore(appReduce,composeEnhancers(applyMiddleware(thunk))/*,*/);
 
 
 
