@@ -169,7 +169,7 @@ class App extends Component {
 
                                 </div>
                                 <div className="col-sm-5 d-flex justify-content-start ">
-                                         <Button className="d-flex align-items-end flex-column mt-auto p-shadow p-button" onClick={this.createReportHandler}>Отчет</Button>
+                                         <Button className="d-flex align-items-end flex-column mt-auto p-shadow" onClick={this.createReportHandler}>Отчет</Button>
                                 </div>
                                 
                             </div>
@@ -216,7 +216,7 @@ class App extends Component {
                                 </div>
                                 <div className="col-sm-1 d-flex justify-item-start"> 
                                     
-                                    <Button  className="d-flex align-items-end flex-column mt-auto  pl-0 p-button"  primary={true} onClick={this.handleCalculateKpi}
+                                    <Button  className="d-flex align-items-end flex-column mt-auto  pl-0"  primary={true} onClick={this.handleCalculateKpi}
                                              disabled={!this.props.selectKpi.length > 0} >Загрузить</Button>
                                      
 
