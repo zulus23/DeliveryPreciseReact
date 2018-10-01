@@ -11,20 +11,20 @@ namespace DeliveryPreciseReact.Domain
         private string _addressCustomer;     
         private string _coNum;
         private string _coLine;
-        private DateTime _dateZay;
+        private DateTime? _dateZay;
         private string _merchZayNum;
         private string _shipZayNum;
 
-        private DateTime _dateMFGPlan;
-        private DateTime _dateMFGFact;
-        private DateTime _dateWHSPlan;
-        private DateTime _dateWHSFact;
-        private DateTime _dateShipPlan;
-        private DateTime _dateShipZay;
-        private DateTime _dateShipFact;
-        private DateTime _dateDostPlan;
-        private DateTime _dateDostPor;
-        private DateTime _dateDostFact;
+        private DateTime? _dateMFGPlan;
+        private DateTime? _dateMFGFact;
+        private DateTime? _dateWHSPlan;
+        private DateTime? _dateWHSFact;
+        private DateTime? _dateShipPlan;
+        private DateTime? _dateShipZay;
+        private DateTime? _dateShipFact;
+        private DateTime? _dateDostPlan;
+        private DateTime? _dateDostPor;
+        private DateTime? _dateDostFact;
         private int _stat_Row;
         private string _statMFG;
         private int _dayMFG;
@@ -34,7 +34,7 @@ namespace DeliveryPreciseReact.Domain
         private int _dayDost;
         private double _kpiStat;
         private string _createBy;
-        private DateTime _createDate;
+        private DateTime? _createDate;
         private int _distance;
         private double _kpiWhse;
 
@@ -81,11 +81,7 @@ namespace DeliveryPreciseReact.Domain
             set => _coLine = value;
         }
 
-        public DateTime DateZay
-        {
-            get => _dateZay;
-            set => _dateZay = value;
-        }
+      
 
         public string MerchZayNum
         {
@@ -99,67 +95,96 @@ namespace DeliveryPreciseReact.Domain
             set => _shipZayNum = value;
         }
 
-        public DateTime DateMfgPlan
+        public DateTime? DateZay
+        {
+            get => _dateZay;
+            set => _dateZay = value;
+        }
+
+        public DateTime? DateMfgPlan
         {
             get => _dateMFGPlan;
             set => _dateMFGPlan = value;
         }
 
-        public DateTime DateMfgFact
+        public DateTime? DateMfgFact
         {
             get => _dateMFGFact;
             set => _dateMFGFact = value;
         }
 
-       
-
-        public DateTime DateWhsPlan
+        public DateTime? DateWhsPlan
         {
             get => _dateWHSPlan;
             set => _dateWHSPlan = value;
         }
 
-        public DateTime DateWhsFact
+        public DateTime? DateWhsFact
         {
             get => _dateWHSFact;
             set => _dateWHSFact = value;
         }
 
-        public DateTime DateShipPlan
+        public DateTime? DateShipPlan
         {
             get => _dateShipPlan;
             set => _dateShipPlan = value;
         }
 
-        public DateTime DateShipZay
+        public DateTime? DateShipZay
         {
             get => _dateShipZay;
             set => _dateShipZay = value;
         }
 
-        public DateTime DateShipFact
+        public DateTime? DateShipFact
         {
             get => _dateShipFact;
             set => _dateShipFact = value;
         }
 
-        public DateTime DateDostPlan
+        public DateTime? DateDostPlan
         {
             get => _dateDostPlan;
             set => _dateDostPlan = value;
         }
 
-        public DateTime DateDostPor
+        public DateTime? DateDostPor
         {
             get => _dateDostPor;
             set => _dateDostPor = value;
         }
 
-        public DateTime DateDostFact
+        public DateTime? DateDostFact
         {
             get => _dateDostFact;
             set => _dateDostFact = value;
         }
+
+        public int StatRow1
+        {
+            get => _stat_Row;
+            set => _stat_Row = value;
+        }
+
+        public string StatMfg1
+        {
+            get => _statMFG;
+            set => _statMFG = value;
+        }
+
+        public int DayMfg1
+        {
+            get => _dayMFG;
+            set => _dayMFG = value;
+        }
+
+        public DateTime? CreateDate
+        {
+            get => _createDate;
+            set => _createDate = value;
+        }
+
 
         public int StatRow
         {
@@ -215,12 +240,7 @@ namespace DeliveryPreciseReact.Domain
             set => _createBy = value;
         }
 
-        public DateTime CreateDate
-        {
-            get => _createDate;
-            set => _createDate = value;
-        }
-
+      
         public int Distance
         {
             get => _distance;
