@@ -4,6 +4,8 @@ import {toast} from "react-toastify";
 import FileSaver from 'file-saver'
 import {setup} from "../constants/types";
 
+var uuid = require("uuid");
+
 function loadDataFailed(error) {
     return {
         type:setup.FETCH_LOAD_DATE_FAILED,
@@ -52,7 +54,7 @@ export function fetchCustomer(data){
             dispatch(customerFetchSucceeded(resp.data));
             dispatch(updateSearchValueCustomer({Code:'К000001',
                 Name:'Все',
-                Seq:'0',
+                Seq:0,
                 Address:'',
                 FullName:'Все'}));
         }).catch(error => {
@@ -78,7 +80,7 @@ export function fetchCustomerDelivery(data){
             dispatch(updateSearchValueCustomerDelivery({
                 Code:'К000001',
                 Name:'Все',
-                Seq:'0',
+                Seq: 0,
                 Address:'',
                 FullName:'Все'
             }))
@@ -196,7 +198,7 @@ export function createReportByKpi(data) {
     return (dispatch, getState) => {
         api.createReportByPki(data).then(resp => {
 
-            FileSaver.saveAs(new Blob([resp.data]), 'filename.xlsx');
+            FileSaver.saveAs(new Blob([resp.data]), uuid.v4()+'.xlsx');
 
         });
     }
@@ -258,7 +260,9 @@ export function updateSearchValueCustomer(data) {
             customer: searchingCustomer,
 
         };
-        dispatch(fetchCustomerDelivery(dataSelect));
+        if(searchingCustomer !== null) {
+            dispatch(fetchCustomerDelivery(dataSelect));
+        }
         
         
         

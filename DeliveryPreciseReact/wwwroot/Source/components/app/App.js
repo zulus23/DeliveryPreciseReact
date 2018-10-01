@@ -170,7 +170,9 @@ class App extends Component {
                                 </div>
                                 <div className=" col-auto col-md-3 col-lg-4 col-xl-5 d-flex justify-content-start">
                                          <button className="p-shadow p-button" 
-                                                 onClick={this.createReportHandler} >Отчет</button>
+                                                 onClick={this.createReportHandler}
+                                                 disabled={this.props.searchingCustomer === null}
+                                         >Отчет</button>
                                 </div>
                                 
                             </div>
