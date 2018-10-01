@@ -156,11 +156,11 @@ class App extends Component {
                         
 
                             <div className="row mt-2">
-                                <div className="col-sm-4 ">
+                                <div className="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 ">
                                     <Enterprise data={this.props.enterprise}
                                                 onChangeCurrentEnterprise={this.changeCurrentEnterprise} currentEnterprise={this.props.currentEnterprise}/>
                                 </div>
-                                <div className="col-sm-3">
+                                <div className="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3">
                                     <p className="mb-1 text-center">Период</p>
                                     <DateRangePicker startDateInputSettings={this.startDateInputSettings}
                                                      endDateInputSettings={this.startDateInputSettings}
@@ -168,14 +168,14 @@ class App extends Component {
                                        onChange={this.handleChange}/>
 
                                 </div>
-                                <div className="col-sm-5 d-flex justify-content-start ">
-                                         <Button className="d-flex align-items-end flex-column mt-auto p-shadow" 
-                                                 onClick={this.createReportHandler} look="outline">Отчет</Button>
+                                <div className=" col-auto col-md-3 col-lg-4 col-xl-5 d-flex justify-content-start">
+                                         <button className="p-shadow p-button" 
+                                                 onClick={this.createReportHandler} >Отчет</button>
                                 </div>
                                 
                             </div>
                             <div className="row mt-2">
-                                <div className="col-sm-4">
+                                <div className="col-12 col-xl-4">
                                     <Customer className="p-shadow" data={this.props.customers} value = {this.props.searchingCustomer} onChangeCustomerHandler={this.changeCustomerHandler}/>
                                     <div className="row mt-1">
                                         <div className="col-sm-4 text-sm-center">
@@ -201,7 +201,7 @@ class App extends Component {
                                         </div>    
                                     </div>
                                 </div>
-                                <div className="col-sm-8">
+                                <div className="col-12 col-xl-8">
                                     <Consignee data={this.props.customerDelivery} 
                                                value = {this.props.searchingCustomerDelivery}
                                                onChangeCustomerDeliveryHandler={this.changeCustomerDeliveryHandler }
@@ -211,15 +211,15 @@ class App extends Component {
                               
                             </div>
                             <div className="row mt-1">
-                                <div className="col-sm-11">
+                                <div className="col-12 col-sm-12 col-md-12 col-xl-11">
                                     <KpiIndex  data={this.props.kpi} changeSelectKpi={this.handlerSelectKpi}/>
 
                                 </div>
-                                <div className="col-sm-1 d-flex justify-item-start pl-lg-0"> 
+                                <div className="col-lg-1 col-xl-1 col-lg-auto col-xl-auto pl-xl-0 d-flex justify-content-start"> 
                                     
-                                    <Button  className="d-flex align-items-end flex-column mt-auto p-shadow "onClick={this.handleCalculateKpi}
-                                             look="outline"
-                                             disabled={!this.props.selectKpi.length > 0} >Загрузить</Button>
+                                    <button  className="p-button" onClick={this.handleCalculateKpi}
+                                             
+                                             disabled={!this.props.selectKpi.length > 0} >Загрузить</button>
                                      
 
                                 </div>

@@ -55,21 +55,38 @@ label span {
     border: 0;
     font-size: 1rem;
     color: white;
-    border-radius: 0.01em;
-    background-color: #57b;
-    box-shadow: 0 0.4em #148;
+    margin-top: 2.04em;
+    min-height: 2.3em;
+    min-width: 5.28em;
+    border-radius: 3px;
+    background-color: #993300;
     text-shadow: 1px 1px #148;
+    box-shadow: 0 0.1em 0.1em 0 rgba(0,0,0,0.25), inset -1px -1px 1px 0 rgba(52,35,0,0.2)
 }
+
+.p-button:hover {
+    background-color: #e34400;
+    -webkit-box-shadow: 0 .1em .1em 0 rgba(0,0,0,0.15),inset -1px -1px 1px 0 rgba(52,35,0,0.1);
+    -moz-box-shadow: 0 .1em .1em 0 rgba(0,0,0,0.15),inset -1px -1px 1px 0 rgba(52,35,0,0.1);
+    box-shadow: 0 .1em .1em 0 rgba(0,0,0,0.15),inset -1px -1px 1px 0 rgba(52,35,0,0.1)
+}
+
 .p-button:active {
-    background-color: #456ab5;
-    transform: translateY(0.1em);
-    box-shadow: 0 0.3em #148;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+    background-color: #bf3d00;
+    
+    -webkit-box-shadow: inset 1px 1px 1px 0 rgba(52,35,0,0.1);
+    -moz-box-shadow: inset 1px 1px 1px 0 rgba(52,35,0,0.1);
+    box-shadow: inset 1px 1px 1px 0 rgba(52,35,0,0.1)
 }
+
+
 
 .container {
     border: 1px solid #000;
     background-color: #ECF2F7;
-    box-shadow: 0 0.2em 0.2em rgba(0,0,0,0.15);
+    /*box-shadow: 0 0.2em 0.2em rgba(0,0,0,0.15);*/
+    box-shadow: 0 0.1em 0.1em 0 rgba(0,0,0,0.25), inset -1px -1px 1px 0 rgba(52,35,0,0.2)
 }
 
 .container input[type="checkbox"] {
@@ -105,8 +122,9 @@ label span {
 .k-dateinput-wrap  {
     width: 150px;
     text-align: center;
-    border-radius: 0;
+    border-radius: 0px;
     box-shadow: 0 0.2em 0.2em rgba(0,0,0,0.15);
+    
     
 }
 .k-dateinput .k-dateinput-wrap {
