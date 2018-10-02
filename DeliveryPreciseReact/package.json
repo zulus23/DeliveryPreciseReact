@@ -52,8 +52,12 @@
     "@progress/kendo-react-inputs": "^2.0.0",
     "@progress/kendo-react-intl": "^2.0.0",
     "@progress/kendo-theme-bootstrap": "^2.14.0",
+    "babel-plugin-emotion": "^9.2.11",
+    "emotion": "^9.2.12",
     "file-saver": "^2.0.0-rc.3",
     "hammerjs": "^2.0.8",
+    "react-emotion": "^9.2.12",
+    "react-spinners": "^0.4.5",
     "react-toastify": "^4.3.2"
   }
 }

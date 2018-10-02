@@ -80,6 +80,30 @@ label span {
     box-shadow: inset 1px 1px 1px 0 rgba(52,35,0,0.1)
 }
 
+.p-spin-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index:900;
+}
+.p-spin-center {
+    position: absolute;
+    top: calc(50% - 50px);
+    left: calc(50% - 50px);
+    
+    /*background-color: white;*/
+    z-index: 999;
+}
+.p-visible {
+    display: block;
+}
+.p-no-visible {
+    display: none;
+}
+
 
 
 .container {

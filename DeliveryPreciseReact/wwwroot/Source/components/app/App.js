@@ -27,12 +27,11 @@ import FlashMessage from "../FlashMessage";
 import Auxiliary from "../../hoc/Auxiliary";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import LoaderSpinner from "../LoaderSpinner";
 
 
-/*
 
-TODO Кнопка расчета должна быть активна только после выбора клиентп, предприятия и вида кпи
-*/
+
 class App extends Component {
     startDateInputSettings = {
         format: 'dd/MM/yyyy',
@@ -146,7 +145,9 @@ class App extends Component {
     render() {
         return (
             <Auxiliary>
-            <div className="container">
+                <LoaderSpinner isLoading={this.props.isLoading}/> 
+
+                <div className="container">
                 <div className="p-caption-params">KPI</div>
                 {/*{this.props.error && <FlashMessage message={this.props.error}/> }*/}
                 <ToastContainer autoClose={4000}/>
@@ -273,11 +274,11 @@ class App extends Component {
 function mapStateProps(state) {
     const {enterprise, customers,currentEnterprise,kpi,dateRangeSelected
            ,selectKpi,isSKChecked,isSPChecked,isPRChecked,searchingCustomer
-           ,error,calculateKpi,customerDelivery,searchingCustomerDelivery} = state;
+           ,error,calculateKpi,customerDelivery,searchingCustomerDelivery,isLoading} = state;
 
     return {enterprise, customers,currentEnterprise,kpi,
             dateRangeSelected,selectKpi,
-            isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error,calculateKpi,customerDelivery,searchingCustomerDelivery}
+            isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error,calculateKpi,customerDelivery,searchingCustomerDelivery,isLoading}
 
 }
 

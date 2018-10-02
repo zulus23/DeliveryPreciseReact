@@ -18,12 +18,20 @@ const initState = {
     selectedKpiDescription:null,
     customerDelivery:[],
     searchingCustomerDelivery:{},
+    isLoading:false,
     
 };
 
 export default function appReduce(state=initState,action){
     
     switch (action.type) {
+        
+        case setup.FETCH_DATA_STARTED :{
+            return {
+                ...state,
+                isLoading: true
+            }
+        }
         
         case setup.ENTERPRISE_FETCH_SUCCEEDED:{
             return {
@@ -34,13 +42,16 @@ export default function appReduce(state=initState,action){
         case setup.CUSTOMER_FETCH_SUCCEEDED:{
             return {
                 ...state,
-                customers:action.payload.data
+                customers:action.payload.data,
+                isLoading:false,
             }
         }
         case setup.CUSTOMER_DELIVERY_FETCH_SUCCEEDED :{
             return {
                 ...state,
-                customerDelivery:action.payload.data
+                customerDelivery:action.payload.data,
+                isLoading:false,
+                
             }
         }
         case setup.ENTERPRISE_CHANGE_SUCCEEDED:{
@@ -107,13 +118,15 @@ export default function appReduce(state=initState,action){
             
             return {
                 ...state,
-                error:action.payload.error
+                error:action.payload.error,
+                isLoading:false,
             }
         }
         case setup.CALCULATE_KPI_SUCCEEDED :{
             return {
                 ...state,
-                calculateKpi: action.payload.data
+                calculateKpi: action.payload.data,
+                isLoading:false,
             }
         }
         case setup.CHANGE_SELECT_CALCULATE_KPI : {
@@ -123,7 +136,12 @@ export default function appReduce(state=initState,action){
                 selectedKpiDescription: action.payload.data.Description
             }
         }
-        
+        case setup.CREATE_REPORT_SUCCEEDED : {
+            return {
+                ...state,
+                isLoading:false,
+            }
+        }
         default: {
             return state;
         }

@@ -16,6 +16,21 @@ function loadDataFailed(error) {
     }
 }
 
+function fetchDataStarted(){
+    return {
+        type:setup.FETCH_DATA_STARTED,
+        
+    }
+}
+function createReportSucceeded(){
+    return {
+        type:setup.CREATE_REPORT_SUCCEEDED,
+
+    }
+}
+
+
+
 function enterpriseFetchSucceeded(data) {
     return {
         type:setup.ENTERPRISE_FETCH_SUCCEEDED,
@@ -49,7 +64,7 @@ function customerFetchSucceeded(data){
 
 export function fetchCustomer(data){
     return (dispatch,getState) => {
-          
+        dispatch(fetchDataStarted());  
         api.fetchCustomers(data).then(resp => {
             dispatch(customerFetchSucceeded(resp.data));
             dispatch(updateSearchValueCustomer({Code:'К000001',
@@ -74,7 +89,7 @@ function customerDeliveryFetchSucceeded(data){
 
 export function fetchCustomerDelivery(data){
     return (dispatch, getState) => {
-
+        dispatch(fetchDataStarted());
         api.fetchCustomerDelivery(data).then(resp => {
             dispatch(customerDeliveryFetchSucceeded(resp.data));
             dispatch(updateSearchValueCustomerDelivery({
@@ -177,6 +192,7 @@ function calculateKpiSucceeded(data){
 }
 export function calculateSelectKpi(data){
     return (dispatch,getState) => {
+        dispatch(fetchDataStarted());
         api.calculateKpi(data).then(resp => {
             var d = resp.data.map(item => {
                item.Detail.map(de => {
@@ -196,10 +212,14 @@ export function calculateSelectKpi(data){
 
 export function createReportByKpi(data) {
     return (dispatch, getState) => {
+        dispatch(fetchDataStarted());
         api.createReportByPki(data).then(resp => {
 
             FileSaver.saveAs(new Blob([resp.data]), uuid.v4()+'.xlsx');
-
+            dispatch(createReportSucceeded());
+        }).catch(error => {
+            dispatch(loadDataFailed("При формировании отчета произошла ошибка: "+error.message));
+            toast.error(getState().error, {position: toast.POSITION.TOP_RIGHT});
         });
     }
 }
