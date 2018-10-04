@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading.Tasks;
 using DeliveryPreciseReact.Domain;
 using DeliveryPreciseReact.Service;
-using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 
@@ -21,7 +20,7 @@ namespace DeliveryPreciseReact.Common
 
         public async Task<Stream> OrderDrivingXLSFileStreamResult(ParamsCalculateKpi data)
         {
-            var stream = new System.IO.MemoryStream();
+            var stream = new MemoryStream();
 
             
             string sFileName = @"demo.xlsx";
