@@ -1,110 +1,31 @@
-using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using DeliveryPreciseReact.Common;
 using DeliveryPreciseReact.Domain;
 using DeliveryPreciseReact.Service;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
-using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 
-namespace DeliveryPreciseReact
+namespace DeliveryPreciseReact.Common
 {
-    
-    
-    
-    [Route("api/[controller]")]
-    public class UtilsController : Controller
+    public class UtilService
+
     {
-        
-        
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private IDataService _dataService;
 
-        
-
-        
-        private readonly IDataService _dataService;
-        private UtilService _utilService;
-
-        public UtilsController(IDataService dataService, UtilService utilService,IHostingEnvironment hostingEnvironment)
+        public UtilService(IDataService dataService)
         {
             _dataService = dataService;
-            _utilService = utilService;
-            _hostingEnvironment = hostingEnvironment;
         }
 
-        [HttpGet("enterprise")]
-        public ActionResult GetEnterprise()
-        {
-            List<string> temp = _dataService.ListEnterprise();
-            return Ok(temp);
-        }
-
-        [HttpPost("customers")]
-        public ActionResult GetCustomer([FromBody]ParamsForSelectCustomer selectParams)
-        {
-            List<Customer> customers = new List<Customer>();
-            customers =   _dataService.ListCustomerByEnterprise(selectParams.Enterprise,selectParams.TypeCustomer);
-            return Ok(customers);
-        }
-
-    
-        [HttpGet("kpis")]
-        public ActionResult GetPki()
-        {
-           return Ok(_dataService.ListKpis());
-
-        }
-
-        [HttpPost("calculatekpi")]
-        public ActionResult CalculateKpi([FromBody]ParamsCalculateKpi data)
-        {
-            List<PreciseDelivery> preciseDeliveries = new List<PreciseDelivery>();
-           
-            List<PreciseDelivery> preciseDelivery =  _dataService.CalculateKpi(data);
-            preciseDeliveries.AddRange(preciseDelivery);
-            /*if (DateTime.Today <= new DateTime(2018, 10, 15))
-            {*/
-                return Ok(preciseDeliveries);
-            /*}
-            else
-            {
-                return Ok();
-            }*/
-
-            
-        } 
-        [HttpPost("customerdelivery")]
-        public ActionResult GetCustomersDelivery([FromBody]ParamsForSelectCustomerDelivery selectParams)
-        {
-            List<Customer> customers = new List<Customer>();
-            customers =   _dataService.ListCustomerDeliveryByEnterprise(selectParams.Enterprise,selectParams.Customer);
-            return Ok(customers);
-        }
-
-        [HttpPost("report")]
-        public async Task<ActionResult> DownloadReport([FromBody]ParamsCalculateKpi data)
-        {
-            var result = await OrderDrivingXLSFileStreamResult(data);
-
-            return result;
-        }
-
-        private async Task<FileStreamResult> OrderDrivingXLSFileStreamResult(ParamsCalculateKpi data)
+        public async Task<Stream> OrderDrivingXLSFileStreamResult(ParamsCalculateKpi data)
         {
             var stream = new System.IO.MemoryStream();
 
-            string sWebRootFolder = _hostingEnvironment.WebRootPath;
+            
             string sFileName = @"demo.xlsx";
-            string URL = string.Format("{0}://{1}/{2}", Request.Scheme, Request.Host, sFileName);
+            
 
             List<DeliveryRecord> _delivery = await _dataService.GetDeliveryRecordsAsync(data);
 
@@ -277,67 +198,9 @@ namespace DeliveryPreciseReact
             }
 
 
-            stream.Position = 0;
-            var result = File(stream,
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
-
-            Response.Headers["Content-Disposition"] = new ContentDispositionHeaderValue("attachment")
-            {
-                FileName = sFileName
-            }.ToString();
-            return result;
+            
+            
+            return stream;
         }
     }
-
-    
-
-    
-    public class ParamsForSelectCustomer
-    {
-        private string _enterprise;
-        private List<string> _typeCustomer;
-      
-        public ParamsForSelectCustomer()
-        {
-        }
-
-        public string Enterprise
-        {
-            get => _enterprise;
-            set => _enterprise = value;
-        }
-
-        public List<string> TypeCustomer
-        {
-            get => _typeCustomer;
-            set => _typeCustomer = value;
-        }
-
-      
-    }
-    
-    public class ParamsForSelectCustomerDelivery
-    {
-        private string _enterprise;
-        private Customer _customer;
-        
-      
-        public ParamsForSelectCustomerDelivery()
-        {
-        }
-
-        public string Enterprise
-        {
-            get => _enterprise;
-            set => _enterprise = value;
-        }
-
-        public Customer Customer
-        {
-            get => _customer;
-            set => _customer = value;
-        }
-    }
-    
-
 }

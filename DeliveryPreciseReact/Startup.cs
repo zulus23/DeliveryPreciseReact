@@ -26,7 +26,7 @@ namespace DeliveryPreciseReact
                 })
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
             services.AddSingleton<IDataService,MssqlDataServiceImpl>();
-            services.AddSingleton<Utils,Utils>();
+            services.AddSingleton<UtilService>();
 
         }
 
