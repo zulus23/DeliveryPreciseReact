@@ -71,14 +71,14 @@ namespace DeliveryPreciseReact
            
             List<PreciseDelivery> preciseDelivery =  _dataService.CalculateKpi(data);
             preciseDeliveries.AddRange(preciseDelivery);
-            if (DateTime.Today <= new DateTime(2018, 10, 15))
-            {
+            /*if (DateTime.Today <= new DateTime(2018, 10, 15))
+            {*/
                 return Ok(preciseDeliveries);
-            }
+            /*}
             else
             {
                 return Ok();
-            }
+            }*/
 
             
         } 
