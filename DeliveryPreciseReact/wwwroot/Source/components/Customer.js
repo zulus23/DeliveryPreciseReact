@@ -18,7 +18,7 @@ class Customer extends Component {
     
     filterChange = (event) => {
         clearTimeout(this.timeout);
-        console.log(event);
+       
         this.timeout = setTimeout(() => {
             this.setState({
                 data: this.filterData(event.filter),
