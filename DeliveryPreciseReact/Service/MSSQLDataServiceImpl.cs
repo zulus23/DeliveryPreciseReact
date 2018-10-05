@@ -260,6 +260,13 @@ namespace DeliveryPreciseReact.Service
             return list;
         }
 
+        /*
+         * TODO select for get number car
+         * left join sl_gotek.dbo.gtk_car_zayhdr zh on h.cust_num = zh.CustNum and h.cust_seq = zh.CustSeq and h.ShipZayNum = zh.ZayNum
+         * left join sl_gotek.dbo.gtk_car_sprav s on zh.IdList = s.idList
+         */
+        
+        
         public async Task<List<DeliveryRecord>> GetDeliveryRecordsAsync(ParamsCalculateKpi paramsCalculateKpi)
         {
             List<DeliveryRecord> _listAll;
