@@ -101,16 +101,16 @@ namespace DeliveryPreciseReact.Common
                 worksheet.Cells["W1:X1"].Value = "Доставка";
                 worksheet.Cells[2, 23].Value = @"Причина срыва доставки";
                 worksheet.Cells[2, 24].Value = @"Количество дней";
+                /*worksheet.Cells["Y1:Y2"].Merge = true;
+                worksheet.Cells[1, 25].Value = @"Точность доставки %";*/
                 worksheet.Cells["Y1:Y2"].Merge = true;
                 worksheet.Cells[1, 25].Value = @"Точность доставки %";
+                /*worksheet.Cells["AA1:AA2"].Merge = true;
+                worksheet.Cells[1, 27].Value = @"CreateDate";*/
                 worksheet.Cells["Z1:Z2"].Merge = true;
-                worksheet.Cells[1, 26].Value = @"KPI_stat";
+                worksheet.Cells[1, 26].Value = @"Расстояние, км.";
                 worksheet.Cells["AA1:AA2"].Merge = true;
-                worksheet.Cells[1, 27].Value = @"CreateDate";
-                worksheet.Cells["AB1:AB2"].Merge = true;
-                worksheet.Cells[1, 28].Value = @"distince";
-                worksheet.Cells["AC1:AC2"].Merge = true;
-                worksheet.Cells[1, 29].Value = @"KPI_whse";
+                worksheet.Cells[1, 27].Value = @"ТОчность поступления на склад, %";
 
 
                 using (var range = worksheet.Cells[$"A2:AC{_delivery.Count + 2}"])
@@ -191,9 +191,9 @@ namespace DeliveryPreciseReact.Common
                     worksheet.Cells[$"W{i + _beginRow}"].Value = _delivery[i].StatDost;
                     worksheet.Column(24).Width = 20;
                     worksheet.Cells[$"X{i + _beginRow}"].Value = _delivery[i].DayShip;
-                    worksheet.Column(25).Width = 13;
-                    worksheet.Cells[$"Y{i + _beginRow}"].Value = _delivery[i].DayDost;
-                    worksheet.Column(26).Width = 20;
+                    /*worksheet.Column(25).Width = 13;
+                    worksheet.Cells[$"Y{i + _beginRow}"].Value = _delivery[i].DayDost;*/
+                    /*worksheet.Column(26).Width = 20;
                     worksheet.Cells[$"Z{i + _beginRow}"].Value = _delivery[i].KpiStat;
                     worksheet.Column(27).Width = 13;
                     worksheet.Cells[$"AA{i + _beginRow}"].Style.Numberformat.Format = "dd-mm-yyyy";
@@ -202,7 +202,13 @@ namespace DeliveryPreciseReact.Common
                     worksheet.Column(29).Width = 13;
                     worksheet.Cells[$"AB{i + _beginRow}"].Value = _delivery[i].Distance;
                     worksheet.Column(30).Width = 13;
-                    worksheet.Cells[$"AC{i + _beginRow}"].Value = _delivery[i].KpiWhse;
+                    worksheet.Cells[$"AC{i + _beginRow}"].Value = _delivery[i].KpiWhse;*/
+                    worksheet.Column(25).Width = 20;
+                    worksheet.Cells[$"Y{i + _beginRow}"].Value = _delivery[i].KpiStat;
+                    worksheet.Column(26).Width = 13;
+                    worksheet.Cells[$"Z{i + _beginRow}"].Value = _delivery[i].Distance;
+                    worksheet.Column(27).Width = 13;
+                    worksheet.Cells[$"AA{i + _beginRow}"].Value = _delivery[i].KpiWhse;
                 }
 
 
