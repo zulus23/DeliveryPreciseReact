@@ -5,7 +5,7 @@ import {
     calculateSelectKpi,
     changeDateInterval,
     changeEnterprise,
-    changeSelectKpi, createReportByKpi,
+    changeSelectKpi, createReport,
     fetchCustomer,
     fetchEnterprise,
     fetchKpi, updateSearchValueCustomer, updateSearchValueCustomerDelivery, updateSelectTypeCustomer
@@ -28,6 +28,7 @@ import Auxiliary from "../../hoc/Auxiliary";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import LoaderSpinner from "../LoaderSpinner";
+import SelectReport from "../SelectReport";
 
 
 
@@ -137,9 +138,13 @@ class App extends Component {
             customerDelivery: this.props.searchingCustomerDelivery
         };
       
-        this.props.dispatch(createReportByKpi(data))
+        this.props.dispatch(createReport(data))
         
-    }
+    };
+    
+    handleSelectReport = (event) => {
+      console.log(event);  
+    };
     
     
     render() {
@@ -170,10 +175,17 @@ class App extends Component {
 
                                 </div>
                                 <div className=" col-auto col-md-3 col-lg-4 col-xl-5 d-flex justify-content-start">
+                                        <div className="row">
+                                         <div className="col-2">   
                                          <button className="p-shadow p-button" 
                                                  onClick={this.createReportHandler}
-                                                 disabled={this.props.searchingCustomer === null}
-                                         >Отчет</button>
+                                                 disabled={this.props.searchingCustomer === null}>Отчет</button>
+                                         </div>
+                                         <div className="col-10">   
+                                            <SelectReport onChange={this.handleSelectReport}/>
+                                         </div>                                             
+                                        </div>    
+                                         
                                 </div>
                                 
                             </div>

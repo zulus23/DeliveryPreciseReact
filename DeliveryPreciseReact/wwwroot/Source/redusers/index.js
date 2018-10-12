@@ -19,6 +19,8 @@ const initState = {
     customerDelivery:[],
     searchingCustomerDelivery:{},
     isLoading:false,
+    isDriverReport:false,
+    isKPIReport:false,
     
 };
 
@@ -136,12 +138,37 @@ export default function appReduce(state=initState,action){
                 selectedKpiDescription: action.payload.data.Description
             }
         }
+        case setup.UPDATE_TYPE_REPORT_SUCCEEDED: {
+
+            switch (action.payload.data) {
+                case 'СК' :{
+                    return {
+                        ... state,
+                        isSKChecked: !state.isSKChecked
+                    }
+                }
+                case 'СП' :{
+                    return {
+                        ... state,
+                        isSPChecked: !state.isSPChecked
+                    }
+                }
+                case 'ПР' :{
+                    return {
+                        ... state,
+                        isPRChecked: !state.isPRChecked
+                    }
+                }
+            }
+        }
         case setup.CREATE_REPORT_SUCCEEDED : {
             return {
                 ...state,
                 isLoading:false,
             }
         }
+        
+        
         default: {
             return state;
         }

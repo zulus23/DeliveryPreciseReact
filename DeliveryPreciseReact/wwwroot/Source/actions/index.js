@@ -210,10 +210,10 @@ export function calculateSelectKpi(data){
     }
 }
 
-export function createReportByKpi(data) {
+export function createReport(data) {
     return (dispatch, getState) => {
         dispatch(fetchDataStarted());
-        api.createReportByPki(data).then(resp => {
+        api.createReportByDriveOrder(data).then(resp => {
 
             FileSaver.saveAs(new Blob([resp.data]), uuid.v4()+'.xlsx');
             dispatch(createReportSucceeded());
@@ -254,7 +254,7 @@ function createTypeCustomer(isPRChecked, isSKChecked, isSPChecked) {
 export function updateSelectTypeCustomer(data){
     return (dispatch,getState) => {
         dispatch(updateSelectedTypeCustomerSucceeded(data));
-        const {isPRChecked, isSKChecked, isSPChecked,currentEnterprise} = getState()
+        const {isPRChecked, isSKChecked, isSPChecked,currentEnterprise} = getState();
         const dataSelect = {
             enterprise: currentEnterprise,
             typeCustomer: createTypeCustomer(isPRChecked, isSKChecked, isSPChecked),
@@ -319,7 +319,26 @@ export  function updateSelectCalculateKpi(data) {
     return dispatch => {
         dispatch(changeSelectCalculateKpiSucceeded(data))
     }
-} 
+}
+
+
+
+function changeSelectedTypeReportSucceeded(data){
+    return {
+        type: setup.UPDATE_TYPE_REPORT_SUCCEEDED,
+        payload: {
+            data
+        }
+    }
+}
+export  function updateSelectedTypeReportSucceeded(data) {
+    return dispatch => {
+        console.log(data);
+        dispatch(changeSelectedTypeReportSucceeded(data))
+    }
+}
+
+
 
 
 

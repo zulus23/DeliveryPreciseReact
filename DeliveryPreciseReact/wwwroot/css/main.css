@@ -104,6 +104,46 @@ label span {
     display: none;
 }
 
+.p-select-report-drive {
+    margin-top: 1.6em;
+    margin-left: 1em;
+}
+.p-select-report-kpi {
+    margin-top: -1em;
+    margin-left: 1em;
+}
+@media (min-width: 992px) {
+    .p-select-report-drive {
+        margin-top: 1.6em;
+        margin-left: 2em;
+    }
+    .p-select-report-kpi {
+        margin-top: -1em;
+        margin-left: 2em;
+    }   
+}
+@media (min-width:  577px) and (max-width:  991px ) {
+    .p-select-report-drive {
+        margin-top: 0;
+        margin-left: 0;
+    }
+    .p-select-report-kpi {
+        margin-top: -1em;
+        margin-left: 0;
+    }
+}
+@media (min-width:  577px) and (max-width:  767px ) {
+    .p-select-report-drive {
+        margin-top: 1.6em;
+        margin-left: 1em;
+    }
+    .p-select-report-kpi {
+        margin-top: -1em;
+        margin-left: 1em;
+    }
+}
+
+
 
 
 .container {
