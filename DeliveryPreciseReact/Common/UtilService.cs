@@ -220,5 +220,11 @@ namespace DeliveryPreciseReact.Common
             
             return stream;
         }
+
+
+        public async Task<Stream> KpiXLSFileStreamResult(ParamsCalculateKpi data)
+        {
+            return null;
+        }
     }
 }
