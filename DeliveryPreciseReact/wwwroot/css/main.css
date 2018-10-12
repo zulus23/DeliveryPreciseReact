@@ -79,6 +79,14 @@ label span {
     -moz-box-shadow: inset 1px 1px 1px 0 rgba(52,35,0,0.1);
     box-shadow: inset 1px 1px 1px 0 rgba(52,35,0,0.1)
 }
+.p-button:disabled,
+.p-button[disabled]{
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+}
+
+
 
 .p-spin-backdrop {
     position: fixed;

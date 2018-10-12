@@ -333,7 +333,7 @@ function changeSelectedTypeReportSucceeded(data){
 }
 export  function updateSelectedTypeReportSucceeded(data) {
     return dispatch => {
-        console.log(data);
+    
         dispatch(changeSelectedTypeReportSucceeded(data))
     }
 }

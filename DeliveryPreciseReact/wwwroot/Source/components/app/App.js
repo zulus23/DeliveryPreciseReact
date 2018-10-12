@@ -5,10 +5,15 @@ import {
     calculateSelectKpi,
     changeDateInterval,
     changeEnterprise,
-    changeSelectKpi, createReport,
+    changeSelectKpi,
+    createReport,
     fetchCustomer,
     fetchEnterprise,
-    fetchKpi, updateSearchValueCustomer, updateSearchValueCustomerDelivery, updateSelectTypeCustomer
+    fetchKpi,
+    updateSearchValueCustomer,
+    updateSearchValueCustomerDelivery,
+    updateSelectedTypeReportSucceeded,
+    updateSelectTypeCustomer
 } from "../../actions";
 import Enterprise from "../Enterprise";
 import Customer from "../Customer";
@@ -143,7 +148,9 @@ class App extends Component {
     };
     
     handleSelectReport = (event) => {
-      console.log(event);  
+       
+      const data = event.target.value;  
+      this.props.dispatch(updateSelectedTypeReportSucceeded(data))
     };
     
     
@@ -179,7 +186,7 @@ class App extends Component {
                                          <div className="col-2">   
                                          <button className="p-shadow p-button" 
                                                  onClick={this.createReportHandler}
-                                                 disabled={this.props.searchingCustomer === null}>Отчет</button>
+                                                 disabled={!this.props.isDriverReport  && !this.props.isKPIReport}>Отчет</button>
                                          </div>
                                          <div className="col-10">   
                                             <SelectReport onChange={this.handleSelectReport}/>
@@ -286,11 +293,11 @@ class App extends Component {
 function mapStateProps(state) {
     const {enterprise, customers,currentEnterprise,kpi,dateRangeSelected
            ,selectKpi,isSKChecked,isSPChecked,isPRChecked,searchingCustomer
-           ,error,calculateKpi,customerDelivery,searchingCustomerDelivery,isLoading} = state;
+           ,error,calculateKpi,customerDelivery,searchingCustomerDelivery,isLoading,isDriverReport,isKPIReport} = state;
 
     return {enterprise, customers,currentEnterprise,kpi,
             dateRangeSelected,selectKpi,
-            isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error,calculateKpi,customerDelivery,searchingCustomerDelivery,isLoading}
+            isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error,calculateKpi,customerDelivery,searchingCustomerDelivery,isLoading,isDriverReport,isKPIReport}
 
 }
 

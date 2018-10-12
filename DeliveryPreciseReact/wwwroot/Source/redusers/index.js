@@ -139,26 +139,21 @@ export default function appReduce(state=initState,action){
             }
         }
         case setup.UPDATE_TYPE_REPORT_SUCCEEDED: {
-
+            
             switch (action.payload.data) {
-                case 'СК' :{
+                case 'Движение заказов' :{
                     return {
                         ... state,
-                        isSKChecked: !state.isSKChecked
+                        isDriverReport: !state.isDriverReport
                     }
                 }
-                case 'СП' :{
+                case 'KPI' :{
                     return {
                         ... state,
-                        isSPChecked: !state.isSPChecked
+                        isKPIReport: !state.isKPIReport
                     }
                 }
-                case 'ПР' :{
-                    return {
-                        ... state,
-                        isPRChecked: !state.isPRChecked
-                    }
-                }
+                
             }
         }
         case setup.CREATE_REPORT_SUCCEEDED : {
