@@ -34,7 +34,7 @@ namespace DeliveryPreciseReact.Common
             {
                 // add a new worksheet to the empty workbook
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("KPI");
-                using (var range = worksheet.Cells["A1:AC2"])
+                using (var range = worksheet.Cells["A1:AA2"])
                 {
                     range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                     range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
@@ -110,10 +110,10 @@ namespace DeliveryPreciseReact.Common
                 worksheet.Cells["Z1:Z2"].Merge = true;
                 worksheet.Cells[1, 26].Value = @"Расстояние, км.";
                 worksheet.Cells["AA1:AA2"].Merge = true;
-                worksheet.Cells[1, 27].Value = @"ТОчность поступления на склад, %";
+                worksheet.Cells[1, 27].Value = @"Точность поступления на склад, %";
 
 
-                using (var range = worksheet.Cells[$"A2:AC{_delivery.Count + 2}"])
+                using (var range = worksheet.Cells[$"A2:AA{_delivery.Count + 2}"])
                 {
                     range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                     range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
@@ -203,7 +203,7 @@ namespace DeliveryPreciseReact.Common
                     worksheet.Cells[$"AB{i + _beginRow}"].Value = _delivery[i].Distance;
                     worksheet.Column(30).Width = 13;
                     worksheet.Cells[$"AC{i + _beginRow}"].Value = _delivery[i].KpiWhse;*/
-                    worksheet.Column(25).Width = 20;
+                    worksheet.Column(25).Width = 13;
                     worksheet.Cells[$"Y{i + _beginRow}"].Value = _delivery[i].KpiStat;
                     worksheet.Column(26).Width = 13;
                     worksheet.Cells[$"Z{i + _beginRow}"].Value = _delivery[i].Distance;
