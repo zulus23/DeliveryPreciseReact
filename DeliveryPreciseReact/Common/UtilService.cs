@@ -273,7 +273,30 @@ namespace DeliveryPreciseReact.Common
                     worksheet.Column(i).Width = 25;
                 }
 
-                int k =   dictionary.FirstOrDefault(x => x.Value.Equals(delivery.Description)).Key;    
+                int beginKpiValue = startByRow + 2;
+                foreach (var kpi in _kpis)
+                {
+                    int k = dictionary.FirstOrDefault(x => x.Value.Equals(kpi.Description)).Key;
+                    
+                    foreach (var dev in kpi.Detail)
+                    {
+                        worksheet.Cells[beginKpiValue , startByColumn].Value = kpi.Date;
+                        worksheet.Cells[beginKpiValue , startByColumn].Style.Numberformat.Format = "MMMM";
+                        worksheet.Cells[beginKpiValue , startByColumn+1].Value = "Цель";
+                        worksheet.Cells[beginKpiValue+1, startByColumn+1].Value = "Факт";
+                        worksheet.Cells[beginKpiValue+2, startByColumn+1].Value = "Откл";
+                        worksheet.Cells[beginKpiValue+3 , startByColumn+1].Value = "Заказов";
+                        
+                        worksheet.Cells[beginKpiValue , k].Value = dev.Target;
+                        worksheet.Cells[beginKpiValue+1, k].Value = dev.Fact;
+                        worksheet.Cells[beginKpiValue+2, k].Value = dev.Deviation;
+                        worksheet.Cells[beginKpiValue+3 , k].Value = dev.CountOrder;
+ 
+                        beginKpiValue += 4;
+                    }
+                }
+                
+                /*int k =   dictionary.FirstOrDefault(x => x.Value.Equals(delivery.Description)).Key;    
                 int beginKpiValue = startByRow + 2; 
                 
                 foreach (var dev in delivery.Detail)
@@ -294,13 +317,24 @@ namespace DeliveryPreciseReact.Common
 
 
 
-                }
+                }*/
+                
 
                 foreach (var dic in dictionary)
                 {
                     
                 }
-                
+                using (var range = worksheet.Cells[startByRow + 2, startByColumn,beginKpiValue,
+                    startByColumn + countKpi+ 1])
+                {
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    range.Style.WrapText = true;
+                }                
                 
                 package.Save();
 

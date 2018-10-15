@@ -409,7 +409,32 @@ namespace DeliveryPreciseReact.Service
             {
                 List<PreciseDelivery> _all = connection.Query<PreciseDelivery>(query).AsList();
                 result = _all?.Find(item => item.Month == -1);
-                result?.Detail?.AddRange(_all.FindAll(e => e.Month != -1));
+
+                for (int i = paramsCalculateKpi.RangeDate.Start.Month; 
+                         i <= paramsCalculateKpi.RangeDate.End.Month; i++)
+                {
+                    if (_all.FindAll(e => e.Month != -1).Any(e => e.Month == i))
+                    {
+                        result?.Detail?.Add(_all.Find(e =>e.Month == i));
+                    }
+                    else
+                    {
+                        PreciseDelivery delivery = new PreciseDelivery();
+                        delivery.Description = result.Description;
+                        delivery.Deviation = 0;
+                        delivery.Fact = 0;
+                        delivery.Target = 0;
+                        delivery.Trend = 0;
+                        delivery.CountOrder = 0;
+                        delivery.Year = result.Year;
+                        delivery.Month = i;
+                        result?.Detail?.Add(delivery);
+                    }
+                }
+
+                  
+                
+               // result?.Detail?.AddRange(_all.FindAll(e => e.Month != -1));
                 if (result?.Detail?.Count > 0)
                 {
                     Tuple<double, double> trend = CalculateTrend(result?.Detail);
