@@ -30,7 +30,7 @@ export function createReportByDriveOrder(data){
         data:data,
         /*responseType: 'stream',*/
         responseType: 'blob',
-        url:'/api/utils/report',
+        url:'/api/utils/reportdriver',
     });
 }
 
@@ -41,6 +41,6 @@ export function createReportByPki(data){
         data:data,
         /*responseType: 'stream',*/
         responseType: 'blob',
-        url:'/api/utils/report',
+        url:'/api/utils/reportkpi',
     });
 }

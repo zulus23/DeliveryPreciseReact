@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using DeliveryPreciseReact.Domain;
 using DeliveryPreciseReact.Service;
@@ -224,7 +225,92 @@ namespace DeliveryPreciseReact.Common
 
         public async Task<Stream> KpiXLSFileStreamResult(ParamsCalculateKpi data)
         {
-            return null;
+            var stream = new MemoryStream();
+            ExcelPackage package;
+            int startByRow = 4;
+            int startByColumn = 2;
+            List<PreciseDelivery> _kpis = _dataService.CalculateKpi(data);
+            int countKpi = _kpis.Count;
+
+            PreciseDelivery delivery =  _kpis.First(e => e.Detail.Count == _kpis.Max(p => p.Detail.Count));
+            
+            
+            using (package = new ExcelPackage(stream))
+            {
+             
+              
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("KPI");
+                using (var range = worksheet.Cells[startByRow, startByColumn,startByRow+1,
+                    startByColumn + countKpi+ 1])
+                {
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    range.Style.WrapText = true;
+                }
+
+                
+                worksheet.Cells[startByRow, startByColumn,startByRow + 1, startByColumn].Merge = true;
+                worksheet.Cells[startByRow, startByColumn].Value = @"Месяц";
+                worksheet.Column(startByColumn).Width = 20;
+                
+                worksheet.Cells[startByRow, startByColumn + 1,startByRow + 1, startByColumn + 1].Merge = true;
+                worksheet.Cells[startByRow, startByColumn + 1].Value = @"****";
+                worksheet.Column(startByColumn + 1).Width = 20;
+                
+                worksheet.Cells[startByRow, startByColumn + 2, startByRow, startByColumn + countKpi + 1].Merge = true;
+                worksheet.Cells[startByRow, startByColumn + 2, startByRow, startByColumn + countKpi + 1].Value =
+                    @"KPI";
+                Dictionary<int,List<PreciseDelivery>> dictionary = new Dictionary<int, List<PreciseDelivery>>();
+                for (int i = startByColumn+2; i < startByColumn+countKpi+2; i++)
+                {
+                    worksheet.Cells[startByRow+1, i].Value = _kpis[i-(startByColumn+2)].Description;
+                    dictionary.Add(i,_kpis[i-(startByColumn+2)].Detail);
+                    
+                    worksheet.Column(i).Width = 25;
+                }
+
+                int beginKpiValue = startByRow + 2; 
+                int k = 4;
+                
+                foreach (var dev in delivery.Detail)
+                {
+                    while (k > 0)
+                    {
+                        worksheet.Cells[beginKpiValue , startByColumn].Value = dev.Date;
+                        worksheet.Cells[beginKpiValue , startByColumn].Style.Numberformat.Format = "MMMM";
+                        worksheet.Cells[beginKpiValue , startByColumn+1].Value = "Цель";
+                        worksheet.Cells[beginKpiValue  +1, startByColumn+1].Value = "Факт";
+                        worksheet.Cells[beginKpiValue  +2, startByColumn+1].Value = "Откл";
+                        worksheet.Cells[beginKpiValue  +3 , startByColumn+1].Value = "Заказов";
+                        worksheet.Cells[beginKpiValue , startByColumn+2].Value = dev.Target;
+                        worksheet.Cells[beginKpiValue  +1, startByColumn+2].Value = dev.Fact;
+                        worksheet.Cells[beginKpiValue  +2, startByColumn+2].Value = dev.Deviation;
+                        worksheet.Cells[beginKpiValue  +3 , startByColumn+2].Value = dev.CountOrder;
+                        k--;
+                    }
+
+                    k = 4; 
+                    beginKpiValue += 4;
+
+
+
+                }
+
+                foreach (var dic in dictionary)
+                {
+                    
+                }
+                
+                
+                package.Save();
+
+            }
+
+            return stream;
         }
     }
 }

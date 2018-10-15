@@ -16,6 +16,7 @@ namespace DeliveryPreciseReact.Service
         List<PreciseDelivery> CalculateKpi(ParamsCalculateKpi paramsCalculateKpi);
 
         List<Kpi> ListKpis();
+        List<Kpi> ListKpiSelected(ParamsCalculateKpi paramsCalculateKpi);
 
         Task<List<DeliveryRecord>> GetDeliveryRecordsAsync(ParamsCalculateKpi paramsCalculateKpi);
 

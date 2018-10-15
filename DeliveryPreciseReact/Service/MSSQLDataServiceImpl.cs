@@ -223,6 +223,22 @@ namespace DeliveryPreciseReact.Service
             return _all;
         }
 
+        public List<Kpi> ListKpiSelected(ParamsCalculateKpi paramsCalculateKpi)
+        {
+            if (paramsCalculateKpi.SelectKpi.Any(e => e.Name.Equals("Все")))
+            {
+                return ListKpis().FindAll(k => !k.Name.Equals("Все"));
+            }
+            else
+            {
+                return paramsCalculateKpi.SelectKpi.FindAll(k => !k.Name.Equals("Все"));
+            }
+            
+
+        }
+        
+        
+        
         private void SelectCalculateKpi(ParamsCalculateKpi paramsCalculateKpi, Kpi kpi, List<PreciseDelivery> _all)
         {
             switch (kpi.Name)

@@ -212,15 +212,30 @@ export function calculateSelectKpi(data){
 
 export function createReport(data) {
     return (dispatch, getState) => {
-        dispatch(fetchDataStarted());
-        api.createReportByDriveOrder(data).then(resp => {
+        
+        if(getState().isDriverReport) {
+            dispatch(fetchDataStarted());
+            api.createReportByDriveOrder(data).then(resp => {
 
-            FileSaver.saveAs(new Blob([resp.data]), uuid.v4()+'.xlsx');
-            dispatch(createReportSucceeded());
-        }).catch(error => {
-            dispatch(loadDataFailed("При формировании отчета произошла ошибка: "+error.message));
-            toast.error(getState().error, {position: toast.POSITION.TOP_RIGHT});
-        });
+                FileSaver.saveAs(new Blob([resp.data]), uuid.v4() + '.xlsx');
+                dispatch(createReportSucceeded());
+            }).catch(error => {
+                dispatch(loadDataFailed("При формировании отчета(Движение заказов) произошла ошибка: " + error.message));
+                toast.error(getState().error, {position: toast.POSITION.TOP_RIGHT});
+            });
+        }
+        
+        if(getState().isKPIReport) {
+            dispatch(fetchDataStarted());
+            api.createReportByPki(data).then(resp => {
+
+                FileSaver.saveAs(new Blob([resp.data]), uuid.v4() + '.xlsx');
+                dispatch(createReportSucceeded());
+            }).catch(error => {
+                dispatch(loadDataFailed("При формировании отчета(KPI) произошла ошибка: " + error.message));
+                toast.error(getState().error, {position: toast.POSITION.TOP_RIGHT});
+            });
+        }
     }
 }
 

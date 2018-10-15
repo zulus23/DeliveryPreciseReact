@@ -66,11 +66,29 @@ namespace DeliveryPreciseReact
             return Ok(customers);
         }
 
-        [HttpPost("report")]
-        public async Task<ActionResult> DownloadReport([FromBody] ParamsCalculateKpi data)
+        [HttpPost("reportdriver")]
+        public async Task<ActionResult> DownloadReportDriver([FromBody] ParamsCalculateKpi data)
         {
             string sFileName = @"driveorder.xlsx";
             var streamResult = await _utilService.OrderDrivingXLSFileStreamResult(data);
+
+            streamResult.Position = 0;
+            var result = File(streamResult,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
+
+            Response.Headers["Content-Disposition"] = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = sFileName
+            }.ToString();
+
+
+            return result;
+        }
+        [HttpPost("reportkpi")]
+        public async Task<ActionResult> DownloadReportKpi([FromBody] ParamsCalculateKpi data)
+        {
+            string sFileName = @"driveorder.xlsx";
+            var streamResult = await _utilService.KpiXLSFileStreamResult(data);
 
             streamResult.Position = 0;
             var result = File(streamResult,
