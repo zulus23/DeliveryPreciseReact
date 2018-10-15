@@ -264,36 +264,32 @@ namespace DeliveryPreciseReact.Common
                 worksheet.Cells[startByRow, startByColumn + 2, startByRow, startByColumn + countKpi + 1].Merge = true;
                 worksheet.Cells[startByRow, startByColumn + 2, startByRow, startByColumn + countKpi + 1].Value =
                     @"KPI";
-                Dictionary<int,List<PreciseDelivery>> dictionary = new Dictionary<int, List<PreciseDelivery>>();
+                Dictionary<int,string> dictionary = new Dictionary<int, string>();
                 for (int i = startByColumn+2; i < startByColumn+countKpi+2; i++)
                 {
                     worksheet.Cells[startByRow+1, i].Value = _kpis[i-(startByColumn+2)].Description;
-                    dictionary.Add(i,_kpis[i-(startByColumn+2)].Detail);
+                    dictionary.Add(i,_kpis[i-(startByColumn+2)].Description);
                     
                     worksheet.Column(i).Width = 25;
                 }
 
+                int k =   dictionary.FirstOrDefault(x => x.Value.Equals(delivery.Description)).Key;    
                 int beginKpiValue = startByRow + 2; 
-                int k = 4;
                 
                 foreach (var dev in delivery.Detail)
                 {
-                    while (k > 0)
-                    {
+                    
                         worksheet.Cells[beginKpiValue , startByColumn].Value = dev.Date;
                         worksheet.Cells[beginKpiValue , startByColumn].Style.Numberformat.Format = "MMMM";
                         worksheet.Cells[beginKpiValue , startByColumn+1].Value = "Цель";
-                        worksheet.Cells[beginKpiValue  +1, startByColumn+1].Value = "Факт";
-                        worksheet.Cells[beginKpiValue  +2, startByColumn+1].Value = "Откл";
-                        worksheet.Cells[beginKpiValue  +3 , startByColumn+1].Value = "Заказов";
-                        worksheet.Cells[beginKpiValue , startByColumn+2].Value = dev.Target;
-                        worksheet.Cells[beginKpiValue  +1, startByColumn+2].Value = dev.Fact;
-                        worksheet.Cells[beginKpiValue  +2, startByColumn+2].Value = dev.Deviation;
-                        worksheet.Cells[beginKpiValue  +3 , startByColumn+2].Value = dev.CountOrder;
-                        k--;
-                    }
-
-                    k = 4; 
+                        worksheet.Cells[beginKpiValue+1, startByColumn+1].Value = "Факт";
+                        worksheet.Cells[beginKpiValue+2, startByColumn+1].Value = "Откл";
+                        worksheet.Cells[beginKpiValue+3 , startByColumn+1].Value = "Заказов";
+                        worksheet.Cells[beginKpiValue , k].Value = dev.Target;
+                        worksheet.Cells[beginKpiValue+1, k].Value = dev.Fact;
+                        worksheet.Cells[beginKpiValue+2, k].Value = dev.Deviation;
+                        worksheet.Cells[beginKpiValue+3 , k].Value = dev.CountOrder;
+ 
                     beginKpiValue += 4;
 
 
