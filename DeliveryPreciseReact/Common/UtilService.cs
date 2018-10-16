@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +26,7 @@ namespace DeliveryPreciseReact.Common
             var stream = new MemoryStream();
 
             
-            string sFileName = @"demo.xlsx";
+            
             
 
             List<DeliveryRecord> _delivery = await _dataService.GetDeliveryRecordsAsync(data);
@@ -229,7 +231,7 @@ namespace DeliveryPreciseReact.Common
             ExcelPackage package;
             int startByRow = 4;
             int startByColumn = 2;
-            List<PreciseDelivery> _kpis = _dataService.CalculateKpi(data);
+            List<PreciseDelivery> _kpis =  _dataService.CalculateKpi(data);
             int countKpi = _kpis.Count;
 
             PreciseDelivery delivery =  _kpis.First(e => e.Detail.Count == _kpis.Max(p => p.Detail.Count));
@@ -250,15 +252,22 @@ namespace DeliveryPreciseReact.Common
                     range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                     range.Style.WrapText = true;
-                }
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(238,236,225));
 
+                }
+                /*  ===========================  Caption ========================================= */
+                worksheet.Cells[startByRow - 2, startByColumn + 1].Value = $"Клиент {data.Customer.Name}";
+                worksheet.Cells[startByRow - 1, startByColumn + 1].Value = 
+                                $"Период с {data.RangeDate.Start} по  {data.RangeDate.End}";
+                /*  ------------------------------------------------------------------------------ */
                 
                 worksheet.Cells[startByRow, startByColumn,startByRow + 1, startByColumn].Merge = true;
                 worksheet.Cells[startByRow, startByColumn].Value = @"Месяц";
                 worksheet.Column(startByColumn).Width = 20;
                 
                 worksheet.Cells[startByRow, startByColumn + 1,startByRow + 1, startByColumn + 1].Merge = true;
-                worksheet.Cells[startByRow, startByColumn + 1].Value = @"****";
+                worksheet.Cells[startByRow, startByColumn + 1].Value = @"Показатель";
                 worksheet.Column(startByColumn + 1).Width = 20;
                 
                 worksheet.Cells[startByRow, startByColumn + 2, startByRow, startByColumn + countKpi + 1].Merge = true;
@@ -274,26 +283,35 @@ namespace DeliveryPreciseReact.Common
                 }
 
                 int beginKpiValue = startByRow + 2;
+                int lastRow = beginKpiValue; 
                 foreach (var kpi in _kpis)
                 {
                     int k = dictionary.FirstOrDefault(x => x.Value.Equals(kpi.Description)).Key;
-                    
+                    beginKpiValue = startByRow + 2;
+                    lastRow = beginKpiValue;
                     foreach (var dev in kpi.Detail)
                     {
-                        worksheet.Cells[beginKpiValue , startByColumn].Value = kpi.Date;
+                        worksheet.Cells[beginKpiValue , startByColumn].Value = new DateTime(dev.Year,dev.Month,1);
                         worksheet.Cells[beginKpiValue , startByColumn].Style.Numberformat.Format = "MMMM";
+                        worksheet.Cells[beginKpiValue, startByColumn,beginKpiValue+3,startByColumn].Merge = true;
                         worksheet.Cells[beginKpiValue , startByColumn+1].Value = "Цель";
                         worksheet.Cells[beginKpiValue+1, startByColumn+1].Value = "Факт";
                         worksheet.Cells[beginKpiValue+2, startByColumn+1].Value = "Откл";
                         worksheet.Cells[beginKpiValue+3 , startByColumn+1].Value = "Заказов";
-                        
+
+                        worksheet.Cells[beginKpiValue , k].Style.Numberformat.Format = "0.00";
                         worksheet.Cells[beginKpiValue , k].Value = dev.Target;
+                        worksheet.Cells[beginKpiValue+1 , k].Style.Numberformat.Format = "0.00";
                         worksheet.Cells[beginKpiValue+1, k].Value = dev.Fact;
+                        worksheet.Cells[beginKpiValue+2 , k].Style.Numberformat.Format = "0.00";
                         worksheet.Cells[beginKpiValue+2, k].Value = dev.Deviation;
+                        worksheet.Cells[beginKpiValue+3 , k].Style.Numberformat.Format = "0";
                         worksheet.Cells[beginKpiValue+3 , k].Value = dev.CountOrder;
  
                         beginKpiValue += 4;
+                        lastRow += beginKpiValue;
                     }
+                    
                 }
                 
                 /*int k =   dictionary.FirstOrDefault(x => x.Value.Equals(delivery.Description)).Key;    
@@ -320,11 +338,7 @@ namespace DeliveryPreciseReact.Common
                 }*/
                 
 
-                foreach (var dic in dictionary)
-                {
-                    
-                }
-                using (var range = worksheet.Cells[startByRow + 2, startByColumn,beginKpiValue,
+                using (var range = worksheet.Cells[startByRow + 2, startByColumn,beginKpiValue-1,
                     startByColumn + countKpi+ 1])
                 {
                     range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;

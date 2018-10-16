@@ -181,8 +181,8 @@ class App extends Component {
                                        onChange={this.handleChange}/>
 
                                 </div>
-                                <div className=" col-auto col-md-3 col-lg-4 col-xl-5 d-flex justify-content-start">
-                                        <div className="row">
+                                <div className="col-md-3 col-lg-4 col-xl-5 d-flex justify-content-start">
+                                        <div className="row w-100">
                                          <div className="col-2">   
                                          <button className="p-shadow p-button" 
                                                  onClick={this.createReportHandler}
