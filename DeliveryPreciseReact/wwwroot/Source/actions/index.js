@@ -2,6 +2,8 @@ import * as api from "../api";
 import React from "react";
 import {toast} from "react-toastify";
 import FileSaver from 'file-saver'
+import {saveAs, encodeBase64} from '@progress/kendo-file-saver'
+
 import {setup} from "../constants/types";
 
 var uuid = require("uuid");
@@ -229,7 +231,15 @@ export function createReport(data) {
             dispatch(fetchDataStarted());
             api.createReportByPki(data).then(resp => {
 
-                FileSaver.saveAs(new Blob([resp.data]), uuid.v4() + '.xlsx');
+                //FileSaver.saveAs(new Blob([resp.data]), uuid.v4() + '.xlsx');
+                /*var tempLink = document.createElement('a');
+                tempLink.href = window.URL.createObjectURL(new Blob([resp.data]));
+                tempLink.setAttribute('download', uuid.v4() + '.xlsx');
+                tempLink.click();
+                */
+//                window.navigator.msSaveBlob(new Blob([resp.data]), uuid.v4() + '.xlsx');
+                
+               saveAs(new Blob([resp.data]), uuid.v4() + '.xlsx');
                 dispatch(createReportSucceeded());
             }).catch(error => {
                 dispatch(loadDataFailed("При формировании отчета(KPI) произошла ошибка: " + error.message));

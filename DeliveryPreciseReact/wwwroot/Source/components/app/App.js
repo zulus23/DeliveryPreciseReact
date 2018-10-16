@@ -118,7 +118,7 @@ class App extends Component {
 
     changeCustomerHandler = (event) => {
         const searchValue = event.target.value;
-        console.log(event);
+        
         this.props.dispatch(updateSearchValueCustomer(searchValue));
     };
     
