@@ -6,7 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using DeliveryPreciseReact.Domain;
 using DeliveryPreciseReact.Service;
+using Microsoft.EntityFrameworkCore.Internal;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Style;
 
 namespace DeliveryPreciseReact.Common
@@ -234,7 +236,7 @@ namespace DeliveryPreciseReact.Common
             List<PreciseDelivery> _kpis =  _dataService.CalculateKpi(data);
             int countKpi = _kpis.Count;
 
-            PreciseDelivery delivery =  _kpis.First(e => e.Detail.Count == _kpis.Max(p => p.Detail.Count));
+           // PreciseDelivery delivery =  _kpis.First(e => e.Detail.Count == _kpis.Max(p => p.Detail.Count));
             
             
             using (package = new ExcelPackage(stream))
@@ -284,15 +286,28 @@ namespace DeliveryPreciseReact.Common
 
                 int beginKpiValue = startByRow + 2;
                 int lastRow = beginKpiValue; 
+                Dictionary<String,List<Tuple<int,int>>> points;
+                int paddingChart = 0;
+                int countMonth = this.countMonthInKpi(_kpis);
+                var startCell = (ExcelRangeBase)worksheet.Cells[startByRow+1/*+countMonth*4 + 3*/, startByColumn+countKpi+3];
+                
                 foreach (var kpi in _kpis)
                 {
+                    points = new Dictionary<string, List<Tuple<int, int>>>();
                     int k = dictionary.FirstOrDefault(x => x.Value.Equals(kpi.Description)).Key;
                     beginKpiValue = startByRow + 2;
                     lastRow = beginKpiValue;
+                    List<Tuple<int,int>> _pointMonth = new List<Tuple<int, int>>();
+                    List<Tuple<int,int>> _pointTarget = new List<Tuple<int, int>>();
+                    List<Tuple<int,int>> _pointFact = new List<Tuple<int, int>>();
+                    List<Tuple<int,int>> _pointDeviation = new List<Tuple<int, int>>();
+                    List<Tuple<int,int>> _pointCountOrder = new List<Tuple<int, int>>();
                     foreach (var dev in kpi.Detail)
                     {
+                         
                         worksheet.Cells[beginKpiValue , startByColumn].Value = new DateTime(dev.Year,dev.Month,1);
                         worksheet.Cells[beginKpiValue , startByColumn].Style.Numberformat.Format = "MMMM";
+                        _pointMonth.Add(new Tuple<int, int>(beginKpiValue,startByColumn));
                         worksheet.Cells[beginKpiValue, startByColumn,beginKpiValue+3,startByColumn].Merge = true;
                         worksheet.Cells[beginKpiValue , startByColumn+1].Value = "Цель";
                         worksheet.Cells[beginKpiValue+1, startByColumn+1].Value = "Факт";
@@ -301,17 +316,33 @@ namespace DeliveryPreciseReact.Common
 
                         worksheet.Cells[beginKpiValue , k].Style.Numberformat.Format = "0.00";
                         worksheet.Cells[beginKpiValue , k].Value = dev.Target;
+                        _pointTarget.Add(new Tuple<int, int>(beginKpiValue,k));
                         worksheet.Cells[beginKpiValue+1 , k].Style.Numberformat.Format = "0.00";
                         worksheet.Cells[beginKpiValue+1, k].Value = dev.Fact;
+                        _pointFact.Add(new Tuple<int, int>(beginKpiValue+1,k));
                         worksheet.Cells[beginKpiValue+2 , k].Style.Numberformat.Format = "0.00";
                         worksheet.Cells[beginKpiValue+2, k].Value = dev.Deviation;
+                        _pointDeviation.Add(new Tuple<int, int>(beginKpiValue+2,k));
                         worksheet.Cells[beginKpiValue+3 , k].Style.Numberformat.Format = "0";
                         worksheet.Cells[beginKpiValue+3 , k].Value = dev.CountOrder;
+                        _pointCountOrder.Add(new Tuple<int, int>(beginKpiValue+3,k));
  
                         beginKpiValue += 4;
                         lastRow += beginKpiValue;
                     }
                     
+                    points.Add("month",_pointMonth);
+                    points.Add("target",_pointTarget);
+                    points.Add("fact",_pointFact);
+                    points.Add("deviation",_pointDeviation);
+                    points.Add("countOrder",_pointCountOrder);
+                    
+                    const double EXCELDEFAULTROWHEIGHT = 20.0;
+            
+                    var chartcellheight = (int)Math.Ceiling(400 / EXCELDEFAULTROWHEIGHT);
+                    CreateChart(worksheet,kpi.Description,points,startCell,paddingChart);
+                    startCell = startCell.Offset(chartcellheight, 0);
+                    paddingChart++;
                 }
                 
                 /*int k =   dictionary.FirstOrDefault(x => x.Value.Equals(delivery.Description)).Key;    
@@ -350,11 +381,81 @@ namespace DeliveryPreciseReact.Common
                     range.Style.WrapText = true;
                 }                
                 
+                
                 package.Save();
 
             }
 
             return stream;
+        }
+
+        private int countMonthInKpi(List<PreciseDelivery> _kpis)
+        {
+            PreciseDelivery kpiWithMaxMonth =  _kpis.First(e => e.Detail.Count == _kpis.Max(p => p.Detail.Count));
+            return kpiWithMaxMonth.Detail.Count;
+        }
+        
+        private void CreateChart(ExcelWorksheet worksheet,String nameKpi,Dictionary<String,List<Tuple<int,int>>> points,
+                                 ExcelRangeBase startCell, int paddingChart)
+        {
+            ExcelBarChart barChart = worksheet.Drawings.AddChart(nameKpi,eChartType.ColumnClustered) as ExcelBarChart;
+            barChart.Legend.Position = eLegendPosition.Bottom;
+            barChart.Title.Text = nameKpi;
+            
+            string monthRangeString = points["month"]
+                .Select(e => ExcelCellBase.GetAddress(e.Item1,e.Item2))
+                .Join(",");
+            var rangeMonth =  worksheet.Cells[$"{monthRangeString}"];
+             /*  ----------------------- Fact ---------------------------------*/
+            string rangeFactString =  points["fact"]
+                .Select(e => ExcelCellBase.GetAddress(e.Item1,e.Item2))
+                .Join(",");
+            var rangeFact =  worksheet.Cells[$"{rangeFactString}"];
+
+            ExcelChartSerie factChartSerie = barChart.Series.Add(rangeFact, rangeMonth);
+            factChartSerie.Header = "Факт";
+            factChartSerie.TrendLines.Add(eTrendLine.Linear);
+                
+                          
+            
+            
+            /* -------------------------- Target ------------------------------*/
+            string rangeTargetString =  points["target"]
+                .Select(e => ExcelCellBase.GetAddress(e.Item1,e.Item2))
+                .Join(",");
+            var rangeTarget =  worksheet.Cells[$"{rangeTargetString}"];
+
+            ExcelChart chartTarget = barChart.PlotArea.ChartTypes.Add(eChartType.Line);
+            chartTarget.Series.Add(rangeTarget,rangeMonth ).Header= "Цель";
+            
+            /*/* -------------------------- Deviation ------------------------------#1#
+            string rangeDeviationString =  points["deviation"]
+                .Select(e => ExcelCellBase.GetAddress(e.Item1,e.Item2))
+                .Join(",");
+            var rangeDeviation =  worksheet.Cells[$"{rangeDeviationString}"];
+
+            ExcelChart chartDeviation = barChart.PlotArea.ChartTypes.Add(eChartType.Line);
+            chartDeviation.Series.Add(rangeDeviation,rangeMonth ).Header= "Отклонение";*/
+            /* -------------------------- CountOrder ------------------------------*/
+            string rangeCountOrderString =  points["countOrder"]
+                .Select(e => ExcelCellBase.GetAddress(e.Item1,e.Item2))
+                .Join(",");
+            var rangeCountOrder =  worksheet.Cells[$"{rangeCountOrderString}"];
+
+            ExcelChart chartCountOrder = barChart.PlotArea.ChartTypes.Add(eChartType.Line);
+            chartCountOrder.Series.Add(rangeCountOrder,rangeMonth ).Header= "Кол-во заказов";
+            
+            
+            
+            
+            
+            barChart?.SetSize(500,400);
+            
+            
+            barChart?.SetPosition(startCell.Start.Row,0,startCell.Start.Column,0);
+            //barChart?.SetPosition(10+(paddingChart*500),500);
+            
+            
         }
     }
 }

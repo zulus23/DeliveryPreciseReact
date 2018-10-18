@@ -104,34 +104,7 @@ namespace DeliveryPreciseReact
             return result;
         }
         
-        [HttpGet("testreport")]
-        public IActionResult ExportListUsingEPPlus()
-        {
-            const string XlsxContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            var data = new[]{ 
-                new{ Name="Ram", Email="ram@techbrij.com", Phone="111-222-3333" },
-                new{ Name="Shyam", Email="shyam@techbrij.com", Phone="159-222-1596" },
-                new{ Name="Mohan", Email="mohan@techbrij.com", Phone="456-222-4569" },
-                new{ Name="Sohan", Email="sohan@techbrij.com", Phone="789-456-3333" },
-                new{ Name="Karan", Email="karan@techbrij.com", Phone="111-222-1234" },
-                new{ Name="Brij", Email="brij@techbrij.com", Phone="111-222-3333" }                       
-            };
- 
-            
-            
-            byte[] reportBytes;
-            using (ExcelPackage package = new ExcelPackage())
-            {
-                var workSheet = package.Workbook.Worksheets.Add("Sheet1");
-                workSheet.Cells[1, 1].LoadFromCollection(data, true);
-                reportBytes = package.GetAsByteArray();
-            }
-
-            return File(reportBytes, XlsxContentType, "report.xlsx");
-            
-            
-            
-        }
+       
 
         public class ParamsForSelectCustomer
         {
