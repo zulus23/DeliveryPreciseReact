@@ -362,7 +362,10 @@ namespace DeliveryPreciseReact.Service
             {
                 List<PreciseDelivery> _all = connection.Query<PreciseDelivery>(query).AsList();
                 result = _all?.Find(item => item.Month == -1);
-                result?.Detail?.AddRange(_all.FindAll(e => e.Month != -1));
+                //result?.Detail?.AddRange(_all.FindAll(e => e.Month != -1));
+                FillCollectionToFull(paramsCalculateKpi, _all, result);
+
+
                 if (result?.Detail?.Count > 0)
                 {
                     Tuple<double, double> trend = CalculateTrend(result?.Detail);
@@ -373,6 +376,41 @@ namespace DeliveryPreciseReact.Service
 
             result.Description = nameKpi;
             return result;
+        }
+
+        private static void FillCollectionToFull(ParamsCalculateKpi paramsCalculateKpi, List<PreciseDelivery> _all, PreciseDelivery result)
+        {
+            DateTime _startDate = new DateTime(paramsCalculateKpi.RangeDate.Start.Year,
+                paramsCalculateKpi.RangeDate.Start.Month, 1);
+            DateTime _endDate = new DateTime(paramsCalculateKpi.RangeDate.End.Year,
+                paramsCalculateKpi.RangeDate.End.Month, 1);
+
+            for (DateTime startDate = _startDate;
+                startDate <= _endDate;
+                startDate = startDate.AddMonths(1))
+            {
+                if (_all.FindAll(e => e.Month != -1).Any(e => e.Month == startDate.Month && e.Year == startDate.Year))
+                {
+                    var date = startDate;
+                    result?.Detail?.Add(_all.Find(e => e.Month == date.Month && e.Year == date.Year));
+                }
+                else
+                {
+                    PreciseDelivery delivery = new PreciseDelivery();
+                    if (result != null)
+                    {
+                        delivery.Description = result.Description;
+                        delivery.Deviation = 0;
+                        delivery.Fact = 0;
+                        delivery.Target = 0;
+                        delivery.Trend = 0;
+                        delivery.CountOrder = 0;
+                        delivery.Year = startDate.Year;
+                        delivery.Month = startDate.Month;
+                        result?.Detail?.Add(delivery);
+                    }
+                }
+            }
         }
 
         private PreciseDelivery GetKPIByName(ParamsCalculateKpi paramsCalculateKpi, string nameKpi)
@@ -410,7 +448,7 @@ namespace DeliveryPreciseReact.Service
                 List<PreciseDelivery> _all = connection.Query<PreciseDelivery>(query).AsList();
                 result = _all?.Find(item => item.Month == -1);
 
-                DateTime _startDate = new DateTime(paramsCalculateKpi.RangeDate.Start.Year,
+                /*DateTime _startDate = new DateTime(paramsCalculateKpi.RangeDate.Start.Year,
                                                    paramsCalculateKpi.RangeDate.Start.Month,1); 
                 DateTime _endDate = new DateTime(paramsCalculateKpi.RangeDate.End.Year,
                     paramsCalculateKpi.RangeDate.End.Month,1);
@@ -440,7 +478,8 @@ namespace DeliveryPreciseReact.Service
                         }
                     }
                 }
-                
+                */
+                FillCollectionToFull(paramsCalculateKpi, _all, result);
                 
                 /*for (int i = paramsCalculateKpi.RangeDate.Start.Month; 
                          i <= paramsCalculateKpi.RangeDate.End.Month; i++)

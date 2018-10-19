@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
 using DeliveryPreciseReact.Domain;
 using DeliveryPreciseReact.Service;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -289,7 +290,14 @@ namespace DeliveryPreciseReact.Common
                 Dictionary<String,List<Tuple<int,int>>> points;
                 int paddingChart = 0;
                 int countMonth = this.countMonthInKpi(_kpis);
-                var startCell = (ExcelRangeBase)worksheet.Cells[startByRow+1/*+countMonth*4 + 3*/, startByColumn+countKpi+3];
+                 
+                ExcelRangeBase startCell = worksheet.Cells[startByRow+countMonth*4 + 3, startByColumn-1];    
+                
+                const double EXCELDEFAULTROWHEIGHT = 20.0;
+                const double EXCELDEFAULTROWWIDTH = 60.0;
+            
+                var chartcellheight = (int)Math.Ceiling(400 / EXCELDEFAULTROWHEIGHT);
+                var chartcellwidth = (int)Math.Ceiling(500 / EXCELDEFAULTROWWIDTH);
                 
                 foreach (var kpi in _kpis)
                 {
@@ -337,11 +345,22 @@ namespace DeliveryPreciseReact.Common
                     points.Add("deviation",_pointDeviation);
                     points.Add("countOrder",_pointCountOrder);
                     
-                    const double EXCELDEFAULTROWHEIGHT = 20.0;
-            
-                    var chartcellheight = (int)Math.Ceiling(400 / EXCELDEFAULTROWHEIGHT);
+                    
                     CreateChart(worksheet,kpi.Description,points,startCell,paddingChart);
-                    startCell = startCell.Offset(chartcellheight, 0);
+
+
+                    if (k % 2 == 0)
+                    {
+                        chartcellwidth = (int)Math.Ceiling(500 / 160.0);
+                        startCell = startCell.Offset(chartcellheight*0, chartcellwidth);
+                    }
+                    else
+                    {
+                        /*startCell = startCell.Offset(chartcellheight, 0);
+                        chartcellwidth = (int)Math.Ceiling(500 / 160.0);*/
+                        startCell = startCell.Offset(chartcellheight, -chartcellwidth);
+                    }
+
                     paddingChart++;
                 }
                 
@@ -415,6 +434,7 @@ namespace DeliveryPreciseReact.Common
             ExcelChartSerie factChartSerie = barChart.Series.Add(rangeFact, rangeMonth);
             factChartSerie.Header = "Факт";
             factChartSerie.TrendLines.Add(eTrendLine.Linear);
+            
                 
                           
             
@@ -427,7 +447,7 @@ namespace DeliveryPreciseReact.Common
 
             ExcelChart chartTarget = barChart.PlotArea.ChartTypes.Add(eChartType.Line);
             chartTarget.Series.Add(rangeTarget,rangeMonth ).Header= "Цель";
-            
+            chartTarget.SetLineChartColor(1, 0, Color.Red);
             /*/* -------------------------- Deviation ------------------------------#1#
             string rangeDeviationString =  points["deviation"]
                 .Select(e => ExcelCellBase.GetAddress(e.Item1,e.Item2))
@@ -457,5 +477,7 @@ namespace DeliveryPreciseReact.Common
             
             
         }
+        
+        
     }
 }
