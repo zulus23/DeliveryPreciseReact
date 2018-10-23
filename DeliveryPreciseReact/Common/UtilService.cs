@@ -110,13 +110,13 @@ namespace DeliveryPreciseReact.Common
                 /*worksheet.Cells["Y1:Y2"].Merge = true;
                 worksheet.Cells[1, 25].Value = @"Точность доставки %";*/
                 worksheet.Cells["Y1:Y2"].Merge = true;
-                worksheet.Cells[1, 25].Value = @"Точность доставки %";
+                worksheet.Cells[1, 25].Value = @"Точность поставки по времени, %";
                 /*worksheet.Cells["AA1:AA2"].Merge = true;
                 worksheet.Cells[1, 27].Value = @"CreateDate";*/
                 worksheet.Cells["Z1:Z2"].Merge = true;
                 worksheet.Cells[1, 26].Value = @"Расстояние, км.";
                 worksheet.Cells["AA1:AA2"].Merge = true;
-                worksheet.Cells[1, 27].Value = @"Точность поступления на склад, %";
+                worksheet.Cells[1, 27].Value = @"Точность выхода на склад, %";
                 worksheet.Cells["AB1:AB2"].Merge = true;
                 worksheet.Cells[1, 28].Value = @"Место отгрузки";
 
