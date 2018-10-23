@@ -40,7 +40,7 @@ namespace DeliveryPreciseReact.Common
             {
                 // add a new worksheet to the empty workbook
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("KPI");
-                using (var range = worksheet.Cells["A1:AA2"])
+                using (var range = worksheet.Cells["A1:AB2"])
                 {
                     range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                     range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
@@ -117,9 +117,11 @@ namespace DeliveryPreciseReact.Common
                 worksheet.Cells[1, 26].Value = @"Расстояние, км.";
                 worksheet.Cells["AA1:AA2"].Merge = true;
                 worksheet.Cells[1, 27].Value = @"Точность поступления на склад, %";
+                worksheet.Cells["AB1:AB2"].Merge = true;
+                worksheet.Cells[1, 28].Value = @"Место отгрузки";
 
 
-                using (var range = worksheet.Cells[$"A2:AA{_delivery.Count + 2}"])
+                using (var range = worksheet.Cells[$"A2:AB{_delivery.Count + 2}"])
                 {
                     range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                     range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
@@ -215,6 +217,8 @@ namespace DeliveryPreciseReact.Common
                     worksheet.Cells[$"Z{i + _beginRow}"].Value = _delivery[i].Distance;
                     worksheet.Column(27).Width = 13;
                     worksheet.Cells[$"AA{i + _beginRow}"].Value = _delivery[i].KpiWhse;
+                    worksheet.Column(28).Width = 13;
+                    worksheet.Cells[$"AB{i + _beginRow}"].Value = _delivery[i].PlantShip;
                 }
 
 

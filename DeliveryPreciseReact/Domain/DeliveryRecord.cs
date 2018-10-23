@@ -37,6 +37,7 @@ namespace DeliveryPreciseReact.Domain
         private DateTime? _createDate;
         private int _distance;
         private double _kpiWhse;
+        private string _plantShip;
 
 
         public string Site
@@ -251,6 +252,12 @@ namespace DeliveryPreciseReact.Domain
         {
             get => _kpiWhse;
             set => _kpiWhse = value;
+        }
+
+        public string PlantShip
+        {
+            get => _plantShip;
+            set => _plantShip = value;
         }
     }
 }

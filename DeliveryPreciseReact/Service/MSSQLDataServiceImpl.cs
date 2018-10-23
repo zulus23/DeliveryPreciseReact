@@ -301,7 +301,7 @@ namespace DeliveryPreciseReact.Service
                                          " CAST(s.DateShipZay AS DATE) AS DateShipZay , CAST(s.DateShipFact AS DATE) AS DateShipFact ," +
                                          " CAST(s.DateDostPlan AS DATE) as DateDostPlan,CAST(s.DateDostPor AS DATE) as DateDostPor," +
                                          " CAST(s.DateDostFact AS DATE) AS DateDostFact,s.Stat_Row,s.StatMFG ,s.DayMFG ,s.StatShip ,s.DayShip ," +
-                                         " s.StatDost,s.DayDost ,s.KPI_stat as kpiStat,s.CreatedBy,s.CreateDate,s.distance,s.KPI_whse as kpiWhse" +
+                                         " s.StatDost,s.DayDost ,s.KPI_stat as kpiStat,s.CreatedBy,s.CreateDate,s.distance,s.KPI_whse as kpiWhse, s.plant_ship as plantShip" +
                                          " FROM gtk_group_report.dbo.gtk_kpi_ship s " +
                                          " JOIN dbo.custaddr ca ON ca.cust_num = s.cust_num AND ca.cust_seq = s.cust_seq" +
                                          " where site = '{0}'  and s.cust_num  {1} and s.DateDostFact between '{2}' and '{3} '" +
