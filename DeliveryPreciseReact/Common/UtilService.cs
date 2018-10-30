@@ -118,7 +118,7 @@ namespace DeliveryPreciseReact.Common
                 worksheet.Cells["AA1:AA2"].Merge = true;
                 worksheet.Cells[1, 27].Value = @"Точность выхода на склад, %";
                 worksheet.Cells["AB1:AB2"].Merge = true;
-                worksheet.Cells[1, 28].Value = @"Место отгрузки";
+                worksheet.Cells[1, 28].Value = @"Площадка отгрузки";
 
 
                 using (var range = worksheet.Cells[$"A2:AB{_delivery.Count + 2}"])
