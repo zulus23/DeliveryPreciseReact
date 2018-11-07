@@ -38,6 +38,11 @@ namespace DeliveryPreciseReact.Domain
         private int _distance;
         private double _kpiWhse;
         private string _plantShip;
+        private string _poNum;
+        private string _job;
+        private string _vidOtgr;
+        
+        
 
 
         public string Site
@@ -162,23 +167,7 @@ namespace DeliveryPreciseReact.Domain
             set => _dateDostFact = value;
         }
 
-        public int StatRow1
-        {
-            get => _stat_Row;
-            set => _stat_Row = value;
-        }
-
-        public string StatMfg1
-        {
-            get => _statMFG;
-            set => _statMFG = value;
-        }
-
-        public int DayMfg1
-        {
-            get => _dayMFG;
-            set => _dayMFG = value;
-        }
+       
 
         public DateTime? CreateDate
         {
@@ -258,6 +247,25 @@ namespace DeliveryPreciseReact.Domain
         {
             get => _plantShip;
             set => _plantShip = value;
+        }
+
+ 
+        public string PoNum
+        {
+            get => _poNum;
+            set => _poNum = value;
+        }
+
+        public string Job
+        {
+            get => _job;
+            set => _job = value;
+        }
+
+        public string VidOtgr
+        {
+            get => _vidOtgr;
+            set => _vidOtgr = value;
         }
     }
 }

@@ -40,7 +40,7 @@ namespace DeliveryPreciseReact.Common
             {
                 // add a new worksheet to the empty workbook
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("KPI");
-                using (var range = worksheet.Cells["A1:AB2"])
+                using (var range = worksheet.Cells["A1:AF2"])
                 {
                     range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                     range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
@@ -119,9 +119,18 @@ namespace DeliveryPreciseReact.Common
                 worksheet.Cells[1, 27].Value = @"Точность выхода на склад, %";
                 worksheet.Cells["AB1:AB2"].Merge = true;
                 worksheet.Cells[1, 28].Value = @"Площадка отгрузки";
+                /* --------------------------------------------------- */
+                worksheet.Cells["AC1:AC2"].Merge = true;
+                worksheet.Cells[1, 29].Value = @"Строка отгрузки";
+                worksheet.Cells["AD1:AD2"].Merge = true;
+                worksheet.Cells[1, 30].Value = @"№ заказа поставщика";
+                worksheet.Cells["AE1:AE2"].Merge = true;
+                worksheet.Cells[1, 31].Value = @"№ ЗНП";
+                worksheet.Cells["AF1:AF2"].Merge = true;
+                worksheet.Cells[1, 32].Value = @"Вид отгрузки";
+                
 
-
-                using (var range = worksheet.Cells[$"A2:AB{_delivery.Count + 2}"])
+                using (var range = worksheet.Cells[$"A2:AF{_delivery.Count + 2}"])
                 {
                     range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                     range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
@@ -219,6 +228,18 @@ namespace DeliveryPreciseReact.Common
                     worksheet.Cells[$"AA{i + _beginRow}"].Value = _delivery[i].KpiWhse;
                     worksheet.Column(28).Width = 13;
                     worksheet.Cells[$"AB{i + _beginRow}"].Value = _delivery[i].PlantShip;
+                    /* ---------------------------------------------------------------- */
+                    worksheet.Column(29).Width = 13;
+                    worksheet.Cells[$"AC{i + _beginRow}"].Value = _delivery[i].StatRow;
+                    worksheet.Column(30).Width = 13;
+                    worksheet.Cells[$"AD{i + _beginRow}"].Value = _delivery[i].PoNum;
+                    worksheet.Column(31).Width = 13;
+                    worksheet.Cells[$"AE{i + _beginRow}"].Value = _delivery[i].Job;
+                    worksheet.Column(32).Width = 13;
+                    worksheet.Cells[$"AF{i + _beginRow}"].Value = _delivery[i].VidOtgr;
+                    
+                    
+                    
                 }
 
 
