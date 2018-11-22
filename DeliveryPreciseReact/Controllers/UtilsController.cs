@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DeliveryPreciseReact.Common;
@@ -48,6 +49,13 @@ namespace DeliveryPreciseReact
         {
             return Ok(_dataService.ListKpis());
         }
+        
+        [HttpGet("kpisbyenterprise")]
+        public ActionResult GetKpiByEnterprise(String enterprise)
+        {
+            return Ok(_dataService.ListKpiByEnterprise(enterprise));
+        }
+        
 
         [HttpPost("calculatekpi")]
         public ActionResult CalculateKpi([FromBody] ParamsCalculateKpi data)

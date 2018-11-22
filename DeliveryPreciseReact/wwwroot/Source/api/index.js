@@ -18,6 +18,16 @@ export function fetchCustomerDelivery(data){
 export function fetchKpis(){
     return client.get('/api/utils/kpis')
 }
+export function fetchKpisByEnterprise(data){
+    
+    return client.get('/api/utils/kpisbyenterprise',{
+        params:{
+            enterprise:data
+        }
+    })
+}
+
+
 
 export function calculateKpi(data){
     return client.post('/api/utils/calculatekpi',data);

@@ -236,9 +236,24 @@ namespace DeliveryPreciseReact.Service
             
 
         }
-        
-        
-        
+
+        public List<Kpi> ListKpiByEnterprise(String enterprise)
+        {
+            List<Kpi> _list = ListKpis();
+            if (!enterprise.Equals(EnterpriseConst.GOTEK) && !enterprise.Equals(EnterpriseConst.SPB) &&
+                !enterprise.Equals(EnterpriseConst.CENTER))
+            {
+                _list =  _list.FindAll(k => !k.Name.Equals(KpiConst.PRECISEENTERSTORAGE) && !k.Name.Equals(KpiConst.ALL));
+            }
+            if (enterprise.Equals(EnterpriseConst.LITAR))
+            {
+                _list = _list.FindAll(k => !k.Name.Equals(KpiConst.PRECISEDELIVERYBYAMOUNT));
+            }
+
+            return _list;
+        }
+
+
         private void SelectCalculateKpi(ParamsCalculateKpi paramsCalculateKpi, Kpi kpi, List<PreciseDelivery> _all)
         {
             switch (kpi.Name)

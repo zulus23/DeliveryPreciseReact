@@ -154,6 +154,19 @@ export function fetchKpi(){
         })
     }
 }
+export function fetchKpiByEnterprise(enterprise){
+    return (dispatch,getState) => {
+        api.fetchKpisByEnterprise(enterprise).then(resp => {
+            dispatch(kpiFetchSucceeded(resp.data))
+        }).catch(error => {
+            dispatch(loadDataFailed("Ошибка при загрузки KPI:  "+ error.message));
+            toast.error(getState().error, {position: toast.POSITION.TOP_RIGHT});
+        })
+    }
+}
+
+
+
 
 
 function selectRangeDateSucceeded(data){

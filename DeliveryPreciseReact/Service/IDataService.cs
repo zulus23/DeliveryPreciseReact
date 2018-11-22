@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DeliveryPreciseReact.Common;
@@ -17,6 +18,7 @@ namespace DeliveryPreciseReact.Service
 
         List<Kpi> ListKpis();
         List<Kpi> ListKpiSelected(ParamsCalculateKpi paramsCalculateKpi);
+        List<Kpi> ListKpiByEnterprise(String enterprise);
 
         Task<List<DeliveryRecord>> GetDeliveryRecordsAsync(ParamsCalculateKpi paramsCalculateKpi);
 

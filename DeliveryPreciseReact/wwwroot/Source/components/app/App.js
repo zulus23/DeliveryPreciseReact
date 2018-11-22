@@ -9,7 +9,7 @@ import {
     createReport,
     fetchCustomer,
     fetchEnterprise,
-    fetchKpi,
+    fetchKpi, fetchKpiByEnterprise,
     updateSearchValueCustomer,
     updateSearchValueCustomerDelivery,
     updateSelectedTypeReportSucceeded,
@@ -47,14 +47,16 @@ class App extends Component {
 
     componentDidMount() {
         this.props.dispatch(fetchEnterprise());
-        this.props.dispatch(fetchKpi());
+        /*this.props.dispatch(fetchKpi());*/
         const dataSelect = this.extractedParameterSearch(this.props.currentEnterprise);
+        this.props.dispatch(fetchKpiByEnterprise(this.props.currentEnterprise));
         this.props.dispatch(fetchCustomer(dataSelect))
     }
 
     changeCurrentEnterprise = (event) => {
         const selectedEnterprise =event.target.value;
         this.props.dispatch(changeEnterprise(selectedEnterprise));
+        this.props.dispatch(fetchKpiByEnterprise(selectedEnterprise));
        
     };
 
