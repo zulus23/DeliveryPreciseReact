@@ -468,16 +468,17 @@ namespace DeliveryPreciseReact.Service
 
         private static void CorrectResultForSpeedReclaim(ParamsCalculateKpi paramsCalculateKpi, PreciseDelivery result)
         {
-         
+       
             if (result.Description.Equals(KpiConst.SPEEDCLAIM))
             {
                 result.Fact = Math.Round(result.Fact);
+                result.Deviation = Math.Round(result.Deviation);
                 result.Detail.ForEach(d =>
                     {
                         d.Fact = Math.Round(d.Fact);
                         d.CountOrder = 0;
                         d.Target = 0;
-                        d.Deviation = 0;
+                        d.Deviation = Math.Round(d.Deviation);
                         d.Trend = 0;
                     });
                     
