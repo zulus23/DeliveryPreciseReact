@@ -37,12 +37,12 @@ class KpiChart extends Component {
                 <ChartSeries>
                     <ChartSeriesItem data={ localData} type="column" name="Факт" 
                                      field="Fact" categoryField="Date"/>
-                    <ChartSeriesItem data={localData} type="line" name="Цель"
-                                     field="Target" categoryField="Date" color="red"/>
+                    <ChartSeriesItem data={localData} type="line" name="Цель" 
+                                     field="Target" categoryField="Date" color="red" visible={chartDescription !== 'Скорость урегулирования претензий, дни'}/>
                     <ChartSeriesItem data={localData} type="line" name="Кол-во заказов"
-                                     field="CountOrder" categoryField="Date"/>
+                                     field="CountOrder" categoryField="Date" visible={chartDescription !== 'Скорость урегулирования претензий, дни'}/>
                     <ChartSeriesItem data={localData} type="line" name="Тренд"
-                                     field="Trend" categoryField="Date" labels={{ visible: false}}/>
+                                     field="Trend" categoryField="Date" labels={{ visible: false}} visible={chartDescription !== 'Скорость урегулирования претензий, дни'}/>
                 </ChartSeries>
             </Chart>
         );

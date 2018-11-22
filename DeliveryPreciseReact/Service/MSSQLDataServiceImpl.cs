@@ -265,14 +265,14 @@ namespace DeliveryPreciseReact.Service
         public List<Kpi> ListKpis()
         {
             List<Kpi> list = new List<Kpi>();
-            list.Add(new Kpi("Все", 0, 0, 0, 0));
-            list.Add(new Kpi("Точность поставки по времени, %", 0, 0, 0, 0));
-            list.Add(new Kpi("Точность выхода на склад %", 0, 0, 0, 0));
-            list.Add(new Kpi("Точность поставки по количеству, %", 0, 0, 0, 0));
-            list.Add(new Kpi("Уровень качества продукции, %", 0, 0, 0, 0));
-            list.Add(new Kpi("Скорость урегулирования претензий, дни", 0, 0, 0, 0));
-            list.Add(new Kpi("Производство тестов, дни", 0, 0, 0, 0));
-            list.Add(new Kpi("Производство макетов, дни", 0, 0, 0, 0));
+            list.Add(new Kpi(KpiConst.ALL/*"Все"*/, 0, 0, 0, 0));
+            list.Add(new Kpi(KpiConst.PRECISEDELIVERY/*"Точность поставки по времени, %"*/, 0, 0, 0, 0));
+            list.Add(new Kpi(KpiConst.PRECISEENTERSTORAGE/*"Точность выхода на склад %"*/, 0, 0, 0, 0));
+            list.Add(new Kpi(KpiConst.PRECISEDELIVERYBYAMOUNT/*"Точность поставки по количеству, %"*/, 0, 0, 0, 0));
+            list.Add(new Kpi(KpiConst.LEVELQUALITYPRODUCT/*"Уровень качества продукции, %"*/, 0, 0, 0, 0));
+            list.Add(new Kpi(KpiConst.SPEEDCLAIM/*"Скорость урегулирования претензий, дни"*/, 0, 0, 0, 0));
+            list.Add(new Kpi(KpiConst.PRODUCETEST/*"Производство тестов, дни"*/, 0, 0, 0, 0));
+            list.Add(new Kpi(KpiConst.PRODUCEMODEL/*"Производство макетов, дни"*/, 0, 0, 0, 0));
             return list;
         }
 
@@ -449,66 +449,12 @@ namespace DeliveryPreciseReact.Service
                 List<PreciseDelivery> _all = connection.Query<PreciseDelivery>(query).AsList();
                 result = _all?.Find(item => item.Month == -1);
 
-                /*DateTime _startDate = new DateTime(paramsCalculateKpi.RangeDate.Start.Year,
-                                                   paramsCalculateKpi.RangeDate.Start.Month,1); 
-                DateTime _endDate = new DateTime(paramsCalculateKpi.RangeDate.End.Year,
-                    paramsCalculateKpi.RangeDate.End.Month,1);
-                
-                for (DateTime startDate  = _startDate;
-                     startDate <= _endDate; startDate = startDate.AddMonths(1) )
-                {
-                    if (_all.FindAll(e => e.Month != -1).Any(e => e.Month == startDate.Month && e.Year == startDate.Year))
-                    {
-                        var date = startDate;
-                        result?.Detail?.Add(_all.Find(e => e.Month == date.Month && e.Year == date.Year));
-                    }
-                    else
-                    {
-                        PreciseDelivery delivery = new PreciseDelivery();
-                        if (result != null)
-                        {
-                            delivery.Description = result.Description;
-                            delivery.Deviation = 0;
-                            delivery.Fact = 0;
-                            delivery.Target = 0;
-                            delivery.Trend = 0;
-                            delivery.CountOrder = 0;
-                            delivery.Year = startDate.Year;
-                            delivery.Month = startDate.Month;
-                            result?.Detail?.Add(delivery);
-                        }
-                    }
-                }
-                */
                 FillCollectionToFull(paramsCalculateKpi, _all, result);
-                
-                /*for (int i = paramsCalculateKpi.RangeDate.Start.Month; 
-                         i <= paramsCalculateKpi.RangeDate.End.Month; i++)
-                {
-                    if (_all.FindAll(e => e.Month != -1).Any(e => e.Month == i))
-                    {
-                        result?.Detail?.Add(_all.Find(e =>e.Month == i));
-                    }
-                    else
-                    {
-                        PreciseDelivery delivery = new PreciseDelivery();
-                        delivery.Description = result.Description;
-                        delivery.Deviation = 0;
-                        delivery.Fact = 0;
-                        delivery.Target = 0;
-                        delivery.Trend = 0;
-                        delivery.CountOrder = 0;
-                        delivery.Year = result.Year;
-                        delivery.Month = i;
-                        result?.Detail?.Add(delivery);
-                    }
-                }
-
-                */
-  
+                CorrectResultForSpeedReclaim(paramsCalculateKpi, result);
                 
                // result?.Detail?.AddRange(_all.FindAll(e => e.Month != -1));
-                if (result?.Detail?.Count > 0)
+                
+                if (result?.Detail?.Count > 0 && !result.Description.Equals(KpiConst.SPEEDCLAIM))
                 {
                     Tuple<double, double> trend = CalculateTrend(result?.Detail);
 
@@ -518,6 +464,24 @@ namespace DeliveryPreciseReact.Service
 
             result.Description = nameKpi; 
             return result;
+        }
+
+        private static void CorrectResultForSpeedReclaim(ParamsCalculateKpi paramsCalculateKpi, PreciseDelivery result)
+        {
+         
+            if (result.Description.Equals(KpiConst.SPEEDCLAIM))
+            {
+                result.Fact = Math.Round(result.Fact);
+                result.Detail.ForEach(d =>
+                    {
+                        d.Fact = Math.Round(d.Fact);
+                        d.CountOrder = 0;
+                        d.Target = 0;
+                        d.Deviation = 0;
+                        d.Trend = 0;
+                    });
+                    
+            }
         }
 
         private static string CreateInSectionForCust_Seq(ParamsCalculateKpi paramsCalculateKpi)
