@@ -118,7 +118,7 @@ namespace DeliveryPreciseReact.Service
         private static string CreateInSectionForAllCustomer(Customer customer, List<string> typeCustomer)
         {
             string _insertCodeCustomer = "";
-            if (!customer.Name.Equals("Все"))
+            if (!customer.Name.Equals(KpiConst.ALL))
             {
                 _insertCodeCustomer = $" AND customer.code  = '{customer.Code}'";
             }
@@ -204,16 +204,16 @@ namespace DeliveryPreciseReact.Service
             List<PreciseDelivery> _all = new List<PreciseDelivery>();
 
 
-            if (paramsCalculateKpi.SelectKpi.Any(e => e.Name.Equals("Все")))
+            if (paramsCalculateKpi.SelectKpi.Any(e => e.Name.Equals(KpiConst.ALL)))
             {
-                ListKpis().FindAll(k => !k.Name.Equals("Все")).ForEach(kpi =>
+                ListKpis().FindAll(k => !k.Name.Equals(KpiConst.ALL)).ForEach(kpi =>
                 {
                     SelectCalculateKpi(paramsCalculateKpi, kpi, _all);
                 });
             }
             else
             {
-                paramsCalculateKpi.SelectKpi.FindAll(k => !k.Name.Equals("Все")).ForEach(kpi =>
+                paramsCalculateKpi.SelectKpi.FindAll(k => !k.Name.Equals(KpiConst.ALL)).ForEach(kpi =>
                 {
                     SelectCalculateKpi(paramsCalculateKpi, kpi, _all);
                 });
@@ -225,13 +225,13 @@ namespace DeliveryPreciseReact.Service
 
         public List<Kpi> ListKpiSelected(ParamsCalculateKpi paramsCalculateKpi)
         {
-            if (paramsCalculateKpi.SelectKpi.Any(e => e.Name.Equals("Все")))
+            if (paramsCalculateKpi.SelectKpi.Any(e => e.Name.Equals(KpiConst.ALL)))
             {
-                return ListKpis().FindAll(k => !k.Name.Equals("Все"));
+                return ListKpis().FindAll(k => !k.Name.Equals(KpiConst.ALL));
             }
             else
             {
-                return paramsCalculateKpi.SelectKpi.FindAll(k => !k.Name.Equals("Все"));
+                return paramsCalculateKpi.SelectKpi.FindAll(k => !k.Name.Equals(KpiConst.ALL));
             }
             
 
@@ -243,15 +243,15 @@ namespace DeliveryPreciseReact.Service
         {
             switch (kpi.Name)
             {
-                case "Точность поставки по времени, %":
+                case KpiConst.PRECISEDELIVERY/* "Точность поставки по времени, %"*/:
                 {
-                    _all.Add(GetPreciseDeliveryByEnterprise(paramsCalculateKpi,"Точность поставки по времени, %"));
+                    _all.Add(GetPreciseDeliveryByEnterprise(paramsCalculateKpi,KpiConst.PRECISEDELIVERY/*"Точность поставки по времени, %"*/));
                     break;
                 }
 
-                case "Точность выхода на склад %":
+                case KpiConst.PRECISEENTERSTORAGE/*"Точность выхода на склад %"*/:
                 {
-                    _all.Add(GetPreciseEnterToWhseByEnterprise(paramsCalculateKpi,"Точность выхода на склад %"));
+                    _all.Add(GetPreciseEnterToWhseByEnterprise(paramsCalculateKpi,KpiConst.PRECISEENTERSTORAGE/*"Точность выхода на склад %"*/));
                     break;
                 }
                 default:
@@ -487,7 +487,7 @@ namespace DeliveryPreciseReact.Service
         private static string CreateInSectionForCust_Seq(ParamsCalculateKpi paramsCalculateKpi)
         {
             string result = "";
-            if (!paramsCalculateKpi.CustomerDelivery.Name.Equals("Все"))
+            if (!paramsCalculateKpi.CustomerDelivery.Name.Equals(KpiConst.ALL))
             {
                 result = string.Format(" and s.cust_seq = {0} ", paramsCalculateKpi.CustomerDelivery.Seq);
             }
