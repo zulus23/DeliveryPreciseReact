@@ -378,6 +378,10 @@ namespace DeliveryPreciseReact.Service
             {
                 List<PreciseDelivery> _all = connection.Query<PreciseDelivery>(query).AsList();
                 result = _all?.Find(item => item.Month == -1);
+                if (result != null)
+                {
+                    result.Description = nameKpi;
+                }
                 //result?.Detail?.AddRange(_all.FindAll(e => e.Month != -1));
                 FillCollectionToFull(paramsCalculateKpi, _all, result);
 
@@ -463,6 +467,10 @@ namespace DeliveryPreciseReact.Service
             {
                 List<PreciseDelivery> _all = connection.Query<PreciseDelivery>(query).AsList();
                 result = _all?.Find(item => item.Month == -1);
+                if (result != null)
+                {
+                    result.Description = nameKpi;
+                }
 
                 FillCollectionToFull(paramsCalculateKpi, _all, result);
                 CorrectResultForSpeedReclaim(paramsCalculateKpi, result);
