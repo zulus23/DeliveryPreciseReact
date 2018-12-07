@@ -249,6 +249,17 @@ export function createReport(data) {
                 toast.error(getState().error, {position: toast.POSITION.TOP_RIGHT});
             });
         }
+        if(getState().isReduceReport) {
+            dispatch(fetchDataStarted());
+            api.createReportByReduce(data).then(resp => {
+                FileSaver.saveAs(new Blob([resp.data]), uuid.v4() + '.xlsx');
+                dispatch(createReportSucceeded());
+            }).catch(error => {
+                dispatch(loadDataFailed("При формировании отчета(Сводный) произошла ошибка: " + error.message));
+                toast.error(getState().error, {position: toast.POSITION.TOP_RIGHT});
+            });
+        }
+        
     }
 }
 

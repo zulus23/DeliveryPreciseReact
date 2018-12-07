@@ -54,3 +54,15 @@ export function createReportByPki(data){
         url:'/api/utils/reportkpi',
     });
 }
+export function createReportByReduce(data){
+    return client({
+        method: 'post',
+        headers: { 'Accept': 'application/vnd.ms-excel' },
+        data:data,
+        /*responseType: 'stream',*/
+        responseType: 'blob',
+        url:'/api/utils/reportreduce',
+    });
+}
+
+
