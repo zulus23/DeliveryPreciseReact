@@ -7,7 +7,7 @@ namespace DeliveryPreciseReact.Common
     {
         private string _enterprise;
         private DateRange _rangeDate;
-        private List<Kpi> _selectKpi;
+        private List<KpiHelper> _selectKpi;
         private Customer _customer;
         private List<string> _typeCustomer;
         private Customer _customerDelivery;
@@ -28,7 +28,7 @@ namespace DeliveryPreciseReact.Common
             set => _rangeDate = value;
         }
 
-        public List<Kpi> SelectKpi
+        public List<KpiHelper> SelectKpi
         {
             get => _selectKpi;
             set => _selectKpi = value;

@@ -223,7 +223,7 @@ namespace DeliveryPreciseReact.Service
             return _all;
         }
 
-        public List<Kpi> ListKpiSelected(ParamsCalculateKpi paramsCalculateKpi)
+        public List<KpiHelper> ListKpiSelected(ParamsCalculateKpi paramsCalculateKpi)
         {
             if (paramsCalculateKpi.SelectKpi.Any(e => e.Name.Equals(KpiConst.ALL)))
             {
@@ -237,9 +237,9 @@ namespace DeliveryPreciseReact.Service
 
         }
 
-        public List<Kpi> ListKpiByEnterprise(String enterprise)
+        public List<KpiHelper> ListKpiByEnterprise(String enterprise)
         {
-            List<Kpi> _list = ListKpis();
+            List<KpiHelper> _list = ListKpis();
             if (!enterprise.Equals(EnterpriseConst.GOTEK) && !enterprise.Equals(EnterpriseConst.SPB) &&
                 !enterprise.Equals(EnterpriseConst.CENTER))
             {
@@ -254,9 +254,9 @@ namespace DeliveryPreciseReact.Service
         }
 
 
-        private void SelectCalculateKpi(ParamsCalculateKpi paramsCalculateKpi, Kpi kpi, List<PreciseDelivery> _all)
+        private void SelectCalculateKpi(ParamsCalculateKpi paramsCalculateKpi, KpiHelper kpiHelper, List<PreciseDelivery> _all)
         {
-            switch (kpi.Name)
+            switch (kpiHelper.Name)
             {
                 case KpiConst.PRECISEDELIVERY/* "Точность поставки по времени, %"*/:
                 {
@@ -271,23 +271,23 @@ namespace DeliveryPreciseReact.Service
                 }
                 default:
                 {
-                    _all.Add(GetKPIByName(paramsCalculateKpi, kpi.Name));
+                    _all.Add(GetKPIByName(paramsCalculateKpi, kpiHelper.Name));
                     break;
                 }
             }
         }
 
-        public List<Kpi> ListKpis()
+        public List<KpiHelper> ListKpis()
         {
-            List<Kpi> list = new List<Kpi>();
-            list.Add(new Kpi(KpiConst.ALL/*"Все"*/, 0, 0, 0, 0));
-            list.Add(new Kpi(KpiConst.PRECISEDELIVERY/*"Точность поставки по времени, %"*/, 0, 0, 0, 0));
-            list.Add(new Kpi(KpiConst.PRECISEENTERSTORAGE/*"Точность выхода на склад %"*/, 0, 0, 0, 0));
-            list.Add(new Kpi(KpiConst.PRECISEDELIVERYBYAMOUNT/*"Точность поставки по количеству, %"*/, 0, 0, 0, 0));
-            list.Add(new Kpi(KpiConst.LEVELQUALITYPRODUCT/*"Уровень качества продукции, %"*/, 0, 0, 0, 0));
-            list.Add(new Kpi(KpiConst.SPEEDCLAIM/*"Скорость урегулирования претензий, дни"*/, 0, 0, 0, 0));
-            list.Add(new Kpi(KpiConst.PRODUCETEST/*"Производство тестов, дни"*/, 0, 0, 0, 0));
-            list.Add(new Kpi(KpiConst.PRODUCEMODEL/*"Производство макетов, дни"*/, 0, 0, 0, 0));
+            List<KpiHelper> list = new List<KpiHelper>();
+            list.Add(new KpiHelper(KpiConst.ALL/*"Все"*/));
+            list.Add(new KpiHelper(KpiConst.PRECISEDELIVERY/*"Точность поставки по времени, %"*/));
+            list.Add(new KpiHelper(KpiConst.PRECISEENTERSTORAGE/*"Точность выхода на склад %"*/));
+            list.Add(new KpiHelper(KpiConst.PRECISEDELIVERYBYAMOUNT/*"Точность поставки по количеству, %"*/));
+            list.Add(new KpiHelper(KpiConst.LEVELQUALITYPRODUCT/*"Уровень качества продукции, %"*/));
+            list.Add(new KpiHelper(KpiConst.SPEEDCLAIM/*"Скорость урегулирования претензий, дни"*/));
+            list.Add(new KpiHelper(KpiConst.PRODUCETEST/*"Производство тестов, дни"*/));
+            list.Add(new KpiHelper(KpiConst.PRODUCEMODEL/*"Производство макетов, дни"*/));
             return list;
         }
 

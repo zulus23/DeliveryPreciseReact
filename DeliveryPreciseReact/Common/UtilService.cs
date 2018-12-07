@@ -432,6 +432,87 @@ namespace DeliveryPreciseReact.Common
 
             return stream;
         }
+        
+        
+        public async Task<Stream> ReduceXLSFileStreamResult(ParamsCalculateKpi data)
+        {
+            var stream = new MemoryStream();
+            ExcelPackage package;
+            int startByRow = 4;
+            int startByColumn = 2;
+            List<PreciseDelivery> _kpis =  _dataService.CalculateKpi(data);
+            int countKpi = _kpis.Count;
+
+           // PreciseDelivery delivery =  _kpis.First(e => e.Detail.Count == _kpis.Max(p => p.Detail.Count));
+            
+            
+            using (package = new ExcelPackage(stream))
+            {
+             
+              
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Reduce");
+                using (var range = worksheet.Cells[startByRow, startByColumn,startByRow+1,
+                    startByColumn + countKpi*3+ 1])
+                {
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    range.Style.WrapText = true;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(238,236,225));
+
+                }
+                /*  ===========================  Caption ========================================= */
+                worksheet.Cells[startByRow - 2, startByColumn + 1].Value = $"Сводный отчет фактическим значениям KPI по клиентам";
+                worksheet.Cells[startByRow - 1, startByColumn + 1].Value = 
+                                $"Период с {data.RangeDate.Start} по  {data.RangeDate.End}";
+                /*  ------------------------------------------------------------------------------ */
+                worksheet.Cells[startByRow, startByColumn,startByRow + 1, startByColumn].Merge = true;
+                worksheet.Cells[startByRow, startByColumn].Value = @"№";
+                worksheet.Column(startByColumn).Width = 5;
+                worksheet.Cells[startByRow, startByColumn+1,startByRow + 1, startByColumn+1].Merge = true;
+                worksheet.Cells[startByRow, startByColumn+1].Value = @"Клиент";
+                worksheet.Column(startByColumn+1).Width = 50;
+                startByColumn = startByColumn + 1; 
+                
+                for (int i = 0; i < _kpis.Count; i++)
+                {
+                    worksheet.Cells[startByRow, startByColumn+1,startByRow, startByColumn+3].Merge = true;
+                    worksheet.Cells[startByRow, startByColumn + 1].Value = _kpis[i].Description;
+                    worksheet.Cells[startByRow + 1, startByColumn + 1].Value = "Цель";
+                    worksheet.Cells[startByRow+1, startByColumn + 2].Value = "Факт";
+                    worksheet.Cells[startByRow+1, startByColumn + 3].Value = "Откл.";
+                    startByColumn = startByColumn + 3;
+                }
+                
+                
+                
+                
+
+                /*using (var range = worksheet.Cells[startByRow + 2, startByColumn,beginKpiValue-1,
+                    startByColumn + countKpi+ 1])
+                {
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    range.Style.WrapText = true;
+                }*/                
+                
+                
+                package.Save();
+
+            }
+
+            return stream;
+        }
+
+        
 
         private int countMonthInKpi(List<PreciseDelivery> _kpis)
         {

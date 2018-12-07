@@ -112,7 +112,24 @@ namespace DeliveryPreciseReact
             return result;
         }
         
-       
+        [HttpPost("reportreduce")]
+        public async Task<ActionResult> DownloadReportReduce([FromBody] ParamsCalculateKpi data)
+        {
+            string sFileName = @"reduce.xlsx";
+            var streamResult = await _utilService.ReduceXLSFileStreamResult(data);
+
+            streamResult.Position = 0;
+            var result = File(streamResult,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
+
+            Response.Headers["Content-Disposition"] = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = sFileName
+            }.ToString();
+
+
+            return result;
+        }
 
         public class ParamsForSelectCustomer
         {
