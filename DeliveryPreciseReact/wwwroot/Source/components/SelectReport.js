@@ -24,15 +24,25 @@ class SelectReport extends Component {
                     />
                     <span className="align-text-middle pl-2">KPI</span>
                 </label>
-               </div>     
+               </div>
+                <div className="col-12  p-select-report-kpi">
+                    <label htmlFor="isReduceReport"  >
+                        <input className="align-middle pb-0" key="1"  id="isReduceReport"
+                               type="checkbox" value="Сводный"
+                               checked={this.props.isReduceReport}
+                               onChange={this.props.onChange}
+                        />
+                        <span className="align-text-middle pl-2">Сводный</span>
+                    </label>
+                </div> 
             </div>
         );
     }
 }
 
 function mapStateToProps(state){
-    const {isDriverReport,isKPIReport} = state;
-    return {isDriverReport,isKPIReport}
+    const {isDriverReport,isKPIReport,isReduceReport} = state;
+    return {isDriverReport,isKPIReport,isReduceReport}
 }
 
 export default connect(mapStateToProps)(SelectReport);

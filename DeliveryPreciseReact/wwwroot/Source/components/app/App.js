@@ -188,7 +188,7 @@ class App extends Component {
                                          <div className="col-2">   
                                          <button className="p-shadow p-button" 
                                                  onClick={this.createReportHandler}
-                                                 disabled={!this.props.isDriverReport  && !this.props.isKPIReport}>Отчет</button>
+                                                 disabled={!this.props.isDriverReport  && !this.props.isKPIReport && !this.props.isReduceReport}>Отчет</button>
                                          </div>
                                          <div className="col-10">   
                                             <SelectReport onChange={this.handleSelectReport}/>
@@ -295,11 +295,12 @@ class App extends Component {
 function mapStateProps(state) {
     const {enterprise, customers,currentEnterprise,kpi,dateRangeSelected
            ,selectKpi,isSKChecked,isSPChecked,isPRChecked,searchingCustomer
-           ,error,calculateKpi,customerDelivery,searchingCustomerDelivery,isLoading,isDriverReport,isKPIReport} = state;
+           ,error,calculateKpi,customerDelivery,searchingCustomerDelivery,isLoading,isDriverReport,isKPIReport,isReduceReport} = state;
 
     return {enterprise, customers,currentEnterprise,kpi,
             dateRangeSelected,selectKpi,
-            isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error,calculateKpi,customerDelivery,searchingCustomerDelivery,isLoading,isDriverReport,isKPIReport}
+            isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error,calculateKpi,customerDelivery,
+            searchingCustomerDelivery,isLoading,isDriverReport,isKPIReport,isReduceReport}
 
 }
 

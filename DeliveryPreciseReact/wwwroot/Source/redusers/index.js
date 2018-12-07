@@ -21,6 +21,7 @@ const initState = {
     isLoading:false,
     isDriverReport:false,
     isKPIReport:false,
+    isReduceReport:false,
     
 };
 
@@ -153,7 +154,12 @@ export default function appReduce(state=initState,action){
                         isKPIReport: !state.isKPIReport
                     }
                 }
-                
+                case 'Сводный' :{
+                    return {
+                        ... state,
+                        isReduceReport: !state.isReduceReport
+                    }
+                }
             }
         }
         case setup.CREATE_REPORT_SUCCEEDED : {
