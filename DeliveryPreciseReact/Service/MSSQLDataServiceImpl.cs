@@ -51,7 +51,7 @@ namespace DeliveryPreciseReact.Service
         public List<Customer> ListCustomerByEnterprise(string nameEnterprise, List<string> typeCustomer)
         {
             List<Customer> result = null;
-            string typeIn = CreateCustomerTypeInSection(typeCustomer);
+            string typeIn = Utils.CreateCustomerTypeInSection(typeCustomer);
 
 
             string _query = string.Format(" SELECT code, name,seq, type,sortcode FROM (" +
@@ -103,50 +103,15 @@ namespace DeliveryPreciseReact.Service
             return result;
         }
 
-        private static string CreateCustomerTypeInSection(List<string> typeCustomer)
-        {
-            string typeIn = "";
-            if (typeCustomer.Count > 0)
-            {
-                typeIn = typeCustomer.Aggregate(" and  customer.type  IN (", (i, a) => i = i + "'" + a + "'" + ",",
-                    e => e + "'--','' )").Replace(",''", "");
-            }
-
-            return typeIn;
-        }
-
-        private static string CreateInSectionForAllCustomer(Customer customer, List<string> typeCustomer)
-        {
-            string _insertCodeCustomer = "";
-            if (!customer.Name.Equals(KpiConst.ALL))
-            {
-                _insertCodeCustomer = $" AND customer.code  = '{customer.Code}'";
-            }
-
-
-            string typeIn = CreateCustomerTypeInSection(typeCustomer);
-            string _query = string.Format(" in ( SELECT code FROM (" +
-                                          " SELECT  c.cust_num AS code," +
-                                          " RTRIM(COALESCE(ca.name,ca.RUSExtName)) as name, " +
-                                          " CASE WHEN uf_strategcust = '1'  THEN 'СК' " +
-                                          "      WHEN uf_strategprospect = '1' THEN 'СП' " +
-                                          "      WHEN (uf_strategcust IS NULL AND uf_strategprospect IS NULL)  THEN 'ПР' " +
-                                          "      ELSE 'ПР' END AS type,1 AS sortcode " +
-                                          " FROM dbo.customer c " +
-                                          " JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = c.cust_seq" +
-                                          " join dbo.gtk_cust_kpi_hdr h on ca.cust_num = h.cust_num " +
-                                          " WHERE ca.cust_seq = 0 " +
-                                          " AND RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL ) as customer  " +
-                                          "  where 1 = 1  {0} {1})", typeIn, _insertCodeCustomer);
-            return _query;
-        }
+       
+       
 
 
         private PreciseDelivery GetPreciseDeliveryByEnterprise(ParamsCalculateKpi paramsCalculateKpi,string nameKpi)
         {
             string _selectCustomer =
-                CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
-            string _selectSeqCustomer = CreateInSectionForCust_Seq(paramsCalculateKpi);
+                Utils.CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
+            string _selectSeqCustomer = Utils.CreateInSectionForCust_Seq(paramsCalculateKpi);
 
             PreciseDelivery result = null;
 
@@ -303,8 +268,8 @@ namespace DeliveryPreciseReact.Service
             List<DeliveryRecord> _listAll;
 
             string _selectCustomer =
-                CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
-            string _selectSeqCustomer = CreateInSectionForCust_Seq(paramsCalculateKpi);
+                Utils.CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
+            string _selectSeqCustomer = Utils.CreateInSectionForCust_Seq(paramsCalculateKpi);
             string query = string.Format(" SELECT site,s.cust_num as custNum,s.cust_seq as custSeq," +
                                          " RTRIM(COALESCE(ca.name,ca.RUSExtName)) as nameCustomer, " +
                                          "  dbo.GTKFormatAddress(s.cust_num,s.cust_seq,'custaddr') as addressCustomer," +
@@ -343,8 +308,8 @@ namespace DeliveryPreciseReact.Service
         private PreciseDelivery GetPreciseEnterToWhseByEnterprise(ParamsCalculateKpi paramsCalculateKpi,string nameKpi)
         {
             string _selectCustomer =
-                CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
-            string _selectSeqCustomer = CreateInSectionForCust_Seq(paramsCalculateKpi);
+                Utils.CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
+            string _selectSeqCustomer = Utils.CreateInSectionForCust_Seq(paramsCalculateKpi);
 
             PreciseDelivery result = null;
 
@@ -436,7 +401,7 @@ namespace DeliveryPreciseReact.Service
         private PreciseDelivery GetKPIByName(ParamsCalculateKpi paramsCalculateKpi, string nameKpi)
         {
             string _selectCustomer =
-                CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
+                Utils.CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
             PreciseDelivery result = null;
             String query = string.Format($"select description,month,year,target,fact,deviation,countorder from (" +
                                          " select max(s.kpi_description) as description, MONTH(s.Date_Calc) as month, YEAR(s.Date_Calc) as year," +
@@ -508,16 +473,7 @@ namespace DeliveryPreciseReact.Service
             }
         }
 
-        private static string CreateInSectionForCust_Seq(ParamsCalculateKpi paramsCalculateKpi)
-        {
-            string result = "";
-            if (!paramsCalculateKpi.CustomerDelivery.Name.Equals(KpiConst.ALL))
-            {
-                result = string.Format(" and s.cust_seq = {0} ", paramsCalculateKpi.CustomerDelivery.Seq);
-            }
-
-            return result;
-        }
+        
 
         private Tuple<double, double> CalculateTrend(List<PreciseDelivery> preciseDeliveries)
         {
@@ -548,23 +504,6 @@ namespace DeliveryPreciseReact.Service
             return new Tuple<double, double>(a, b);
         }
 
-        /*public  void LinearLeastSquares(double[] x, double[] y, out double a, out double b) 
-        {   
-            if (x.Length != y.Length || x.Length <= 1)
-                throw new ArgumentException ("Неверные размеры данных");
-            double a11 = 0.0, a12 = 0.0, a22 = x.Length, b1 = 0.0, b2 = 0.0;
-            for (int i = 0; i < x.Length; i++) {
-                a11 += x [i] * x [i];
-                a12 += x [i];
-                b1 += x [i] * y [i];
-                b2 += y [i];
-            }
-            double det = a11 * a22 - a12 * a12;
-            if (Math.Abs (det) < 1e-17)
-                throw new ArgumentException ("Данные не верны");
-            a = (b1 * a22 - a12 * b2) / det;
-            b = (a11 * b2 - b1 * a12) / det;
-        }
-        */
+        
     }
 }
