@@ -20,6 +20,8 @@ namespace DeliveryPreciseReact.Service
         List<KpiHelper> ListKpiSelected(ParamsCalculateKpi paramsCalculateKpi);
         List<KpiHelper> ListKpiByEnterprise(String enterprise);
 
+        List<KpiByCustomer> ListKpiByCustomers(ParamsCalculateKpi paramsCalculateKpi);
+
         Task<List<DeliveryRecord>> GetDeliveryRecordsAsync(ParamsCalculateKpi paramsCalculateKpi);
 
     }

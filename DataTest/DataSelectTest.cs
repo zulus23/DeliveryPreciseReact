@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DeliveryPreciseReact.Common;
 using DeliveryPreciseReact.Domain;
 using DeliveryPreciseReact.Service;
 using Xunit;
@@ -40,5 +41,36 @@ namespace DataTest
 
             Assert.True(customers.Count  == 2);
         }
+        [Fact]
+        public void ListKpiByCustomer()
+        {
+            MssqlDataServiceImpl impl = new MssqlDataServiceImpl();
+            Customer customer = new Customer();
+            customer.Code = "K009154";
+            customer.Name = "САВУШКИН ПРОДУКТ ОАО";
+            customer.Seq = 0;
+            
+            DateRange dateRange = new DateRange();
+            dateRange.Start = DateTime.Parse("2018-07-01");
+            dateRange.End = DateTime.Parse("2018-09-30");
+            List<KpiHelper> helpers = new List<KpiHelper>();
+            helpers.Add(new KpiHelper(KpiConst.PRECISEDELIVERYBYAMOUNT));
+            helpers.Add(new KpiHelper(KpiConst.PRECISEENTERSTORAGE));
+            
+            ParamsCalculateKpi paramsCalculateKpi = new ParamsCalculateKpi();
+            paramsCalculateKpi.Enterprise = "ГОТЭК";
+            paramsCalculateKpi.Customer = customer;
+            paramsCalculateKpi.RangeDate = dateRange;
+            paramsCalculateKpi.SelectKpi = helpers;
+            paramsCalculateKpi.TypeCustomer = new List<string>();
+            paramsCalculateKpi.CustomerDelivery = customer;
+            
+            // PreciseDelivery delivery = impl.GetPreciseDeliveryByEnterprise("ГОТЭК",customer);
+            impl.ListKpiByCustomers(paramsCalculateKpi);
+
+            
+        }
+        
+        
     }
 }

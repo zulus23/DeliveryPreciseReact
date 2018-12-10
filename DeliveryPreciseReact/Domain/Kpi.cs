@@ -2,23 +2,40 @@ namespace DeliveryPreciseReact.Domain
 {
     public sealed class Kpi
     {
+        
+        private string _customerName;
         private string _description;
         private double _target;
         private double _fact;
         private double _deviation;
         private double _countOrder;
+        private int _order_;
 
         public Kpi()
         {
         }
 
-        public Kpi(string description, double target, double fact, double deviation, double countOrder)
+        public Kpi(string customerName, string description, double target, double fact, double deviation, double countOrder, int order)
         {
+            _customerName = customerName;
             _description = description;
             _target = target;
             _fact = fact;
             _deviation = deviation;
             _countOrder = countOrder;
+            _order_ = order;
+        }
+
+        public string CustomerName
+        {
+            get => _customerName;
+            set => _customerName = value;
+        }
+
+        public int Order_
+        {
+            get => _order_;
+            set => _order_ = value;
         }
 
         public string Description

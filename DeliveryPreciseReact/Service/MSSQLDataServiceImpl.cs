@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using DeliveryPreciseReact.Common;
@@ -218,7 +220,86 @@ namespace DeliveryPreciseReact.Service
             return _list;
         }
 
+        public List<KpiByCustomer> ListKpiByCustomers(ParamsCalculateKpi paramsCalculateKpi)       
+        {
+            
+            
+            
+            List<KpiHelper> _selectedKpi = new List<KpiHelper>();
+            
 
+            if (paramsCalculateKpi.SelectKpi.Any(e => e.Name.Equals(KpiConst.ALL)))
+            {
+                _selectedKpi = ListKpis().FindAll(k => !k.Name.Equals(KpiConst.ALL));
+            }
+            else
+            {
+                _selectedKpi = paramsCalculateKpi.SelectKpi.FindAll(k => !k.Name.Equals(KpiConst.ALL));
+            }
+
+            int countSelectedKpi = _selectedKpi.Count;
+
+
+            StringBuilder bodyStringCTE =  new StringBuilder();
+            
+            for (int i = 0; i < _selectedKpi.Count; i++)
+            {
+                bodyStringCTE.Append(Utils.SelectKpiByCustomer(paramsCalculateKpi, _selectedKpi[i], i));  
+                if ((i == 0 || i % 2 != 0) && i != _selectedKpi.Count - 1)
+                {
+                    bodyStringCTE.Append(" union all ");
+                }
+                
+                
+            }
+
+            string query =
+                string.Format($";with reduce_kpi(customername,description,target,fact,deviation,countorder,order_) as ( {bodyStringCTE.ToString()} ) select * from reduce_kpi k order by k.customername,  order_");
+
+            
+            List<KpiByCustomer> kpiByCustomers = new List<KpiByCustomer>();
+            
+            using (var connection =
+                new SqlConnection(DataConnection.GetConnectionString(paramsCalculateKpi.Enterprise)))
+            {
+                List<Kpi> _all = connection.Query<Kpi>(query).AsList();
+                ImmutableSortedDictionary<string,List<Kpi>> list =  _all.GroupBy(k => k.CustomerName)
+                    .OrderBy(p => p.Key.ToString())
+                    .ToImmutableSortedDictionary(x => x.Key, x => x.ToList());
+
+                foreach (KeyValuePair<string,List<Kpi>> kpi in list)
+                {
+                    if (countSelectedKpi != kpi.Value.Count)
+                    {
+                        List<Kpi> _kpis = new List<Kpi>(kpi.Value);
+                        for (int i = 0; i < _selectedKpi.Count; i++)
+                        {
+                            if (kpi.Value.All(k => k.Order_ != i))
+                            {
+                                _kpis.Add(new Kpi(kpi.Key,_selectedKpi[i].ToString(),0,0,0,0,i));
+                            }
+                        } 
+                        kpiByCustomers.Add(new KpiByCustomer(kpi.Key.ToString(), _kpis));
+                        _kpis.Clear();
+                    }
+                    else
+                    {
+                        kpiByCustomers.Add(new KpiByCustomer(kpi.Key.ToString(), kpi.Value));
+                    }
+                }
+                
+
+            }
+
+
+            return kpiByCustomers;
+            
+            
+        }
+       
+        
+        
+        
         private void SelectCalculateKpi(ParamsCalculateKpi paramsCalculateKpi, KpiHelper kpiHelper, List<PreciseDelivery> _all)
         {
             switch (kpiHelper.Name)

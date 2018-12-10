@@ -45,6 +45,19 @@ namespace DeliveryPreciseReact.Service
             return result;
         }
 
+        public static string CreateInSectionForCust_Seq_By_C(ParamsCalculateKpi paramsCalculateKpi)
+        {
+            string result = "";
+            if (!paramsCalculateKpi.CustomerDelivery.Name.Equals(KpiConst.ALL))
+            {
+                result = string.Format(" and c.cust_seq = {0} ", paramsCalculateKpi.CustomerDelivery.Seq);
+            }
+
+            return result;
+        }
+
+        
+        
         public static string CreateCustomerTypeInSection(List<string> typeCustomer)
         {
             string typeIn = "";
@@ -58,40 +71,40 @@ namespace DeliveryPreciseReact.Service
         }
 
 
-        private static string GetStringPreciseDelivery(ParamsCalculateKpi paramsCalculateKpi, string nameKpi)
+        private static string GetStringPreciseDelivery(ParamsCalculateKpi paramsCalculateKpi, string nameKpi,int order)
         {
             string _selectCustomer =
                 Utils.CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
-            string _selectSeqCustomer = Utils.CreateInSectionForCust_Seq(paramsCalculateKpi);
+            string _selectSeqCustomer = Utils.CreateInSectionForCust_Seq_By_C(paramsCalculateKpi);
             
             string query = string.Format(
                 $"select customer.name as customername,max(kpi_description) as description, max(t.Kpi_target) as target, avg(s.KPI_stat) as fact, " +
-                " (avg(s.KPI_stat)  - max(t.Kpi_target)) as deviation, count(*) as countorder ,1 " +
+                " (avg(s.KPI_stat)  - max(t.Kpi_target)) as deviation, count(*) as countorder ,{6} as order_ " +
                 " from gtk_group_report.dbo.gtk_kpi_ship s join (select * from dbo.gtk_cust_kpi_lns where  kpi_description = '{4}') as t  on t.cust_num = s.cust_num " +
                 " join ( SELECT name,code,cust_seq FROM ( SELECT  c.cust_num AS code, RTRIM(COALESCE(ca.name,ca.RUSExtName)) as name,  CASE WHEN uf_strategcust = '1'  THEN 'СК'  " +
                 "      WHEN uf_strategprospect = '1' THEN 'СП'       WHEN (uf_strategcust IS NULL AND uf_strategprospect IS NULL)  THEN 'ПР'       ELSE 'ПР' END AS type," +
                 " c.cust_seq  FROM dbo.customer c  JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = c.cust_seq " +
                 " join dbo.gtk_cust_kpi_hdr h on ca.cust_num = h.cust_num  WHERE 1 = 1  {3}  AND " +
-                " RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL ) as customer    where 1 = 1    AND customer.code  {0}) customer on customer.code = s.cust_num  and customer.cust_seq = s.cust_seq " +
+                " RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL  ) as customer    where 1 = 1    AND customer.code  {0}) customer on customer.code = s.cust_num  and customer.cust_seq = s.cust_seq " +
                 " where s.DateDostFact between '{1}' and {2} and s.site = '{5}' group by  customer.name",_selectCustomer,
                 paramsCalculateKpi.RangeDate.Start.ToString("yyyyMMdd"),
                 paramsCalculateKpi.RangeDate.End.ToString("yyyyMMdd"), _selectSeqCustomer,
                 nameKpi,
-                DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise));
+                DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise),order);
 
             return query;
 
         }
 
-        private static string GetStringPreciseWhse(ParamsCalculateKpi paramsCalculateKpi, string nameKpi)
+        private static string GetStringPreciseWhse(ParamsCalculateKpi paramsCalculateKpi, string nameKpi,int order)
         {
              string _selectCustomer =
                 Utils.CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
-            string _selectSeqCustomer = Utils.CreateInSectionForCust_Seq(paramsCalculateKpi);
+            string _selectSeqCustomer = Utils.CreateInSectionForCust_Seq_By_C(paramsCalculateKpi);
 
             string query = string.Format(
-                $" select customer.name as namecustomer,max(kpi_description) as description, max(t.Kpi_target) as target, avg(s.KPI_whse) as fact, " +
-                " (avg(s.KPI_whse)  - max(t.Kpi_target)) as deviation, count(*) as countorder, 2 from gtk_group_report.dbo.gtk_kpi_ship s " +
+                $" select customer.name as customername,max(kpi_description) as description, max(t.Kpi_target) as target, avg(s.KPI_whse) as fact, " +
+                " (avg(s.KPI_whse)  - max(t.Kpi_target)) as deviation, count(*) as countorder, {6} as order_  from gtk_group_report.dbo.gtk_kpi_ship s " +
                 " join (select * from dbo.gtk_cust_kpi_lns where  kpi_description = '{4}') as t on t.cust_num = s.cust_num " +
                 " join  ( SELECT name,code,cust_seq FROM ( SELECT  c.cust_num AS code, RTRIM(COALESCE(ca.name,ca.RUSExtName)) as name, " +
                 "  CASE WHEN uf_strategcust = '1'  THEN 'СК' WHEN uf_strategprospect = '1' THEN 'СП' WHEN (uf_strategcust IS NULL AND uf_strategprospect IS NULL)  " +
@@ -103,20 +116,20 @@ namespace DeliveryPreciseReact.Service
                  _selectCustomer,
                  paramsCalculateKpi.RangeDate.Start.ToString("yyyyMMdd"),
                  paramsCalculateKpi.RangeDate.End.ToString("yyyyMMdd"), _selectSeqCustomer, nameKpi,
-                 DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise) );
+                 DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise) ,order);
             
             
             
             return query;
         }
 
-        private static string GetStringKpiByName(ParamsCalculateKpi paramsCalculateKpi, string nameKpi)
+        private static string GetStringKpiByName(ParamsCalculateKpi paramsCalculateKpi, string nameKpi, int order)
         {
             string _selectCustomer =
                 Utils.CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
             
-            string query = string.Format($"select customer.name as namecustomer, max(s.kpi_description) as description, max(t.Kpi_target) as target, avg(s.KPI_Fact) as fact," +
-                                            " (avg(s.KPI_Fact)  - max(t.Kpi_target)) as deviation, sum(s.KPI_Qty) as countorder,3 from gtk_group_report.dbo.gtk_site_cust_kpi s   " +
+            string query = string.Format($"select customer.name as customername, max(s.kpi_description) as description, max(t.Kpi_target) as target, avg(s.KPI_Fact) as fact," +
+                                            " (avg(s.KPI_Fact)  - max(t.Kpi_target)) as deviation, sum(s.KPI_Qty) as countorder,{5} as order_  from gtk_group_report.dbo.gtk_site_cust_kpi s   " +
                                             "  join (select * from dbo.gtk_cust_kpi_lns where  kpi_description = '{3}') as t on t.cust_num = s.cust_num " +
                                             "  join ( SELECT name,code,cust_seq FROM ( SELECT  c.cust_num AS code, RTRIM(COALESCE(ca.name,ca.RUSExtName)) as name,  " +
                                             "          CASE WHEN uf_strategcust = '1'  THEN 'СК'       WHEN uf_strategprospect = '1' THEN 'СП'       " +
@@ -131,10 +144,36 @@ namespace DeliveryPreciseReact.Service
                                             _selectCustomer,
                                             paramsCalculateKpi.RangeDate.Start.ToString("yyyyMMdd"),
                                             paramsCalculateKpi.RangeDate.End.ToString("yyyyMMdd"), nameKpi,
-                                            DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise));
+                                            DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise),order);
             
             
             return query;
         }
+        
+        public static string SelectKpiByCustomer(ParamsCalculateKpi paramsCalculateKpi, KpiHelper kpiHelper,int order)
+        {
+            switch (kpiHelper.Name)
+            {
+                case KpiConst.PRECISEDELIVERY/* "Точность поставки по времени, %"*/:
+                {
+                    return Utils.GetStringPreciseDelivery(paramsCalculateKpi,KpiConst.PRECISEDELIVERY,order);
+                    
+                }
+
+                case KpiConst.PRECISEENTERSTORAGE/*"Точность выхода на склад %"*/:
+                {
+                    return Utils.GetStringPreciseWhse(paramsCalculateKpi,KpiConst.PRECISEENTERSTORAGE,order);
+                    
+                }
+                default:
+                {
+                    return Utils.GetStringKpiByName(paramsCalculateKpi, kpiHelper.Name,order);
+                    
+                }
+            }
+        }
+        
+        
+        
     }
 }
