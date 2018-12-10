@@ -86,7 +86,7 @@ namespace DeliveryPreciseReact.Service
                 " c.cust_seq  FROM dbo.customer c  JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = c.cust_seq " +
                 " join dbo.gtk_cust_kpi_hdr h on ca.cust_num = h.cust_num  WHERE 1 = 1  {3}  AND " +
                 " RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL  ) as customer    where 1 = 1    AND customer.code  {0}) customer on customer.code = s.cust_num  and customer.cust_seq = s.cust_seq " +
-                " where s.DateDostFact between '{1}' and {2} and s.site = '{5}' group by  customer.name",_selectCustomer,
+                " where s.DateDostFact between '{1}' and '{2}' and s.site = '{5}' group by  customer.name",_selectCustomer,
                 paramsCalculateKpi.RangeDate.Start.ToString("yyyyMMdd"),
                 paramsCalculateKpi.RangeDate.End.ToString("yyyyMMdd"), _selectSeqCustomer,
                 nameKpi,

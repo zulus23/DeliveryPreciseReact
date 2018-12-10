@@ -440,8 +440,8 @@ namespace DeliveryPreciseReact.Common
             ExcelPackage package;
             int startByRow = 4;
             int startByColumn = 2;
-            List<PreciseDelivery> _kpis =  _dataService.CalculateKpi(data);
-            int countKpi = _kpis.Count;
+            List<KpiByCustomer> _kpis =  _dataService.ListKpiByCustomers(data);
+            int countKpi = data.SelectKpi.Count;
 
            // PreciseDelivery delivery =  _kpis.First(e => e.Detail.Count == _kpis.Max(p => p.Detail.Count));
             
@@ -478,22 +478,22 @@ namespace DeliveryPreciseReact.Common
                 worksheet.Column(startByColumn+1).Width = 50;
                 startByColumn = startByColumn + 1; 
                 
-                for (int i = 0; i < _kpis.Count; i++)
+                for (int i = 0; i < data.SelectKpi.Count; i++)
                 {
                     worksheet.Cells[startByRow, startByColumn+1,startByRow, startByColumn+3].Merge = true;
-                    worksheet.Cells[startByRow, startByColumn + 1].Value = _kpis[i].Description;
+                    worksheet.Cells[startByRow, startByColumn+1,startByRow, startByColumn+3].Style.WrapText = true;
+                    worksheet.Row(4).Height = 32.25;
+                    worksheet.Cells[startByRow, startByColumn + 1].Value = data.SelectKpi[i].Name;
                     worksheet.Cells[startByRow + 1, startByColumn + 1].Value = "Цель";
                     worksheet.Cells[startByRow+1, startByColumn + 2].Value = "Факт";
                     worksheet.Cells[startByRow+1, startByColumn + 3].Value = "Откл.";
                     startByColumn = startByColumn + 3;
                 }
-                
-                
-                
-                
-
-                /*using (var range = worksheet.Cells[startByRow + 2, startByColumn,beginKpiValue-1,
-                    startByColumn + countKpi+ 1])
+               
+                startByColumn = 2;
+                using (var range = worksheet.Cells[startByRow + 2, startByColumn,
+                                                   _kpis.Count+startByRow+1,
+                                                   startByColumn  + countKpi*3+ 1])
                 {
                     range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                     range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
@@ -502,7 +502,35 @@ namespace DeliveryPreciseReact.Common
                     range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                     range.Style.WrapText = true;
-                }*/                
+                }
+                
+                startByColumn = 3;
+                startByRow = startByRow + 2;
+                int count = 0; 
+                
+                
+                _kpis.ForEach(k =>
+                {
+                    worksheet.Cells[startByRow, startByColumn-1].Value = ++count;
+                    worksheet.Cells[startByRow, startByColumn].Value = k.Customer;
+                    k.Kpis.ForEach(e =>
+                    {
+                        worksheet.Cells[startByRow, startByColumn + 1].Style.Numberformat.Format = "0.00";
+                        worksheet.Cells[startByRow, startByColumn + 1].Value = e.Target;
+                        worksheet.Cells[startByRow, startByColumn + 2].Style.Numberformat.Format = "0.00";
+                        worksheet.Cells[startByRow, startByColumn + 2].Value = e.Fact;
+                        worksheet.Cells[startByRow, startByColumn + 3].Style.Numberformat.Format = "0.00";
+                        worksheet.Cells[startByRow, startByColumn + 3].Value = e.Deviation;
+                        startByColumn = startByColumn + 3;
+                    });
+                    startByRow++;
+                    startByColumn = 3;
+                });
+                
+                
+                
+
+                                
                 
                 
                 package.Save();
