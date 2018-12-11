@@ -441,7 +441,10 @@ namespace DeliveryPreciseReact.Common
             int startByRow = 4;
             int startByColumn = 2;
             List<KpiByCustomer> _kpis =  _dataService.ListKpiByCustomers(data);
-            int countKpi = data.SelectKpi.Count;
+            List<KpiHelper> _selectedKpi = Utils.GetSelectedKpi(data);
+            int countKpi = _selectedKpi.Count;
+            
+            
 
            // PreciseDelivery delivery =  _kpis.First(e => e.Detail.Count == _kpis.Max(p => p.Detail.Count));
             
@@ -478,12 +481,12 @@ namespace DeliveryPreciseReact.Common
                 worksheet.Column(startByColumn+1).Width = 50;
                 startByColumn = startByColumn + 1; 
                 
-                for (int i = 0; i < data.SelectKpi.Count; i++)
+                for (int i = 0; i < _selectedKpi.Count; i++)
                 {
                     worksheet.Cells[startByRow, startByColumn+1,startByRow, startByColumn+3].Merge = true;
                     worksheet.Cells[startByRow, startByColumn+1,startByRow, startByColumn+3].Style.WrapText = true;
                     worksheet.Row(4).Height = 32.25;
-                    worksheet.Cells[startByRow, startByColumn + 1].Value = data.SelectKpi[i].Name;
+                    worksheet.Cells[startByRow, startByColumn + 1].Value = _selectedKpi[i].Name;
                     worksheet.Cells[startByRow + 1, startByColumn + 1].Value = "Цель";
                     worksheet.Cells[startByRow+1, startByColumn + 2].Value = "Факт";
                     worksheet.Cells[startByRow+1, startByColumn + 3].Value = "Откл.";

@@ -173,7 +173,32 @@ namespace DeliveryPreciseReact.Service
             }
         }
         
-        
-        
+        public static List<KpiHelper> GetSelectedKpi(ParamsCalculateKpi paramsCalculateKpi)
+        {
+            List<KpiHelper> _selectedKpi;
+            if (paramsCalculateKpi.SelectKpi.Any(e => e.Name.Equals(KpiConst.ALL)))
+            {
+                _selectedKpi = GetKpiHelpers().FindAll(k => !k.Name.Equals(KpiConst.ALL));
+            }
+            else
+            {
+                _selectedKpi = paramsCalculateKpi.SelectKpi.FindAll(k => !k.Name.Equals(KpiConst.ALL));
+            }
+
+            return _selectedKpi;
+        }
+        public static List<KpiHelper> GetKpiHelpers()
+        {
+            List<KpiHelper> list = new List<KpiHelper>();
+            list.Add(new KpiHelper(KpiConst.ALL /*"Все"*/));
+            list.Add(new KpiHelper(KpiConst.PRECISEDELIVERY /*"Точность поставки по времени, %"*/));
+            list.Add(new KpiHelper(KpiConst.PRECISEENTERSTORAGE /*"Точность выхода на склад %"*/));
+            list.Add(new KpiHelper(KpiConst.PRECISEDELIVERYBYAMOUNT /*"Точность поставки по количеству, %"*/));
+            list.Add(new KpiHelper(KpiConst.LEVELQUALITYPRODUCT /*"Уровень качества продукции, %"*/));
+            list.Add(new KpiHelper(KpiConst.SPEEDCLAIM /*"Скорость урегулирования претензий, дни"*/));
+            list.Add(new KpiHelper(KpiConst.PRODUCETEST /*"Производство тестов, дни"*/));
+            list.Add(new KpiHelper(KpiConst.PRODUCEMODEL /*"Производство макетов, дни"*/));
+            return list;
+        }
     }
 }

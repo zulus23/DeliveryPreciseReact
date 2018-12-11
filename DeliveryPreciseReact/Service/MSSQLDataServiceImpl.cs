@@ -228,14 +228,7 @@ namespace DeliveryPreciseReact.Service
             List<KpiHelper> _selectedKpi = new List<KpiHelper>();
             
 
-            if (paramsCalculateKpi.SelectKpi.Any(e => e.Name.Equals(KpiConst.ALL)))
-            {
-                _selectedKpi = ListKpis().FindAll(k => !k.Name.Equals(KpiConst.ALL));
-            }
-            else
-            {
-                _selectedKpi = paramsCalculateKpi.SelectKpi.FindAll(k => !k.Name.Equals(KpiConst.ALL));
-            }
+            _selectedKpi = Utils.GetSelectedKpi(paramsCalculateKpi);
 
             int countSelectedKpi = _selectedKpi.Count;
 
@@ -245,7 +238,7 @@ namespace DeliveryPreciseReact.Service
             for (int i = 0; i < _selectedKpi.Count; i++)
             {
                 bodyStringCTE.Append(Utils.SelectKpiByCustomer(paramsCalculateKpi, _selectedKpi[i], i));  
-                if ((i == 0 || i % 2 != 0) && i != _selectedKpi.Count - 1)
+                if (i !=  _selectedKpi.Count - 1)
                 {
                     bodyStringCTE.Append(" union all ");
                 }
@@ -279,7 +272,7 @@ namespace DeliveryPreciseReact.Service
                                 _kpis.Add(new Kpi(kpi.Key,_selectedKpi[i].ToString(),0,0,0,0,i));
                             }
                         } 
-                        kpiByCustomers.Add(new KpiByCustomer(kpi.Key.ToString(), _kpis));
+                        kpiByCustomers.Add(new KpiByCustomer(kpi.Key.ToString(), new List<Kpi>(_kpis)));
                         _kpis.Clear();
                     }
                     else
@@ -296,10 +289,10 @@ namespace DeliveryPreciseReact.Service
             
             
         }
-       
+
         
-        
-        
+
+
         private void SelectCalculateKpi(ParamsCalculateKpi paramsCalculateKpi, KpiHelper kpiHelper, List<PreciseDelivery> _all)
         {
             switch (kpiHelper.Name)
@@ -325,17 +318,10 @@ namespace DeliveryPreciseReact.Service
 
         public List<KpiHelper> ListKpis()
         {
-            List<KpiHelper> list = new List<KpiHelper>();
-            list.Add(new KpiHelper(KpiConst.ALL/*"Все"*/));
-            list.Add(new KpiHelper(KpiConst.PRECISEDELIVERY/*"Точность поставки по времени, %"*/));
-            list.Add(new KpiHelper(KpiConst.PRECISEENTERSTORAGE/*"Точность выхода на склад %"*/));
-            list.Add(new KpiHelper(KpiConst.PRECISEDELIVERYBYAMOUNT/*"Точность поставки по количеству, %"*/));
-            list.Add(new KpiHelper(KpiConst.LEVELQUALITYPRODUCT/*"Уровень качества продукции, %"*/));
-            list.Add(new KpiHelper(KpiConst.SPEEDCLAIM/*"Скорость урегулирования претензий, дни"*/));
-            list.Add(new KpiHelper(KpiConst.PRODUCETEST/*"Производство тестов, дни"*/));
-            list.Add(new KpiHelper(KpiConst.PRODUCEMODEL/*"Производство макетов, дни"*/));
-            return list;
+            return Utils.GetKpiHelpers();
         }
+
+        
 
         /*
          * TODO select for get number car
