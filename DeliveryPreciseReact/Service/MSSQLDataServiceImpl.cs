@@ -353,7 +353,9 @@ namespace DeliveryPreciseReact.Service
                                          " FROM gtk_group_report.dbo.gtk_kpi_ship s " +
                                          " JOIN dbo.custaddr ca ON ca.cust_num = s.cust_num AND ca.cust_seq = s.cust_seq" +
                                          " where site = '{0}'  and s.cust_num  {1} and s.DateDostFact between '{2}' and '{3} '" +
-                                         " {4}"
+                                         " {4}"+
+                                         " order by nameCustomer"
+                                         
                 , DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise)
                 , _selectCustomer
                 , paramsCalculateKpi.RangeDate.Start.ToString("yyyyMMdd")
