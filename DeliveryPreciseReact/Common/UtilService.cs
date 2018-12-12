@@ -40,7 +40,7 @@ namespace DeliveryPreciseReact.Common
             {
                 // add a new worksheet to the empty workbook
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("KPI");
-                using (var range = worksheet.Cells["A1:AF2"])
+                using (var range = worksheet.Cells["A1:AG2"])
                 {
                     range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                     range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
@@ -128,9 +128,11 @@ namespace DeliveryPreciseReact.Common
                 worksheet.Cells[1, 31].Value = @"№ ЗНП";
                 worksheet.Cells["AF1:AF2"].Merge = true;
                 worksheet.Cells[1, 32].Value = @"Вид отгрузки";
+                worksheet.Cells["AG1:AG2"].Merge = true;
+                worksheet.Cells[1, 33].Value = @"Дата создания строки";
                 
 
-                using (var range = worksheet.Cells[$"A2:AF{_delivery.Count + 2}"])
+                using (var range = worksheet.Cells[$"A2:AG{_delivery.Count + 2}"])
                 {
                     range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                     range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
@@ -241,7 +243,9 @@ namespace DeliveryPreciseReact.Common
                     worksheet.Cells[$"AE{i + _beginRow}"].Value = _delivery[i].Job;
                     worksheet.Column(32).Width = 13;
                     worksheet.Cells[$"AF{i + _beginRow}"].Value = _delivery[i].VidOtgr;
-                    
+                    worksheet.Column(33).Width = 13;
+                    worksheet.Cells[$"AG{i + _beginRow}"].Style.Numberformat.Format = "dd-mm-yyyy";
+                    worksheet.Cells[$"AG{i + _beginRow}"].Value = _delivery[i].CreateDate;
                     
                     
                 }
