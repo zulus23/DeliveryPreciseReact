@@ -199,15 +199,19 @@ namespace DeliveryPreciseReact.Common
                     worksheet.Column(19).Width = 20;
                     worksheet.Cells[$"S{i + _beginRow}"].Value = _delivery[i].StatMfg;
                     worksheet.Column(20).Width = 20;
-                    worksheet.Cells[$"T{i + _beginRow}"].Value = _delivery[i].StatRow;
+                   // worksheet.Cells[$"T{i + _beginRow}"].Value = _delivery[i].StatRow;
+                    worksheet.Cells[$"T{i + _beginRow}"].Value = _delivery[i].DayMfg;
                     worksheet.Column(21).Width = 13;
                     worksheet.Cells[$"U{i + _beginRow}"].Value = _delivery[i].StatShip;
                     worksheet.Column(22).Width = 20;
-                    worksheet.Cells[$"V{i + _beginRow}"].Value = _delivery[i].DayMfg;
+                    //worksheet.Cells[$"V{i + _beginRow}"].Value = _delivery[i].DayMfg;
+                    worksheet.Cells[$"V{i + _beginRow}"].Value = _delivery[i].DayShip;
                     worksheet.Column(23).Width = 13;
                     worksheet.Cells[$"W{i + _beginRow}"].Value = _delivery[i].StatDost;
                     worksheet.Column(24).Width = 20;
-                    worksheet.Cells[$"X{i + _beginRow}"].Value = _delivery[i].DayShip;
+                    //worksheet.Cells[$"X{i + _beginRow}"].Value = _delivery[i].DayShip;
+                    worksheet.Cells[$"X{i + _beginRow}"].Value = _delivery[i].DayDost;
+                    
                     /*worksheet.Column(25).Width = 13;
                     worksheet.Cells[$"Y{i + _beginRow}"].Value = _delivery[i].DayDost;*/
                     /*worksheet.Column(26).Width = 20;
