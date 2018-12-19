@@ -83,7 +83,7 @@ namespace DeliveryPreciseReact.Service
                 " from gtk_group_report.dbo.gtk_kpi_ship s join (select * from dbo.gtk_cust_kpi_lns where  kpi_description = '{4}') as t  on t.cust_num = s.cust_num " +
                 " join ( SELECT name,code,cust_seq FROM ( SELECT  c.cust_num AS code, RTRIM(COALESCE(ca.name,ca.RUSExtName)) as name,  CASE WHEN uf_strategcust = '1'  THEN 'СК'  " +
                 "      WHEN uf_strategprospect = '1' THEN 'СП'       WHEN (uf_strategcust IS NULL AND uf_strategprospect IS NULL)  THEN 'ПР'       ELSE 'ПР' END AS type," +
-                " c.cust_seq  FROM dbo.customer c  JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = c.cust_seq " +
+                " c.cust_seq  FROM dbo.customer c  JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = 0 " +
                 " join dbo.gtk_cust_kpi_hdr h on ca.cust_num = h.cust_num  WHERE 1 = 1  {3}  AND " +
                 " RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL  ) as customer    where 1 = 1    AND customer.code  {0}) customer on customer.code = s.cust_num  and customer.cust_seq = s.cust_seq " +
                 " where s.DateDostFact between '{1}' and '{2}' and s.site = '{5}' group by  customer.name",_selectCustomer,
@@ -109,7 +109,7 @@ namespace DeliveryPreciseReact.Service
                 " join  ( SELECT name,code,cust_seq FROM ( SELECT  c.cust_num AS code, RTRIM(COALESCE(ca.name,ca.RUSExtName)) as name, " +
                 "  CASE WHEN uf_strategcust = '1'  THEN 'СК' WHEN uf_strategprospect = '1' THEN 'СП' WHEN (uf_strategcust IS NULL AND uf_strategprospect IS NULL)  " +
                 "  THEN 'ПР' ELSE 'ПР' END AS type, c.cust_seq FROM dbo.customer c  " +
-                " JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = c.cust_seq join dbo.gtk_cust_kpi_hdr h on ca.cust_num = h.cust_num  " +
+                " JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = 0 join dbo.gtk_cust_kpi_hdr h on ca.cust_num = h.cust_num  " +
                 " WHERE 1 = 1  {3}  AND RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL ) as customer    " +
                 " where 1 = 1    AND customer.code  {0}) customer  on customer.code = s.cust_num  and customer.cust_seq = s.cust_seq " +
                 "  where s.DateWHSFact between '{1}' and '{2}'  and s.site = '{5}' group by customer.name",
@@ -136,7 +136,7 @@ namespace DeliveryPreciseReact.Service
                                             "              WHEN (uf_strategcust IS NULL AND uf_strategprospect IS NULL)  THEN 'ПР'       ELSE 'ПР' END AS type," +
                                             "          c.cust_seq  " +
                                             "         FROM dbo.customer c  " +
-                                            "         JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = c.cust_seq " +
+                                            "         JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = 0 " +
                                             "          join dbo.gtk_cust_kpi_hdr h on ca.cust_num = h.cust_num  " +
                                             "         WHERE ca.cust_seq = 0  AND RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL ) as customer    " +
                                             "       where 1 = 1    AND customer.code  {0}) customer on customer.code = s.cust_num  and customer.cust_seq = 0 " +

@@ -247,7 +247,8 @@ namespace DeliveryPreciseReact.Service
             }
 
             string query =
-                string.Format($";with reduce_kpi(customername,description,target,fact,deviation,countorder,order_) as ( {bodyStringCTE.ToString()} ) select * from reduce_kpi k order by k.customername,  order_");
+                string.Format($";with reduce_kpi(customername,description,target,fact,deviation,countorder,order_) as ( {bodyStringCTE.ToString()} ) " +
+                              $"select * from reduce_kpi k order by k.customername,  order_");
 
             
             List<KpiByCustomer> kpiByCustomers = new List<KpiByCustomer>();
@@ -347,7 +348,7 @@ namespace DeliveryPreciseReact.Service
                                          " CAST(s.DateWHSFact AS DATE) as DateWHSFact , CAST(s.DateShipPlan AS DATE) AS DateShipPlan, " +
                                          " CAST(s.DateShipZay AS DATE) AS DateShipZay , CAST(s.DateShipFact AS DATE) AS DateShipFact ," +
                                          " CAST(s.DateDostPlan AS DATE) as DateDostPlan,CAST(s.DateDostPor AS DATE) as DateDostPor," +
-                                         " CAST(s.DateDostFact AS DATE) AS DateDostFact,s.Stat_Row,s.StatMFG ,s.DayMFG ,s.StatShip ,s.DayShip ," +
+                                         " CAST(s.DateDostFact AS DATE) AS DateDostFact,s.Stat_Row as StatRow,s.StatMFG ,s.DayMFG ,s.StatShip ,s.DayShip ," +
                                          " s.StatDost,s.DayDost ,s.KPI_stat as kpiStat,s.CreatedBy,s.CreateDate,s.distance,s.KPI_whse as kpiWhse, s.plant_ship as plantShip," +
                                          " s.po_num as poNum, s.job as job, s.vidotgr as vidOtgr" +
                                          " FROM gtk_group_report.dbo.gtk_kpi_ship s " +
