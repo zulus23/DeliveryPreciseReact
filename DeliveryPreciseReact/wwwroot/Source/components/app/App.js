@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 
 import {connect} from "react-redux";
+
+
 import {
     calculateSelectKpi,
     changeDateInterval,
@@ -20,9 +22,8 @@ import Customer from "../Customer";
 import {DateRangePicker} from "@progress/kendo-react-dateinputs";
 import {Button} from '@progress/kendo-react-buttons';
 
+
 import moment from 'moment';
-
-
 
 import KpiIndex from "../KpiIndex";
 import Consignee from "../Consignee";
@@ -34,6 +35,14 @@ import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import LoaderSpinner from "../LoaderSpinner";
 import SelectReport from "../SelectReport";
+
+import RangeDatePicker from "../RangeDatePicker";
+
+
+
+
+
+
 
 
 
@@ -177,10 +186,12 @@ class App extends Component {
                                 </div>
                                 <div className="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3">
                                     <p className="mb-1 text-center">Период</p>
-                                    <DateRangePicker startDateInputSettings={this.startDateInputSettings}
+                                    {/*<DateRangePicker startDateInputSettings={this.startDateInputSettings}
                                                      endDateInputSettings={this.startDateInputSettings}
                                        value={this.props.dateRangeSelected}
-                                       onChange={this.handleChange}/>
+                                       onChange={this.handleChange}/>*/}
+
+                                    <RangeDatePicker />
 
                                 </div>
                                 <div className="col-md-3 col-lg-4 col-xl-5 d-flex justify-content-start">

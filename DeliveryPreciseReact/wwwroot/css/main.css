@@ -251,3 +251,13 @@ tr.k-master-row {
 .k-dropdown-wrap .k-select {
     border-style: none;
 }
+.DayPickerInput >   input {
+    width: 100%;
+    height: 29px;
+    border-radius: 0;
+    box-shadow: 0 0.2em 0.2em rgba(0,0,0,0.15);
+    color: #993300;
+    border-style: none;
+    text-align: center;
+    font-weight: bold;
+}
