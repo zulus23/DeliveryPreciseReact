@@ -146,7 +146,7 @@ namespace DeliveryPreciseReact.Service
             using (var connection =
                 new SqlConnection(DataConnection.GetConnectionString(paramsCalculateKpi.Enterprise)))
             {
-                List<PreciseDelivery> _all = connection.Query<PreciseDelivery>(query).AsList();
+                List<PreciseDelivery> _all = connection.Query<PreciseDelivery>(query). AsList();
 
                 result = _all?.Find(item => item.Month == -1);
 
@@ -156,7 +156,14 @@ namespace DeliveryPreciseReact.Service
                 {
                     Tuple<double, double> trend = CalculateTrend(result?.Detail);
 
-                    result.Detail.ForEach(e => e.Trend = trend.Item2 + e.Month * trend.Item1);
+                    result.Detail.Sort((e1,e2) => e1.Year -e2.Year);
+                    int i = 1;
+                    result.Detail.ForEach(e =>
+                    {
+                        
+                        e.Trend = trend.Item2 + i * trend.Item1;
+                        i++;
+                    });
                 }
 
                 //result = connection.QueryFirst<PreciseDelivery>(query);
@@ -420,12 +427,20 @@ namespace DeliveryPreciseReact.Service
                 //result?.Detail?.AddRange(_all.FindAll(e => e.Month != -1));
                 FillCollectionToFull(paramsCalculateKpi, _all, result);
 
+                
 
                 if (result?.Detail?.Count > 0)
                 {
                     Tuple<double, double> trend = CalculateTrend(result?.Detail);
 
-                    result.Detail.ForEach(e => e.Trend = trend.Item2 + e.Month * trend.Item1);
+                    result.Detail.Sort((e1,e2) => e1.Year -e2.Year);
+                    int i = 1;
+                    result.Detail.ForEach(e =>
+                    {
+                        
+                        e.Trend = trend.Item2 + i * trend.Item1;
+                        i++;
+                    });
                 }
             }
 
@@ -516,7 +531,14 @@ namespace DeliveryPreciseReact.Service
                 {
                     Tuple<double, double> trend = CalculateTrend(result?.Detail);
 
-                    result.Detail.ForEach(e => e.Trend = trend.Item2 + e.Month * trend.Item1);
+                    result.Detail.Sort((e1,e2) => e1.Year -e2.Year);
+                    int i = 1;
+                    result.Detail.ForEach(e =>
+                    {
+                        
+                        e.Trend = trend.Item2 + i * trend.Item1;
+                        i++;
+                    });
                 }
             }
 
@@ -552,6 +574,8 @@ namespace DeliveryPreciseReact.Service
 
         private Tuple<double, double> LinearLeastSquares(PreciseDelivery[] deliveries)
         {
+
+            Array.Sort(deliveries, (m, m1) => (m.Year - m1.Year));  
             if (deliveries.Length == 1)
             {
                 return new Tuple<double, double>(0, 0);

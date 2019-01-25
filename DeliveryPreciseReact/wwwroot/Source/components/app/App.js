@@ -99,6 +99,12 @@ class App extends Component {
         
         this.props.dispatch(changeDateInterval(event.target.value))
     };
+    handleChangeRangDate = (date_Rang) => {
+        console.log(date_Rang);
+        this.props.dispatch(changeDateInterval(date_Rang))
+    };
+    
+    
 
     handleCalculateKpi = (event) =>{
          const _typeCustomer = this.collectTypeCustomer();
@@ -191,7 +197,7 @@ class App extends Component {
                                        value={this.props.dateRangeSelected}
                                        onChange={this.handleChange}/>*/}
 
-                                    <RangeDatePicker />
+                                    <RangeDatePicker  changeRange={this.handleChangeRangDate} />
 
                                 </div>
                                 <div className="col-md-3 col-lg-4 col-xl-5 d-flex justify-content-start">

@@ -28,23 +28,33 @@ export default class RangeDatePicker extends React.Component {
 
     showFromMonth() {
         const {from, to} = this.state;
+        
+        this.afterUpdate();    
         if (!from) {
             return;
         }
         if (moment(to).diff(moment(from), 'months') < 2) {
             this.to.getDayPicker().showMonth(from);
         }
+        
     }
 
+    
     handleFromChange(from) {
         // Change the from date and focus the "to" input field
-        this.setState({from});
-        
+        this.setState({from},this.afterUpdate);
 
     }
+
+    afterUpdate = ()=> {
+        const {from, to} = this.state;
+        console.log(from,to);
+        this.props.changeRange({start:this.state.from, end:this.state.to})
+    };
 
     handleToChange(to) {
         this.setState({to}, this.showFromMonth);
+        
     }
 
     render() {
