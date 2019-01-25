@@ -100,7 +100,7 @@ class App extends Component {
         this.props.dispatch(changeDateInterval(event.target.value))
     };
     handleChangeRangDate = (dateRang) => {
-        console.log(dateRang);
+        
         this.props.dispatch(changeDateInterval(dateRang))
     };
     
