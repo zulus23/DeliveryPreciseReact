@@ -1,6 +1,6 @@
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const devMode = process.env.NODE_ENV !== 'production'
+const devMode = process.env.NODE_ENV !== 'production';
 require("@babel/polyfill");
 module.exports = {
     entry:["@babel/polyfill",'./wwwroot/source/index.js'],

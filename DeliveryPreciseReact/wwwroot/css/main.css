@@ -254,6 +254,9 @@ tr.k-master-row {
 .k-datepicker  {
     width: 100%;
 }
+span.k-select {
+    box-shadow: 0 0.2em 0.2em rgba(0,0,0,0.15);
+}
 
 .DayPickerInput >   input {
     width: 100%;

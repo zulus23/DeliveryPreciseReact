@@ -33,7 +33,7 @@ class RangeDate extends Component {
                     />
                     </div>
                 <div className="col-6">
-                    <DatePicker id="end" 
+                    <DatePicker id="end" title={"Дата окончания периода"}
                                 value={this.state.end} 
                                 onChange={this.changeDateEnd}           
                        
