@@ -192,7 +192,7 @@ label span {
 
 /*.k-dateinput-wrap .k-input, .k-dropdown-wrap .k-input, .k-numeric-wrap .k-input, .k-picker-wrap .k-input*/
 .k-dateinput-wrap  {
-    width: 150px;
+    width: 100%;
     text-align: center;
     border-radius: 0px;
     box-shadow: 0 0.2em 0.2em rgba(0,0,0,0.15);
@@ -251,6 +251,10 @@ tr.k-master-row {
 .k-dropdown-wrap .k-select {
     border-style: none;
 }
+.k-datepicker  {
+    width: 100%;
+}
+
 .DayPickerInput >   input {
     width: 100%;
     height: 29px;

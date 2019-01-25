@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import DayPickerInput from "./RangeDatePicker";
+import { DatePicker } from '@progress/kendo-react-dateinputs';
 
 class RangeDate extends Component {
     constructor(props) {
@@ -13,8 +13,15 @@ class RangeDate extends Component {
         return (
             <div className="row">
                 <div className="col-6">
+                    <DatePicker id="start"
+                       
+                    />
                     </div>
                 <div className="col-6">
+                    <DatePicker id="end"
+                                
+                       
+                    />
                     </div>
 
             </div>

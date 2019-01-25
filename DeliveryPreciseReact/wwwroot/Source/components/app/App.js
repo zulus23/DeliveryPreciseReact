@@ -35,8 +35,8 @@ import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import LoaderSpinner from "../LoaderSpinner";
 import SelectReport from "../SelectReport";
+import RangeDate from "../RangeDate";
 
-import RangeDatePicker from "../RangeDatePicker";
 
 
 
@@ -197,7 +197,7 @@ class App extends Component {
                                        value={this.props.dateRangeSelected}
                                        onChange={this.handleChange}/>*/}
 
-                                    <RangeDatePicker  changeRange={this.handleChangeRangDate} />
+                                    <RangeDate  changeRange={this.handleChangeRangDate} />
 
                                 </div>
                                 <div className="col-md-3 col-lg-4 col-xl-5 d-flex justify-content-start">
