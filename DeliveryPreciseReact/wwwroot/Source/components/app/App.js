@@ -99,9 +99,9 @@ class App extends Component {
         
         this.props.dispatch(changeDateInterval(event.target.value))
     };
-    handleChangeRangDate = (date_Rang) => {
-        console.log(date_Rang);
-        this.props.dispatch(changeDateInterval(date_Rang))
+    handleChangeRangDate = (dateRang) => {
+        console.log(dateRang);
+        this.props.dispatch(changeDateInterval(dateRang))
     };
     
     
@@ -197,7 +197,8 @@ class App extends Component {
                                        value={this.props.dateRangeSelected}
                                        onChange={this.handleChange}/>*/}
 
-                                    <RangeDate  changeRange={this.handleChangeRangDate} />
+                                    <RangeDate  changeRange={this.handleChangeRangDate}  startDate ={this.props.dateRangeSelected.start}
+                                                endDate ={this.props.dateRangeSelected.end}/>
 
                                 </div>
                                 <div className="col-md-3 col-lg-4 col-xl-5 d-flex justify-content-start">
