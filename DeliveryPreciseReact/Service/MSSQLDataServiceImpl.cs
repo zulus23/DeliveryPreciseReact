@@ -277,7 +277,7 @@ namespace DeliveryPreciseReact.Service
                         {
                             if (kpi.Value.All(k => k.Order_ != i))
                             {
-                                _kpis.Add(new Kpi(kpi.Key,_selectedKpi[i].ToString(),0,0,0,0,i));
+                                _kpis.Insert(i,new Kpi(kpi.Key,_selectedKpi[i].Name,0,0,0,0,i));
                             }
                         } 
                         kpiByCustomers.Add(new KpiByCustomer(kpi.Key.ToString(), new List<Kpi>(_kpis)));
