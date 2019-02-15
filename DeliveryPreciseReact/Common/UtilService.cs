@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -442,6 +443,7 @@ namespace DeliveryPreciseReact.Common
         }
         
         
+        /*Сводный отчет фактическим значениям KPI по клиентам*/
         public async Task<Stream> ReduceXLSFileStreamResult(ParamsCalculateKpi data)
         {
             var stream = new MemoryStream();
@@ -451,8 +453,8 @@ namespace DeliveryPreciseReact.Common
             List<KpiByCustomer> _kpis =  _dataService.ListKpiByCustomers(data);
             List<KpiHelper> _selectedKpi = Utils.GetSelectedKpi(data);
             int countKpi = _selectedKpi.Count;
-            
-            
+            List<Tuple<String,double,double,double>> itog = new List<Tuple<string, double, double, double>>();
+                        
 
            // PreciseDelivery delivery =  _kpis.First(e => e.Detail.Count == _kpis.Max(p => p.Detail.Count));
             
@@ -462,6 +464,7 @@ namespace DeliveryPreciseReact.Common
              
               
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Reduce");
+                
                 using (var range = worksheet.Cells[startByRow, startByColumn,startByRow+1,
                     startByColumn + countKpi*3+ 1])
                 {
@@ -499,6 +502,7 @@ namespace DeliveryPreciseReact.Common
                     worksheet.Cells[startByRow+1, startByColumn + 2].Value = "Факт";
                     worksheet.Cells[startByRow+1, startByColumn + 3].Value = "Откл.";
                     startByColumn = startByColumn + 3;
+                    
                 }
                
                 startByColumn = 2;
@@ -517,8 +521,8 @@ namespace DeliveryPreciseReact.Common
                 
                 startByColumn = 3;
                 startByRow = startByRow + 2;
-                int count = 0; 
-                
+                int count = 0;
+                int firstAvrgRow = startByRow; 
                 
                 _kpis.ForEach(k =>
                 {
@@ -526,24 +530,56 @@ namespace DeliveryPreciseReact.Common
                     worksheet.Cells[startByRow, startByColumn].Value = k.Customer;
                     k.Kpis.ForEach(e =>
                     {
+                        
                         worksheet.Cells[startByRow, startByColumn + 1].Style.Numberformat.Format = "0.00";
                         worksheet.Cells[startByRow, startByColumn + 1].Value = e.Target;
+                          
                         worksheet.Cells[startByRow, startByColumn + 2].Style.Numberformat.Format = "0.00";
                         worksheet.Cells[startByRow, startByColumn + 2].Value = e.Fact;
                         worksheet.Cells[startByRow, startByColumn + 3].Style.Numberformat.Format = "0.00";
                         worksheet.Cells[startByRow, startByColumn + 3].Value = e.Deviation;
                         startByColumn = startByColumn + 3;
+                        itog.Add(new Tuple<string,double,double,double>(e.Description,e.Target,e.Fact,e.Deviation));
                     });
                     startByRow++;
                     startByColumn = 3;
                 });
-                
-                
-                
 
-                                
+                var _groupItog = itog.GroupBy(kpi => kpi.Item1, (name, kpis) => new
+                    {
+                        Key = name,
+                        Count = kpis.Count(),
+                        AverageTarget = kpis.Average(kpi => kpi.Item2),
+                        AverageFact = kpis.Average(kpi => kpi.Item3),
+                        AverageDeviation = kpis.Average(kpi => kpi.Item4),
+                    }
+                );
+                worksheet.Cells[startByRow, 3].Value = @"Итого (среднее значение) :";
+                foreach (var result in _groupItog)
+                {
+                    worksheet.Cells[startByRow, startByColumn + 1].Style.Numberformat.Format = "0.00";
+                    worksheet.Cells[startByRow, startByColumn + 1].Value = result.AverageTarget;
+                    worksheet.Cells[startByRow, startByColumn + 2].Style.Numberformat.Format = "0.00";
+                    worksheet.Cells[startByRow, startByColumn + 2].Value = result.AverageFact;
+                    worksheet.Cells[startByRow, startByColumn + 3].Style.Numberformat.Format = "0.00";
+                    worksheet.Cells[startByRow, startByColumn + 3].Value = result.AverageDeviation;
+                    startByColumn = startByColumn + 3;
+                }
+                using (var range = worksheet.Cells[startByRow , 2,startByRow,startByColumn])
+                {
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    range.Style.WrapText = true;
+                    range.Style.Font.Bold = true;
+                }
                 
                 
+                
+               
                 package.Save();
 
             }
