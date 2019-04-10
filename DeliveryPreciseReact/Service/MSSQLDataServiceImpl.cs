@@ -119,7 +119,7 @@ namespace DeliveryPreciseReact.Service
 
             String query = string.Format($"select description,month,year,target,fact,deviation,countorder from (" +
                                          " select max(kpi_description) as description, MONTH(s.DateDostFact) as month, YEAR(s.DateDostFact) as year," +
-                                         " max(t.Kpi_target) as target, avg(s.KPI_stat) as fact," +
+                                         " avg(t.Kpi_target) as target, avg(s.KPI_stat) as fact," +
                                          " (avg(s.KPI_stat)  - max(t.Kpi_target)) as deviation,count(*) as countorder " +
                                          " from gtk_group_report.dbo.gtk_kpi_ship s " +
                                          " join (select * from dbo.gtk_cust_kpi_lns where " +
@@ -129,7 +129,7 @@ namespace DeliveryPreciseReact.Service
                                          " {3} " +
                                          " group by MONTH(s.DateDostFact), YEAR(s.DateDostFact) " +
                                          " union all " +
-                                         " select max(kpi_description) as description,'-1' as month, MAX(YEAR(s.DateDostFact)) as year, max(t.Kpi_target) as target," +
+                                         " select max(kpi_description) as description,'-1' as month, MAX(YEAR(s.DateDostFact)) as year, avg(t.Kpi_target) as target," +
                                          " avg(s.KPI_stat) as fact,(avg(s.KPI_stat)  - max(t.Kpi_target)) as deviation, count(*) as countorder" +
                                          " from gtk_group_report.dbo.gtk_kpi_ship s join (select * from dbo.gtk_cust_kpi_lns " +
                                          " where kpi_description = '{4}') as t on t.cust_num = s.cust_num" +
@@ -357,7 +357,7 @@ namespace DeliveryPreciseReact.Service
                                          " CAST(s.DateDostPlan AS DATE) as DateDostPlan,CAST(s.DateDostPor AS DATE) as DateDostPor," +
                                          " CAST(s.DateDostFact AS DATE) AS DateDostFact,s.Stat_Row as StatRow,s.StatMFG ,s.DayMFG ,s.StatShip ,s.DayShip ," +
                                          " s.StatDost,s.DayDost ,s.KPI_stat as kpiStat,s.CreatedBy,s.CreateDate,s.distance,s.KPI_whse as kpiWhse, s.plant_ship as plantShip," +
-                                         " s.po_num as poNum, s.job as job, s.vidotgr as vidOtgr" +
+                                         " s.po_num as poNum, s.job as job, s.vidotgr as vidOtgr, s.stat_kpi_list as inList" +
                                          " FROM gtk_group_report.dbo.gtk_kpi_ship s " +
                                          " JOIN dbo.custaddr ca ON ca.cust_num = s.cust_num AND ca.cust_seq = s.cust_seq" +
                                          " where site = '{0}'  and s.cust_num  {1} and s.DateDostFact between '{2}' and '{3} '" +
@@ -392,7 +392,7 @@ namespace DeliveryPreciseReact.Service
 
             String query = string.Format($"select description,month,year,target,fact,deviation,countorder from (" +
                                          " select max(kpi_description) as description, MONTH(s.DateWHSFact) as month,YEAR(s.DateWHSFact) as year," +
-                                         " max(t.Kpi_target) as target, avg(s.KPI_whse) as fact," +
+                                         " AVG(t.Kpi_target) as target, avg(s.KPI_whse) as fact," +
                                          " (avg(s.KPI_whse)  - max(t.Kpi_target)) as deviation,count(*) as countorder " +
                                          " from gtk_group_report.dbo.gtk_kpi_ship s " +
                                          " join (select * from dbo.gtk_cust_kpi_lns where " +
@@ -402,7 +402,7 @@ namespace DeliveryPreciseReact.Service
                                          " {3} " +
                                          " group by MONTH(s.DateWHSFact),YEAR(s.DateWHSFact) " +
                                          " union all " +
-                                         " select max(kpi_description) as description,'-1' as month,MAX(YEAR(s.DateWHSFact)) as year, max(t.Kpi_target) as target," +
+                                         " select max(kpi_description) as description,'-1' as month,MAX(YEAR(s.DateWHSFact)) as year, AVG(t.Kpi_target) as target," +
                                          " avg(s.KPI_whse) as fact,(avg(s.KPI_whse)  - max(t.Kpi_target)) as deviation, count(*) as countorder" +
                                          " from gtk_group_report.dbo.gtk_kpi_ship s join (select * from dbo.gtk_cust_kpi_lns " +
                                          " where kpi_description = '{4}') as t on t.cust_num = s.cust_num" +
@@ -490,7 +490,7 @@ namespace DeliveryPreciseReact.Service
             PreciseDelivery result = null;
             String query = string.Format($"select description,month,year,target,fact,deviation,countorder from (" +
                                          " select max(s.kpi_description) as description, MONTH(s.Date_Calc) as month, YEAR(s.Date_Calc) as year," +
-                                         " max(t.Kpi_target) as target, avg(s.KPI_Fact) as fact," +
+                                         " AVG(t.Kpi_target) as target, avg(s.KPI_Fact) as fact," +
                                          "  (avg(s.KPI_Fact)  - max(t.Kpi_target)) as deviation,sum(s.KPI_Qty) as countorder  " +
                                          " from gtk_group_report.dbo.gtk_site_cust_kpi s  " +
                                          " join (select * from dbo.gtk_cust_kpi_lns where " +
@@ -499,7 +499,7 @@ namespace DeliveryPreciseReact.Service
                                          " and s.KPI_description = t.KPI_description  " +
                                          " group by MONTH(s.Date_Calc) , YEAR(s.Date_Calc)  " +
                                          " union all " +
-                                         " select max(s.kpi_description) as description, -1 as month, MAX(YEAR(s.Date_Calc)) as year, max(t.Kpi_target) as target," +
+                                         " select max(s.kpi_description) as description, -1 as month, MAX(YEAR(s.Date_Calc)) as year, AVG(t.Kpi_target) as target," +
                                          " avg(s.KPI_Fact) as fact,(avg(s.KPI_Fact)  - max(t.Kpi_target)) as deviation,sum(s.KPI_Qty) as countorder " +
                                          " from gtk_group_report.dbo.gtk_site_cust_kpi s join (select * from dbo.gtk_cust_kpi_lns " +
                                          " where kpi_description = '{3}') as t on t.cust_num = s.cust_num" +

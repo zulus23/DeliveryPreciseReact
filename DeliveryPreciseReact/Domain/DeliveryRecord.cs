@@ -41,8 +41,13 @@ namespace DeliveryPreciseReact.Domain
         private string _poNum;
         private string _job;
         private string _vidOtgr;
-        
-        
+        private int _inList; //filed stat_kpi_list
+
+        public int InList
+        {
+            get => _inList;
+            set => _inList = value;
+        }
 
 
         public string Site

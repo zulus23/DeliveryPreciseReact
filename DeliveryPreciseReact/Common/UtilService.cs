@@ -41,7 +41,7 @@ namespace DeliveryPreciseReact.Common
             {
                 // add a new worksheet to the empty workbook
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("KPI");
-                using (var range = worksheet.Cells["A1:AG2"])
+                using (var range = worksheet.Cells["A1:AH2"])
                 {
                     range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                     range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
@@ -131,9 +131,11 @@ namespace DeliveryPreciseReact.Common
                 worksheet.Cells[1, 32].Value = @"Вид отгрузки";
                 worksheet.Cells["AG1:AG2"].Merge = true;
                 worksheet.Cells[1, 33].Value = @"Дата создания строки";
+                worksheet.Cells["AH1:AH2"].Merge = true;
+                worksheet.Cells[1, 34].Value = @"Справ KPI";
                 
 
-                using (var range = worksheet.Cells[$"A2:AG{_delivery.Count + 2}"])
+                using (var range = worksheet.Cells[$"A2:AH{_delivery.Count + 2}"])
                 {
                     range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                     range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
@@ -247,7 +249,7 @@ namespace DeliveryPreciseReact.Common
                     worksheet.Column(33).Width = 13;
                     worksheet.Cells[$"AG{i + _beginRow}"].Style.Numberformat.Format = "dd-mm-yyyy";
                     worksheet.Cells[$"AG{i + _beginRow}"].Value = _delivery[i].CreateDate;
-                    
+                    worksheet.Cells[$"AH{i + _beginRow}"].Value = _delivery[i].InList;
                     
                 }
 

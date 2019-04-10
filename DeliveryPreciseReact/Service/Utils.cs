@@ -78,7 +78,7 @@ namespace DeliveryPreciseReact.Service
             string _selectSeqCustomer = Utils.CreateInSectionForCust_Seq_By_C(paramsCalculateKpi);
             
             string query = string.Format(
-                $"select customer.name as customername,max(kpi_description) as description, max(t.Kpi_target) as target, avg(s.KPI_stat) as fact, " +
+                $"select customer.name as customername,max(kpi_description) as description, avg(t.Kpi_target) as target, avg(s.KPI_stat) as fact, " +
                 " (avg(s.KPI_stat)  - max(t.Kpi_target)) as deviation, count(*) as countorder ,{6} as order_ " +
                 " from gtk_group_report.dbo.gtk_kpi_ship s join (select * from dbo.gtk_cust_kpi_lns where  kpi_description = '{4}') as t  on t.cust_num = s.cust_num " +
                 " join ( SELECT name,code,cust_seq FROM ( SELECT  c.cust_num AS code, RTRIM(COALESCE(ca.name,ca.RUSExtName)) as name,  CASE WHEN uf_strategcust = '1'  THEN 'СК'  " +
