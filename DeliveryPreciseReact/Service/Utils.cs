@@ -95,6 +95,31 @@ namespace DeliveryPreciseReact.Service
             return query;
 
         }
+        
+        private static string GetStringPreciseDeliveryWithOutGroup(ParamsCalculateKpi paramsCalculateKpi, string nameKpi,int order)
+        {
+            string _selectCustomer =
+                Utils.CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
+            string _selectSeqCustomer = Utils.CreateInSectionForCust_Seq_By_C(paramsCalculateKpi);
+            
+            string query = string.Format(
+                $"select customer.name as customername,kpi_description as description, t.Kpi_target as target, s.KPI_stat as fact, " +
+                " (s.KPI_stat  - t.Kpi_target) as deviation, count(*) as countorder ,{6} as order_ " +
+                " from gtk_group_report.dbo.gtk_kpi_ship s join (select * from dbo.gtk_cust_kpi_lns where  kpi_description = '{4}') as t  on t.cust_num = s.cust_num " +
+                " join ( SELECT name,code,cust_seq FROM ( SELECT  c.cust_num AS code, RTRIM(COALESCE(ca.name,ca.RUSExtName)) as name,  " +
+                " c.cust_seq  FROM dbo.customer c  JOIN dbo.custaddr ca ON ca.cust_num = c.cust_num AND ca.cust_seq = 0 " +
+                " join dbo.gtk_cust_kpi_hdr h on ca.cust_num = h.cust_num  WHERE 1 = 1  {3}  AND " +
+                " RTRIM(COALESCE(ca.name,ca.RUSExtName)) IS NOT NULL  ) as customer    where 1 = 1    AND customer.code  {0}) customer on customer.code = s.cust_num  and customer.cust_seq = s.cust_seq " +
+                " where s.DateDostFact between '{1}' and '{2}' and s.site = '{5}' group by  customer.name, kpi_description, t.Kpi_target, s.KPI_stat ,  (s.KPI_stat  - t.Kpi_target) ",_selectCustomer,
+                paramsCalculateKpi.RangeDate.Start.ToString("yyyyMMdd"),
+                paramsCalculateKpi.RangeDate.End.ToString("yyyyMMdd"), _selectSeqCustomer,
+                nameKpi,
+                DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise),order);
+
+            return query;
+
+        }
+        
 
         private static string GetStringPreciseWhse(ParamsCalculateKpi paramsCalculateKpi, string nameKpi,int order)
         {
@@ -156,7 +181,8 @@ namespace DeliveryPreciseReact.Service
             {
                 case KpiConst.PRECISEDELIVERY/* "Точность поставки по времени, %"*/:
                 {
-                    return Utils.GetStringPreciseDelivery(paramsCalculateKpi,KpiConst.PRECISEDELIVERY,order);
+                    //return Utils.GetStringPreciseDelivery(paramsCalculateKpi,KpiConst.PRECISEDELIVERY,order);
+                    return Utils.GetStringPreciseDeliveryWithOutGroup(paramsCalculateKpi,KpiConst.PRECISEDELIVERY,order);
                     
                 }
 

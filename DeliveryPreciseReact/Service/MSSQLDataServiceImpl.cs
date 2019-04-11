@@ -253,10 +253,19 @@ namespace DeliveryPreciseReact.Service
                 
             }
 
+/*
             string query =
                 string.Format($";with reduce_kpi(customername,description,target,fact,deviation,countorder,order_) as ( {bodyStringCTE.ToString()} ) " +
                               $"select * from reduce_kpi k order by k.customername,  order_");
+*/
 
+            string query =
+                string.Format($";with reduce_kpi(customername,description,target,fact,deviation,countorder,order_) as ( {bodyStringCTE.ToString()} ) " +
+                              $"select customername, MAX(description) AS description,AVG(target) AS target,AVG(fact) AS fact,AVG(deviation) AS deviation ,"+
+                               "SUM(countorder) AS countorder,MAX(order_) AS order_  from reduce_kpi k " +
+                               "GROUP BY k.customername  order by k.customername,  order_");
+
+            
             
             List<KpiByCustomer> kpiByCustomers = new List<KpiByCustomer>();
             
