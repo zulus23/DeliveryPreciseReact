@@ -74,9 +74,9 @@ namespace DeliveryPreciseReact.Common
                 worksheet.Cells["J1:J2"].Merge = true;
                 worksheet.Cells[1, 10].Value = @"Дата входа факт";
                 worksheet.Cells["K1:K2"].Merge = true;
-                worksheet.Cells[1, 11].Value = @"Дата выхода план";
+                worksheet.Cells[1, 11].Value = @"Дата входа склад план";
                 worksheet.Cells["L1:L2"].Merge = true;
-                worksheet.Cells[1, 12].Value = @"Дата входа факт";
+                worksheet.Cells[1, 12].Value = @"Дата входа склад факт";
                 
                 worksheet.Cells["M1:M2"].Merge = true;
                 worksheet.Cells[1, 13].Value = @"Дата отгрузки план";
