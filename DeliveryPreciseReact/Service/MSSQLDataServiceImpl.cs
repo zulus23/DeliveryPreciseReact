@@ -370,7 +370,8 @@ namespace DeliveryPreciseReact.Service
                                          " s.StatDost,s.DayDost ,s.KPI_stat as kpiStat,s.CreatedBy,s.CreateDate,s.distance,s.KPI_whse as kpiWhse, s.plant_ship as plantShip," +
                                          " s.po_num as poNum, s.job as job, s.vidotgr as vidOtgr, s.stat_kpi_list as inList" +
                                          " FROM gtk_group_report.dbo.gtk_kpi_ship s " +
-                                         " JOIN dbo.custaddr ca ON ca.cust_num = s.cust_num AND ca.cust_seq = s.cust_seq" +
+                                         "    CROSS APPLY (SELECT a.name,a.RUSExtName,a.cust_seq,a.cust_num AS code " +
+                                         " FROM dbo.custaddr a WHERE s.cust_num = a.cust_num AND a.cust_seq = 0) AS ca" +
                                          " where site = '{0}'  and s.cust_num  {1} and s.DateDostFact between '{2}' and '{3} '" +
                                          " {4}"+
                                          " order by nameCustomer"
