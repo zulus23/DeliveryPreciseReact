@@ -49,7 +49,7 @@ namespace DeliveryPreciseReact.Domain
         public double Deviation
         {
             get => _deviation;
-            set => _deviation = value;
+            set => _deviation = this._target - this._fact;
         }
 
         public double CountOrder

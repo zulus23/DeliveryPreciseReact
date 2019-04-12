@@ -6,7 +6,12 @@ namespace DeliveryPreciseReact.Domain
         private string _customerName;
         private string _description;
         private double _target;
+        private double _target_summa;
+        private double _target_count;
+
         private double _fact;
+        private double _fact_summa;
+        private double _fact_count;
         private double _deviation;
         private double _countOrder;
         private int _order_;
@@ -66,6 +71,30 @@ namespace DeliveryPreciseReact.Domain
         {
             get => _countOrder;
             set => _countOrder = value;
+        }
+
+        public double FactSumma
+        {
+            get => _fact_summa;
+            set => _fact_summa = value;
+        }
+
+        public double FactCount
+        {
+            get => _fact_count;
+            set => _fact_count = value;
+        }
+
+        public double TargetSumma
+        {
+            get => _target_summa;
+            set => _target_summa = value;
+        }
+
+        public double TargetCount
+        {
+            get => _target_count;
+            set => _target_count = value;
         }
     }
 }

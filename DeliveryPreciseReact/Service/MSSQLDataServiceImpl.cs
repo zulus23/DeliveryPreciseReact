@@ -260,10 +260,12 @@ namespace DeliveryPreciseReact.Service
 */
 
             string query =
-                string.Format($";with reduce_kpi(customername,description,target,fact,deviation,countorder,order_) as ( {bodyStringCTE.ToString()} ) " +
-                              $"select customername, MAX(description) AS description,AVG(target) AS target,AVG(fact) AS fact,AVG(deviation) AS deviation ,"+
-                               "SUM(countorder) AS countorder,MAX(order_) AS order_  from reduce_kpi k " +
-                               "GROUP BY k.customername  order by k.customername,  order_");
+                string.Format($";with reduce_kpi(customername,description,month, year,target,targetSumma,targetCount,fact,factSumma,factCount,deviation,countorder,order_) as ( {bodyStringCTE.ToString()} ) " +
+                              $" select customername, description AS description,target AS target, k.targetSumma AS targetSumma,k.targetCount AS targetCount," +
+                              $" fact AS fact,k.factSumma AS factSumma,k.factCount AS factCount," +
+                              $" deviation AS deviation ,"+
+                               "countorder AS countorder,order_ AS order_  from reduce_kpi k " +
+                               " order by k.customername,  order_");
 
             
             
