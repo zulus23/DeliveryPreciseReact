@@ -36,7 +36,7 @@ namespace DeliveryPreciseReact
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseWebpackDevMiddleware();
+                app.UseWebpackDevMiddleware();
             }
 
             app.UseStaticFiles();
