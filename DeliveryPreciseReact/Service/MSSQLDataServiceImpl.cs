@@ -114,6 +114,7 @@ namespace DeliveryPreciseReact.Service
             string _selectCustomer =
                 Utils.CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
             string _selectSeqCustomer = Utils.CreateInSectionForCust_Seq(paramsCalculateKpi);
+            string excludeSelfTake =  Utils.ExcludeSelfTakeWhere(paramsCalculateKpi); //Убирать ли самовывоз?
 
             PreciseDelivery result = null;
 
@@ -126,7 +127,7 @@ namespace DeliveryPreciseReact.Service
                                          " kpi_description = '{4}') as t on t.cust_num = s.cust_num " +
                                          " where s.cust_num  {0} and s.DateDostFact between '{1}' and '{2}' and s.site = '{5}' " +
                                          /*" and s.cust_seq = {3} " +*/
-                                         " {3} " +
+                                         " {3} {6}" +
                                          " group by MONTH(s.DateDostFact), YEAR(s.DateDostFact) " +
                                          " union all " +
                                          " select max(kpi_description) as description,'-1' as month, MAX(YEAR(s.DateDostFact)) as year, avg(t.Kpi_target) as target," +
@@ -135,12 +136,12 @@ namespace DeliveryPreciseReact.Service
                                          " where kpi_description = '{4}') as t on t.cust_num = s.cust_num" +
                                          " where s.cust_num  {0} and s.DateDostFact between '{1}' and '{2}'   and s.site = '{5}'" +
                                          /*" and s.cust_seq = {3}) as t" +*/
-                                         " {3}) as t" +
+                                         " {3} {6}) as t" +
                                          " order by month", _selectCustomer,
                                             paramsCalculateKpi.RangeDate.Start.ToString("yyyyMMdd"),
                                             paramsCalculateKpi.RangeDate.End.ToString("yyyyMMdd"), _selectSeqCustomer,
                                             nameKpi,
-                                            DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise)
+                                            DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise),excludeSelfTake
             );
 
             using (var connection =
@@ -356,6 +357,9 @@ namespace DeliveryPreciseReact.Service
             string _selectCustomer =
                 Utils.CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
             string _selectSeqCustomer = Utils.CreateInSectionForCust_Seq(paramsCalculateKpi);
+
+            string excludeSelfTake =  Utils.ExcludeSelfTakeWhere(paramsCalculateKpi); //Убирать ли самовывоз?
+            
             string query = string.Format(" SELECT site,s.cust_num as custNum,s.cust_seq as custSeq," +
                                          " RTRIM(COALESCE(ca.name,ca.RUSExtName)) as nameCustomer, " +
                                          "  dbo.GTKFormatAddress(s.cust_num,s.cust_seq,'custaddr') as addressCustomer," +
@@ -373,14 +377,14 @@ namespace DeliveryPreciseReact.Service
                                          "    CROSS APPLY (SELECT a.name,a.RUSExtName,a.cust_seq,a.cust_num AS code " +
                                          " FROM dbo.custaddr a WHERE s.cust_num = a.cust_num AND a.cust_seq = 0) AS ca" +
                                          " where site = '{0}'  and s.cust_num  {1} and s.DateDostFact between '{2}' and '{3} '" +
-                                         " {4}"+
+                                         " {4} {5}"+
                                          " order by nameCustomer"
                                          
                 , DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise)
                 , _selectCustomer
                 , paramsCalculateKpi.RangeDate.Start.ToString("yyyyMMdd")
                 , paramsCalculateKpi.RangeDate.End.ToString("yyyyMMdd")
-                , _selectSeqCustomer
+                , _selectSeqCustomer,excludeSelfTake
             );
             using (var connection =
                 new SqlConnection(DataConnection.GetConnectionString(paramsCalculateKpi.Enterprise)))
@@ -391,6 +395,8 @@ namespace DeliveryPreciseReact.Service
             return _listAll;
         }
 
+       
+
         /*select MONTH(s.DateWHSFact), avg(KPI_whse),count(*) from gtk_group_report.dbo. gtk_kpi_ship s where cust_num = 'K009154' and DateWHSFact is not null
         group by MONTH(DateWHSFact)*/
 
@@ -399,6 +405,7 @@ namespace DeliveryPreciseReact.Service
             string _selectCustomer =
                 Utils.CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
             string _selectSeqCustomer = Utils.CreateInSectionForCust_Seq(paramsCalculateKpi);
+            string excludeSelfTake =  Utils.ExcludeSelfTakeWhere(paramsCalculateKpi); //Убирать ли самовывоз?
 
             PreciseDelivery result = null;
 
@@ -411,7 +418,7 @@ namespace DeliveryPreciseReact.Service
                                          " kpi_description = '{4}') as t on t.cust_num = s.cust_num " +
                                          " where s.cust_num  {0} and s.DateWHSFact between '{1}' and '{2}'  and s.site = '{5}'  " +
                                          /*" and s.cust_seq = {3} " +*/
-                                         " {3} " +
+                                         " {3}  {6}" +
                                          " group by MONTH(s.DateWHSFact),YEAR(s.DateWHSFact) " +
                                          " union all " +
                                          " select max(kpi_description) as description,'-1' as month,MAX(YEAR(s.DateWHSFact)) as year, AVG(t.Kpi_target) as target," +
@@ -420,11 +427,11 @@ namespace DeliveryPreciseReact.Service
                                          " where kpi_description = '{4}') as t on t.cust_num = s.cust_num" +
                                          " where s.cust_num  {0} and s.DateWHSFact between '{1}' and '{2}' and s.site = '{5}'  " +
                                          /*" and s.cust_seq = {3}) as t" +*/
-                                         " {3}) as t" +
+                                         " {3} {6}) as t" +
                                          " order by month", _selectCustomer,
                 paramsCalculateKpi.RangeDate.Start.ToString("yyyyMMdd"),
                 paramsCalculateKpi.RangeDate.End.ToString("yyyyMMdd"), _selectSeqCustomer, nameKpi,
-                DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise)
+                DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise),excludeSelfTake
             );
 
             using (var connection =

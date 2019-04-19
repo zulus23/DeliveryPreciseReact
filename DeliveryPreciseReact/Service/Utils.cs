@@ -101,6 +101,7 @@ namespace DeliveryPreciseReact.Service
             string _selectCustomer =
                 Utils.CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
             string _selectSeqCustomer = Utils.CreateInSectionForCust_Seq_By_C(paramsCalculateKpi);
+            string excludeSelfTake =  Utils.ExcludeSelfTakeWhere(paramsCalculateKpi); //Убирать ли самовывоз?
             
             string query = string.Format(
                 $"select customer.name as customername,MAX(kpi_description) as description, MONTH(s.DateDostFact) AS month,YEAR(s.DateDostFact) AS year," +
@@ -109,12 +110,12 @@ namespace DeliveryPreciseReact.Service
                 " from gtk_group_report.dbo.gtk_kpi_ship s " +
                 " join (select * from dbo.gtk_cust_kpi_lns where  kpi_description = '{4}') as t  on t.cust_num = s.cust_num " +
                 " CROSS APPLY  (SELECT a.name,a.RUSExtName,a.cust_seq, a.cust_num AS code FROM dbo.custaddr a WHERE s.cust_num = a.cust_num AND a.cust_seq = 0)  as customer" +
-                " where s.cust_num  {0} and s.DateDostFact between '{1}' and '{2}' and s.site = '{5}' " +
+                " where s.cust_num  {0} and s.DateDostFact between '{1}' and '{2}' and s.site = '{5}' {7}" +
                 " group by   customer.name,MONTH(s.DateDostFact),YEAR(s.DateDostFact)",_selectCustomer,
                 paramsCalculateKpi.RangeDate.Start.ToString("yyyyMMdd"),
                 paramsCalculateKpi.RangeDate.End.ToString("yyyyMMdd"), _selectSeqCustomer,
                 nameKpi,
-                DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise),order);
+                DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise),order,excludeSelfTake);
 
             return query;
 
@@ -126,6 +127,7 @@ namespace DeliveryPreciseReact.Service
              string _selectCustomer =
                 Utils.CreateInSectionForAllCustomer(paramsCalculateKpi.Customer, paramsCalculateKpi.TypeCustomer);
             string _selectSeqCustomer = Utils.CreateInSectionForCust_Seq_By_C(paramsCalculateKpi);
+            string excludeSelfTake =  Utils.ExcludeSelfTakeWhere(paramsCalculateKpi); //Убирать ли самовывоз?
 
             /*string query = string.Format(
                 $" select customer.name as customername,max(kpi_description) as description, max(t.Kpi_target) as target, avg(s.KPI_whse) as fact, " +
@@ -151,12 +153,12 @@ namespace DeliveryPreciseReact.Service
                 " from gtk_group_report.dbo.gtk_kpi_ship s " +
                 " join (select * from dbo.gtk_cust_kpi_lns where  kpi_description = '{4}') as t  on t.cust_num = s.cust_num " +
                 " CROSS APPLY  (SELECT a.name,a.RUSExtName,a.cust_seq, a.cust_num AS code FROM dbo.custaddr a WHERE s.cust_num = a.cust_num AND a.cust_seq = 0)  as customer" +
-                " where s.cust_num  {0} and s.DateWHSFact between '{1}' and '{2}' and s.site = '{5}' " +
+                " where s.cust_num  {0} and s.DateWHSFact between '{1}' and '{2}' and s.site = '{5}' {7} " +
                 " group by   customer.name,MONTH(s.DateWHSFact),YEAR(s.DateWHSFact)",_selectCustomer,
                 paramsCalculateKpi.RangeDate.Start.ToString("yyyyMMdd"),
                 paramsCalculateKpi.RangeDate.End.ToString("yyyyMMdd"), _selectSeqCustomer,
                 nameKpi,
-                DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise),order);
+                DataConnection.GetNameDbInGotekGroup(paramsCalculateKpi.Enterprise),order,excludeSelfTake);
             
             
             
@@ -255,6 +257,12 @@ namespace DeliveryPreciseReact.Service
             list.Add(new KpiHelper(KpiConst.PRODUCETEST /*"Производство тестов, дни"*/));
             list.Add(new KpiHelper(KpiConst.PRODUCEMODEL /*"Производство макетов, дни"*/));
             return list;
+        }
+        
+        
+        public static string ExcludeSelfTakeWhere(ParamsCalculateKpi paramsCalculateKpi)
+        {
+            return paramsCalculateKpi.ExcludeSelfTake ? " and s.VidOtgr <> 'Самовывоз'" : "";
         }
     }
 }

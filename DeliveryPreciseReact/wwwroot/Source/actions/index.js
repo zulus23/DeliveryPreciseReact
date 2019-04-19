@@ -376,7 +376,21 @@ export  function updateSelectedTypeReportSucceeded(data) {
         dispatch(changeSelectedTypeReportSucceeded(data))
     }
 }
+function changeisSelfTakeSucceeded(data) {
+    return {
+        type:setup.UPDATE_IS_SELF_TAKE,
+        payload: {
+            data
+        }
+    }
+}
 
+export function updateSelectIsSelfTake(data) {
+    return dispatch => {
+        dispatch(changeisSelfTakeSucceeded(data))
+    }
+    
+}
 
 
 

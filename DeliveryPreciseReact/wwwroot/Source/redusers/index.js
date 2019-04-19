@@ -22,6 +22,7 @@ const initState = {
     isDriverReport:false,
     isKPIReport:false,
     isReduceReport:false,
+    isSelfTake:false
     
 };
 
@@ -168,7 +169,12 @@ export default function appReduce(state=initState,action){
                 isLoading:false,
             }
         }
-        
+        case setup.UPDATE_IS_SELF_TAKE : {
+            return {
+                ...state,
+                isSelfTake:!state.isSelfTake
+            }
+        }
         
         default: {
             return state;

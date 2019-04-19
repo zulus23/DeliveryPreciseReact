@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DeliveryPreciseReact.Domain;
 
@@ -11,7 +12,9 @@ namespace DeliveryPreciseReact.Common
         private Customer _customer;
         private List<string> _typeCustomer;
         private Customer _customerDelivery;
-        
+        private Boolean _excludeSelfTake;
+
+       
         public ParamsCalculateKpi()
         {
         }
@@ -51,5 +54,11 @@ namespace DeliveryPreciseReact.Common
             get => _customerDelivery;
             set => _customerDelivery = value;
         }
+        public bool ExcludeSelfTake
+        {
+            get => _excludeSelfTake;
+            set => _excludeSelfTake = value;
+        }
+
     }
 }

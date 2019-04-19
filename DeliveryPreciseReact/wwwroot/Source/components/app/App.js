@@ -15,7 +15,8 @@ import {
     updateSearchValueCustomer,
     updateSearchValueCustomerDelivery,
     updateSelectedTypeReportSucceeded,
-    updateSelectTypeCustomer
+    updateSelectTypeCustomer,
+    updateSelectIsSelfTake
 } from "../../actions";
 import Enterprise from "../Enterprise";
 import Customer from "../Customer";
@@ -116,7 +117,8 @@ class App extends Component {
            selectKpi: this.props.selectKpi,
            customer: this.props.searchingCustomer, 
            typeCustomer: _typeCustomer,
-           customerDelivery: this.props.searchingCustomerDelivery 
+           customerDelivery: this.props.searchingCustomerDelivery,
+           excludeSelfTake : this.props.isSelfTake
         };
         const date =  moment(this.props.dateRangeSelected.start).format("YYYY-MM-DD");
         
@@ -132,7 +134,14 @@ class App extends Component {
        /* const dataSelect = this.extractedParameterSearch(this.props.currentEnterprise);
         this.props.dispatch(fetchCustomer(dataSelect))*/
     };
-
+    handlerSelfTakeCheckBox = (event) => {
+        const isSelfTake = (event.target.value === '1');
+        
+        this.props.dispatch(updateSelectIsSelfTake(isSelfTake));
+    };
+    
+    
+    
     changeCustomerHandler = (event) => {
         const searchValue = event.target.value;
         
@@ -157,7 +166,8 @@ class App extends Component {
             selectKpi: this.props.selectKpi,
             customer: this.props.searchingCustomer,
             typeCustomer: _typeCustomer,
-            customerDelivery: this.props.searchingCustomerDelivery
+            customerDelivery: this.props.searchingCustomerDelivery,
+            excludeSelfTake : this.props.isSelfTake
         };
       
         this.props.dispatch(createReport(data))
@@ -248,6 +258,13 @@ class App extends Component {
                                                value = {this.props.searchingCustomerDelivery}
                                                onChangeCustomerDeliveryHandler={this.changeCustomerDeliveryHandler }
                                     />
+                                    <div>
+                                        <label htmlFor="isSelfTake" >
+                                            <input className="align-middle" key="3" id="isSelfTake" type="checkbox" value="1" checked={this.props.isSelfTake} onChange={this.handlerSelfTakeCheckBox}/>
+                                            <span className="align-text-middle pl-2">Исключть самовывоз</span>
+                                        </label>
+
+                                    </div>
                                 </div>
                                 
                               
@@ -313,12 +330,12 @@ class App extends Component {
 function mapStateProps(state) {
     const {enterprise, customers,currentEnterprise,kpi,dateRangeSelected
            ,selectKpi,isSKChecked,isSPChecked,isPRChecked,searchingCustomer
-           ,error,calculateKpi,customerDelivery,searchingCustomerDelivery,isLoading,isDriverReport,isKPIReport,isReduceReport} = state;
+           ,error,calculateKpi,customerDelivery,searchingCustomerDelivery,isLoading,isDriverReport,isKPIReport,isReduceReport,isSelfTake} = state;
 
     return {enterprise, customers,currentEnterprise,kpi,
             dateRangeSelected,selectKpi,
             isSKChecked,isSPChecked,isPRChecked,searchingCustomer,error,calculateKpi,customerDelivery,
-            searchingCustomerDelivery,isLoading,isDriverReport,isKPIReport,isReduceReport}
+            searchingCustomerDelivery,isLoading,isDriverReport,isKPIReport,isReduceReport,isSelfTake}
 
 }
 
