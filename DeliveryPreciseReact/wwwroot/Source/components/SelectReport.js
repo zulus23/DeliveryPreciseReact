@@ -32,7 +32,7 @@ class SelectReport extends Component {
                                checked={this.props.isReduceReport}
                                onChange={this.props.onChange}
                         />
-                        <span className="align-text-middle pl-2">Сводный</span>
+                        <span className="align-text-middle pl-2">Сводный по клиентам</span>
                     </label>
                 </div> 
             </div>

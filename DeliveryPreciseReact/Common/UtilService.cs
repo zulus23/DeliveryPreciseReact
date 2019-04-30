@@ -541,7 +541,8 @@ namespace DeliveryPreciseReact.Common
                         worksheet.Cells[startByRow, startByColumn + 3].Style.Numberformat.Format = "0.00";
                         worksheet.Cells[startByRow, startByColumn + 3].Value = e.Deviation;
                         startByColumn = startByColumn + 3;
-                        itog.Add(new Tuple<string, double, double,double,double,double>(e.Description,e.TargetSumma,e.TargetCount, e.FactSumma,e.FactCount,e.Deviation));
+                        //itog.Add(new Tuple<string, double, double,double,double,double>(e.Description,e.TargetSumma,e.TargetCount, e.FactSumma,e.FactCount,e.Deviation));
+                         itog.Add(new Tuple<string, double, double,double,double,double>(e.Description,e.Target,e.TargetCount, e.Fact,e.FactCount,e.Deviation));
                     });
                     startByRow++;
                     startByColumn = 3;
@@ -551,22 +552,25 @@ namespace DeliveryPreciseReact.Common
                     {
                         Key = name,
                         Count = kpis.Count(),
-                        SummaTarget = kpis.Sum(kpi=>kpi.Item2),
+                        //SummaTarget = kpis.Sum(kpi=>kpi.Item2),
+                        AverageTarget = kpis.Average(kpi => kpi.Item2),
                         CountTarget = kpis.Sum(kpi => kpi.Item3),
-                        SummaFact = kpis.Sum(kpi=>kpi.Item4),
+                        
+                        //SummaFact = kpis.Sum(kpi=>kpi.Item4),
+                        AverageFact = kpis.Average(kpi => kpi.Item4),
                         CountFact = kpis.Sum(kpi => kpi.Item5),
                         AverageDeviation = kpis.Average(kpi => kpi.Item6),
                     }
                 );
-                worksheet.Cells[startByRow, 3].Value = @"Итого (среднее значение) :";
+                worksheet.Cells[startByRow, 3].Value = @"Итого (среднее значение) по клиентам :";
                 foreach (var result in _groupItog)
                 {
                     worksheet.Cells[startByRow, startByColumn + 1].Style.Numberformat.Format = "0.00";
-                    worksheet.Cells[startByRow, startByColumn + 1].Value = result.SummaTarget/result.CountTarget;
+                    worksheet.Cells[startByRow, startByColumn + 1].Value = result.AverageTarget;//result.SummaTarget/result.CountTarget;
                     worksheet.Cells[startByRow, startByColumn + 2].Style.Numberformat.Format = "0.00";
-                    worksheet.Cells[startByRow, startByColumn + 2].Value = result.SummaFact/result.CountFact;
+                    worksheet.Cells[startByRow, startByColumn + 2].Value = result.AverageFact;//result.SummaFact/result.CountFact;
                     worksheet.Cells[startByRow, startByColumn + 3].Style.Numberformat.Format = "0.00";
-                    worksheet.Cells[startByRow, startByColumn + 3].Value = (result.SummaTarget/result.CountTarget) - (result.SummaFact/result.CountFact);
+                    worksheet.Cells[startByRow, startByColumn + 3].Value = result.AverageTarget - result.AverageFact; //(result.SummaTarget/result.CountTarget) - (result.SummaFact/result.CountFact);
                     startByColumn = startByColumn + 3;
                 }
                 using (var range = worksheet.Cells[startByRow , 2,startByRow,startByColumn])
